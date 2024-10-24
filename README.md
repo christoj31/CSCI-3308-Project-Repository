@@ -1,5 +1,7 @@
 # CSCI-3308-Project-Repository
 
+General Model: https://docs.google.com/spreadsheets/d/1E7ZFDN75ZquF_T4XxZfGyRLoHqh691cOakZofQd2FXE/edit?usp=sharing
+
 Project Overview
 Your application must have a GUI, a database, API data source(optional), a middle layer connecting your UI to your data. The code should be built within Docker containers so they are portable. Make sure to consider these core requirements when designing the architecture of your application. You are required to use the technology stack that you have learned in this course. Refer to the project guide for detailed expectations. If you would like clarifications, please ask your instructor/TA.
 
