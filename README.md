@@ -1,14 +1,26 @@
 ReadMe.md
 The ReadMe.md should include the following:
-Brief Application description
-Contributors - In this case, it will be the team Members
-Technology Stack used for the project
-Prerequisites to run the application - Any software that needs to be installed to run the application
-Instructions on how to run the application locally.
-How to run the tests
-Link to the deployed application
-You should be updating the ReadMe.md file as you progress through the project. Remember to add/revise sections as you add new features to the application.
-Read this freeCodeCamp article for guidance on writing a quality ReadMe.md.
+1. Brief Application description
+
+2. Contributors - In this case, it will be the team Members
+Christo Jewett, chje6872@colorado.edu, christoj31
+
+
+3. Technology Stack used for the project
+
+4. Prerequisites to run the application - Any software that needs to be installed to run the application
+
+5. Instructions on how to run the application locally.
+
+6. How to run the tests
+
+7. Link to the deployed application
+
+8. You should be updating the ReadMe.md file as you progress through the project. Remember to add/revise sections as you add new features to the application.
+
+9. Read this freeCodeCamp article for guidance on writing a quality ReadMe.md.
+
+
 # CSCI-3308-Project-Repository
 Project Overview
 Your application must have a GUI, a database, API data source(optional), a middle layer connecting your UI to your data. The code should be built within Docker containers so they are portable. Make sure to consider these core requirements when designing the architecture of your application. You are required to use the technology stack that you have learned in this course. Refer to the project guide for detailed expectations. If you would like clarifications, please ask your instructor/TA.
