@@ -1,0 +1,16 @@
+Mon Oct 28th Group Meeting
+Redo file structure
+Discussed how to operate tailwind & daisyUI
+Discussed breaking down tasks & how everything will come together
+
+Assignments
+Jay works on theme controller
+Andrew mocks up general modal approach
+Chris works on the dynamic table dashboard
+  The biggest part of that would be just to make sure we store records and iterate them out onto a visual table
+
+----
+
+Sun Oct 27th Max - Daria - Irene
+Determined & discussed general design files
+Discussed authentication page approach
