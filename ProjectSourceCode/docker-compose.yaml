@@ -23,4 +23,4 @@ services:
       - ./:/repository
     command: 'npm start'
 volumes:
-  group-project:
+  CSCI-3308-Project-Repository:
