@@ -11,4 +11,7 @@ module.exports = {
   plugins: [
     require('daisyui'),        // Ensure DaisyUI is included
   ],
-}
+  daisyui: {
+    themes: ["emerald", "dim"],
+  },
+};
