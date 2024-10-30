@@ -13,7 +13,23 @@ const PORT = process.env.PORT || 3000;
 const hbs = exphbs.create({
     extname: '.hbs',
     layoutsDir: __dirname + '/views/layouts',
-    defaultLayout: 'main'
+    defaultLayout: 'main',
+    helpers: {
+        extend: function(name, options) {
+            // Here you can define how to extend your templates
+            // This is a basic implementation and might need adjustments
+            if (!this._blocks) this._blocks = {};
+            this._blocks[name] = options.fn(this);
+            return null;
+        },
+        block: function(name) {
+            return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
+        },
+        content: function(name) {
+            // Returns the content block based on the name provided
+            return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
+        }
+    }
 });
 
 app.engine('hbs', hbs.engine);
@@ -59,11 +75,17 @@ app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
+app.get('/home', (req, res) => {
+    res.render('pages/home');
+});
+
 // Use the theme controller for routes
 app.use('/', themeController);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, 'src/resources')));
 
 // Start the server
 app.listen(PORT, () => {

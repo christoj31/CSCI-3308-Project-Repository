@@ -1,0 +1,67 @@
+<header>
+    <style>
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #2554ba;
+    }
+
+    li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    border-right: 1px solid #bbb;
+    border-left: 1px solid #bbb;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    }
+
+    li a:hover:not(.pages) {
+    background-color: aqua;
+    }
+    li a:hover:not(.light) {
+    background-color: aqua;
+    }
+
+    .pages {
+        float: left;
+    }
+
+    .light {
+    background-color: #acac9a;
+    float: right;
+    }
+
+    .dark {
+     background-color: #151e31;
+    float: right;
+    }
+</style>
+</header>
+
+<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link href="/css/styles.css" rel="stylesheet">  Link to your compiled CSS -->
+            
+    <ul>
+        <li>
+            <a class="pages" href="/home">Home</a> 
+        </li>
+        <li>
+            <a class="pages" href="/courses">Courses</a> 
+        </li>
+        <li>
+            <a class="pages" href="/logout">Log out</a> 
+        </li>
+        <li>
+            <a class="light" href="/theme/light">Light Mode</a>
+        </li>
+        <li>
+            <a class="dark" href="/theme/dark">Dark Mode</a>
+        </li>
+    </ul>
+</body>
