@@ -28,6 +28,8 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
+            border-radius: 25px;
+            float: right;
         }
 
     </style>
@@ -37,8 +39,9 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Welcome, {{username}}!</h1>
-    <button class="button" type="button">Add New</button>
+    <h1>Welcome, {{username}}!
+        <button class="button" type="button">Add New</button>
+    </h1>
 {{> dashboard}}
 </body>
 
