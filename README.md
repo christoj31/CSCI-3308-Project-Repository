@@ -1,8 +1,12 @@
 Sec 14 Team 1
 
 Contributors:
-Christo Jewett, chje6872@colorado.edu, christoj31
-Max Aronheim, maar5011@colorado.edu, maronheim
+Christo Jewett, chje6872@colorado.edu
+Andrew Rho, anrh8554@colorado.edu
+Daria Ruchala, daru8464@gmail.edu
+Irene Weimer, irwe7876@colorado.edu
+Max, Aronheim, maar5011@colorad.edu
+Jay Hernandez, Jahir.Hernandez@colorado.edu
 ...
 
 Application description:
