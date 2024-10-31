@@ -30,11 +30,28 @@ CREATE TABLE point0fContact (
   phoneNumber VARCHAR(45) NOT NULL
 );
 
+DROP TABLE IF EXISTS meetings CASCADE;
+CREATE TABLE meetings (
+  meetingID INT PRIMARY KEY NOT NULL,
+  meetingDate VARCHAR(45) NOT NULL,
+  thankYouSent INT NOT NULL
+);
+
+DROP TABLE IF EXISTS contactAttempt CASCADE;
+CREATE TABLE contactAttempt (
+  attemptID INT PRIMARY KEY NOT NULL,
+  contacted INT NOT NULL,
+  contactDate VARCHAR(45) NOT NULL,
+  followUpDate VARCHAR(45) NOT NULL,
+  meetingID INT NOT NULL,
+  FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
+);
+
 DROP TABLE IF EXISTS jobs CASCADE;
 CREATE TABLE jobs (
   jobID INT PRIMARY KEY NOT NULL,
   jobTitle VARCHAR(45) NOT NULL,
-  jobApplicationLink VARCHAR(MAX) NOT NULL,
+  jobApplicationLink VARCHAR(45) NOT NULL,
   applicationStep VARCHAR(45) NOT NULL,
   resumeID INT NOT NULL,
   pocID INT NOT NULL,
@@ -51,23 +68,6 @@ CREATE TABLE userJobs (
   PRIMARY KEY (userID, jobID),
   FOREIGN KEY (userID) REFERENCES users (userID),
   FOREIGN KEY (jobID) REFERENCES jobs (jobID)
-);
-
-DROP TABLE IF EXISTS contactAttempt CASCADE;
-CREATE TABLE contactAttempt (
-  attemptID INT PRIMARY KEY NOT NULL,
-  contacted TINYINT NOT NULL,
-  contactDate DATETIME NOT NULL,
-  followUpDate DATETIME NOT NULL,
-  meetingID INT NOT NULL,
-  FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
-);
-
-DROP TABLE IF EXISTS meetings CASCADE;
-CREATE TABLE meetings (
-  meetingID INT PRIMARY KEY NOT NULL,
-  meetingDate DATETIME NOT NULL,
-  thankYouSent TINYINT NOT NULL
 );
 
 DROP TABLE IF EXISTS trackingTable CASCADE;
