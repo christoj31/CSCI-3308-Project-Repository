@@ -19,6 +19,19 @@
             width: 100%;
         }
 
+        .button {
+            background-color: #3341be; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 25px;
+            float: right;
+        }
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,28 +39,10 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Welcome, {{username}}!</h1>
-    
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Company</th>
-                <th>Job Name</th>
-                <th>Date Applied</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each leeds}}
-            <tr>
-                <td>{{company}}</td>
-                <td>{{job_name}}</td>
-                <td>{{date_applied}}</td>
-                <td>{{status}}</td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-</div>
+    <h1>Welcome, {{username}}!
+        <button class="button" type="button">Add New</button>
+    </h1>
+{{> dashboard}}
 </body>
+
 </html>
