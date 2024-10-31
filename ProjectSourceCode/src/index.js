@@ -71,9 +71,24 @@ app.get('/', (req, res) => {
     res.redirect('/login');
 });
 
+// -------------------------------------  ROUTES for login.hbs   ----------------------------------------------
+
 app.get('/login', (req, res) => {
     res.render('pages/login');
 });
+
+// TODO for Irene: Login submission
+// app.post('/login', (req, res) => {
+    
+// });
+
+// -------------------------------------  ROUTES for register.hbs   --------------------------------------------
+
+app.get('/register', (req, res) => {
+    res.render('pages/register');
+});
+
+// -------------------------------------  ROUTES for home.hbs   --------------------------------------------
 
 app.get('/home', (req, res) => {
     res.render('pages/home');
