@@ -32,6 +32,10 @@
             float: right;
         }
 
+        button:hover {
+            background-color: rgb(0, 0, 0);
+        }
+
     </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,7 +44,8 @@
 <body>
 <div class="container mt-5">
     <h1>Welcome, {{username}}!
-        <button class="button" type="button">Add New</button>
+        <button id="add_button" class="button" type="button">Add New</button>
+        
     </h1>
 {{> dashboard}}
 </body>
