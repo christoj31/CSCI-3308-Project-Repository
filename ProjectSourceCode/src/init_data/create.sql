@@ -53,7 +53,6 @@ CREATE TABLE contactAttempt (
   contactDate DATETIME NOT NULL,
   followUpDate DATETIME NOT NULL,
   meetingID INT NOT NULL,
-  location VARCHAR(45) NOT NULL,
   FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
 );
 
