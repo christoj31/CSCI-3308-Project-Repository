@@ -1,12 +1,4 @@
-DROP TABLE IF EXISTS leeds CASCADE;
-CREATE TABLE IF NOT EXISTS leeds (
-  job_id SERIAL PRIMARY KEY NOT NULL,
-  job_name VARCHAR(50) NOT NULL,
-  company VARCHAR(50) NOT NULL,
-  date_applied VARCHAR NOT NULL,
-  status VARCHAR(60) NOT NULL
-);
-
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
   userID INT PRIMARY KEY NOT NULL,
   username VARCHAR(45) NOT NULL,
@@ -15,11 +7,13 @@ CREATE TABLE users (
   phoneNumber VARCHAR(45) NOT NULL
 );
 
+DROP TABLE IF EXISTS resume CASCADE;
 CREATE TABLE resume (
   resumeID INT PRIMARY KEY NOT NULL,
   resumeStage VARCHAR(45) NOT NULL
 );
 
+DROP TABLE IF EXISTS company CASCADE;
 CREATE TABLE company (
   companyID INT PRIMARY KEY NOT NULL,
   name VARCHAR(45) NOT NULL,
@@ -27,6 +21,7 @@ CREATE TABLE company (
   location VARCHAR(45) NOT NULL
 );
 
+DROP TABLE IF EXISTS point0fContact CASCADE;
 CREATE TABLE point0fContact (
   pocID INT PRIMARY KEY NOT NULL,
   firstName VARCHAR(45) NOT NULL,
@@ -35,6 +30,7 @@ CREATE TABLE point0fContact (
   phoneNumber VARCHAR(45) NOT NULL
 );
 
+DROP TABLE IF EXISTS jobs CASCADE;
 CREATE TABLE jobs (
   jobID INT PRIMARY KEY NOT NULL,
   jobTitle VARCHAR(45) NOT NULL,
@@ -48,6 +44,7 @@ CREATE TABLE jobs (
   FOREIGN KEY (attemptID) REFERENCES contactAttempt (attemptID)
 );
 
+DROP TABLE IF EXISTS userJobs CASCADE;
 CREATE TABLE userJobs (
   userID INT NOT NULL,
   jobID INT NOT NULL,
@@ -56,6 +53,7 @@ CREATE TABLE userJobs (
   FOREIGN KEY (jobID) REFERENCES jobs (jobID)
 );
 
+DROP TABLE IF EXISTS contactAttempt CASCADE;
 CREATE TABLE contactAttempt (
   attemptID INT PRIMARY KEY NOT NULL,
   contacted TINYINT NOT NULL,
@@ -65,12 +63,14 @@ CREATE TABLE contactAttempt (
   FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
 );
 
+DROP TABLE IF EXISTS meetings CASCADE;
 CREATE TABLE meetings (
   meetingID INT PRIMARY KEY NOT NULL,
   meetingDate DATETIME NOT NULL,
   thankYouSent TINYINT NOT NULL
 );
 
+DROP TABLE IF EXISTS trackingTable CASCADE;
 CREATE TABLE trackingTable (
   userCount INT NOT NULL,
   jobCount INT NOT NULL,
