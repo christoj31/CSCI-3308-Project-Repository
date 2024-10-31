@@ -1,3 +1,12 @@
+DROP TABLE IF EXISTS leeds CASCADE;
+CREATE TABLE IF NOT EXISTS leeds (
+  job_id SERIAL PRIMARY KEY NOT NULL,
+  job_name VARCHAR(50) NOT NULL,
+  company VARCHAR(50) NOT NULL,
+  date_applied VARCHAR NOT NULL,
+  status VARCHAR(60) NOT NULL
+);
+
 CREATE TABLE users (
   userID INT PRIMARY KEY NOT NULL,
   username VARCHAR(45) NOT NULL,
@@ -53,7 +62,6 @@ CREATE TABLE contactAttempt (
   contactDate DATETIME NOT NULL,
   followUpDate DATETIME NOT NULL,
   meetingID INT NOT NULL,
-  location VARCHAR(45) NOT NULL,
   FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
 );
 
