@@ -1,0 +1,28 @@
+Section 14, Team 1
+
+Team Name: Lead Trailers
+
+Team Members:
+Daria Rulcha
+Christo Jewett
+Irene Weimer
+Jay Hernandez
+Andrew Rho
+Max Aronheim
+
+Application Name: Leed Trailers
+
+Application Description:
+Our application is a streamlined leads tracker designed specifically for internship opportunities. It helps users organize, track, and manage internship applications, providing a clear overview of statuses and deadlines in one place.
+
+Vision Statement:
+For students and recent graduates who need an easy way to manage internship applications, LeedTrailers is a dedicated tracking tool that simplifies organization and boosts application success. Unlike generic tools, it’s built specifically for internship tracking and tailored to their unique needs.
+
+Methdology Approach: Agile Development with 1 week iterations
+
+Communication Plan:
+discord & calls for day to day
+Google docs to manage tasks & features list
+
+TA Meetings: 9:30am MTD on Fridays via Zoom
+General Meetings: 3pm MTD on Sundays via Zoom
