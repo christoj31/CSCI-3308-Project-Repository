@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS jobs CASCADE;
 CREATE TABLE jobs (
   jobID INT PRIMARY KEY NOT NULL,
   jobTitle VARCHAR(45) NOT NULL,
-  jobApplicationLink LONGTEXT NOT NULL,
+  jobApplicationLink VARCHAR(MAX) NOT NULL,
   applicationStep VARCHAR(45) NOT NULL,
   resumeID INT NOT NULL,
   pocID INT NOT NULL,
