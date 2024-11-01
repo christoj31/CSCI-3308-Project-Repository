@@ -14,3 +14,14 @@ Chris works on the dynamic table dashboard
 Sun Oct 27th Max - Daria - Irene
 Determined & discussed general design files
 Discussed authentication page approach
+
+Friday Nov 1st -- Chloe & Whole Team
+Debriefed the relational scheme
+Shared PM google doc with Chloe
+Reviewed general READ.ME & tech stack
+Discussed MPV
+  login authentication
+  dashboard with CRUD operation
+  modal for CRUD
+  Theme Controller
+Spend more time reviewing database file storing?
