@@ -37,8 +37,11 @@
         }
 
         .button_close {
+            left: 20px;
             float: right;
-            background-color: aquamarine;
+            background-color: rgb(70, 211, 159);
+            cursor: pointer;
+            display: inline-block;
         }
 
         .close_button:hover,
@@ -50,13 +53,11 @@
 
 
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
+            text-align: center;
             z-index: 1; /* Sit on top */
             padding-top: 100px; /* Location of the box */
             width: 100%; /* Full width */
             height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
             background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
         }
@@ -68,38 +69,65 @@
             padding: 20px;
             border: 10px solid #888;
             width: 70%;
+            text-align: center;
         }
 
         .modal-dialog-lg {
             width: 100%; /* Full width of dialog */
         }
 
+        .modal-header {
+            text-align: center;
+        }
+
+        .modal-title {
+            padding-left: 425px;
+            padding-right: 350px;
+            text-align: center;
+        }
+
+        .modal-row {
+            float: left;
+            size: 40;
+            width: 300px;
+            margin: auto;
+            padding: 20px;
+        }
+        label {
+            padding: 12px 12px 12px 0;
+            display: inline-block;
+        }
+
             /* The Close Button */
-            .close {
+        .close {
             color: #aaaaaa;
             float: right;
             font-size: 28px;
             font-weight: bold;
-            }
+        }
 
-            .col-25 {
-                float: right;
-                width: 50%;
-                margin-top: 6px;
-            }
+        .col-25 {
+            float: right;
+            width: 25%;
+            margin-top: 6px;
+        }
 
-            .col-75 {
-                float: right;
-                width: 75%;
-                margin-top: 6px;
-            }
+        .col-75 {
+            float: right;
+            width: 75%;
+            margin-top: 6px;
+        }
 
                 /* Clear floats after the columns */
-            .row:after {
-                content: "";
-                display: table;
-                clear: both;
-            }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .input {
+            width: 100%;
+        }
 
     </style>
     <meta charset="UTF-8">
@@ -114,44 +142,44 @@
             <div class="modal-dialog-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Create New Event:</h5>
+                        <h5 class="modal-title">Create New:</h5>
                         <button type="button" class="button_close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    
                     <div class="modal-body">
-                        <p>Enter Event Details:</p>
                         <form action="/">
                             <div class="row">
                             <div class="col-25">
-                                <label for="company">Company</label>
+                                <label for="company">Company:</label>
                             </div>
                             <div class="col-75">
-                                <input type="text" id="company" name="company" placeholder="enter the company name...">
+                                <input class="input" type="text" id="company" name="company" placeholder="enter the company name...">
                             </div>
                             </div>
                             <div class="row">
                             <div class="col-25">
-                                <label for="job_name">Job Name</label>
+                                <label for="job_name">Job Name:</label>
                             </div>
                             <div class="col-75">
-                                <input type="text" id="job_name" name="job_name" placeholder="enter the job name...">
+                                <input class="input" type="text" id="job_name" name="job_name" placeholder="enter the job name...">
                             </div>
                             </div>
                             <div class="row">
                             <div class="col-25">
-                                <label for="date_applied">Date Applied</label>
+                                <label for="date_applied">Date Applied:</label>
                             </div>
                             <div class="col-75">
-                                <input type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
+                                <input class="input" type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
                             </div>
                             </div>
                             <div class="row">
                             <div class="col-25">
-                                <label for="status">Status</label>
+                                <label for="status">Status:</label>
                             </div>
                             <div class="col-75">
-                                <select id="status" name="status">
+                                <select class="input" id="status" name="status">
                                     <option>Select Status...</option>
                                     <option value="applied">Applied</option>
                                     <option value="not-applied">Not Applied</option>
