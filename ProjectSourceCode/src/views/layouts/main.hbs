@@ -1,11 +1,15 @@
+<!-- src/views/layouts/main.hbs -->
 <!DOCTYPE html>
-<html lang="en" class="{{currentTheme}}">
-<head>
-    {{> nav}}
-</head>
-<body class="{{currentTheme}}">
+<html lang="en">
 
-    {{{body}}} <!-- Render pages here -->
-
+<body>
+  <div class="min-h-screen flex flex-col">
+    {{> header}}
+    {{> nav}}                       <!-- Header with theme toggle -->
+    <main class="flex-grow p-6 bg-base-100">
+      {{{body}}}                       <!-- Content from each page -->
+    </main>
+    {{> footer}}
+  </div>
 </body>
 </html>

@@ -1,62 +1,9 @@
-<header>
-    <style>
-    ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #2f86a3;
-    }
-
-    li a {
-    color: blueviolet;
-    text-align: center;
-    border-radius: 25px;
-    }
-
-    li a:hover {
-    background-color: rgb(67, 69, 69);
-    }
-
-    .pages {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-        float: left;
-        border-radius: 25px;
-    }
-
-    .light {
-    display: block;
-    color: rgb(31, 13, 13);
-    text-align: center;
-    padding: 14px 16px;
-    background-color: rgb(232, 240, 224);
-
-    float: right;
-    }
-
-    .dark {
-    display: block;
-    color: rgb(232, 240, 224);
-    text-align: center;
-    padding: 14px 16px;
-    background-color: #151e31;
-    float: right;
-    }
-    .body {
-        background-color: #ffffff;
-    }
-</style>
-</header>
-
-<body class="body">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <link href="/css/styles.css" rel="stylesheet">  Link to your compiled CSS -->
-            
-    <ul>
+<div class="navbar bg-base-100">
+  <div class="flex-1">
+    <a class="btn btn-ghost text-xl">Lead Trailers</a>
+  </div>
+  <div class="flex-none">
+    <ul class="menu menu-horizontal px-1">
         <li>
             <a class="pages" href="/home">Home</a> 
         </li>
@@ -66,11 +13,16 @@
         <li>
             <a class="pages" href="/logout">Log out</a> 
         </li>
-        <li>
-            <a class="light" href="/theme/light">Light Mode</a>
-        </li>
-        <li>
-            <a class="dark" href="/theme/dark">Dark Mode</a>
-        </li>
+      <li><a>Link</a></li>
+      <li>
+        <details>
+          <summary>Parent</summary>
+          <ul class="bg-base-100 rounded-t-none p-2">
+            <li><a>Link 1</a></li>
+            <li><a>Link 2</a></li>
+          </ul>
+        </details>
+      </li>
     </ul>
-</body>
+  </div>
+</div>

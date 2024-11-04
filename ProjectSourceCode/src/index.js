@@ -10,29 +10,18 @@ const PORT = process.env.PORT || 3000;
 
 // const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
 
-const hbs = exphbs.create({
+// Set up Handlebars engine with main layout
+app.engine('hbs', exphbs.engine({ 
+    layoutsDir: path.join(__dirname, 'views/layouts'), 
+    defaultLayout: 'main', 
     extname: '.hbs',
-    layoutsDir: __dirname + '/views/layouts',
-    defaultLayout: 'main',
-    helpers: {
-        extend: function(name, options) {
-            // Here you can define how to extend your templates
-            // This is a basic implementation and might need adjustments
-            if (!this._blocks) this._blocks = {};
-            this._blocks[name] = options.fn(this);
-            return null;
-        },
-        block: function(name) {
-            return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
-        },
-        content: function(name) {
-            // Returns the content block based on the name provided
-            return (this._blocks && this._blocks[name]) ? this._blocks[name] : null;
-        }
-    }
-});
-
-app.engine('hbs', hbs.engine);
+    partialsDir: path.join(__dirname, 'views/partials')
+  }));
+  app.set('view engine', 'hbs');
+  app.set('views', path.join(__dirname, 'views'));
+  
+  // Serve static files
+  app.use('/src/resources', express.static(path.join(__dirname, 'resources')));
 
 /*
 const dbConfig = {
@@ -63,13 +52,11 @@ app.engine('hbs', express({
 }));
 */
 
-app.set('view engine', 'hbs');
-
-app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', (req, res) => {
     res.redirect('/login');
 });
+
 
 // -------------------------------------  ROUTES for login.hbs   ----------------------------------------------
 
