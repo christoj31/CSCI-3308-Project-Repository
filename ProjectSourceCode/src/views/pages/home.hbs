@@ -36,28 +36,43 @@
             background-color: rgb(0, 0, 0);
         }
 
+        .button_close {
+            float: right;
+            background-color: aquamarine;
+        }
+
+        .close_button:hover,
+        .close_button:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+
         .modal {
             display: none; /* Hidden by default */
             position: fixed; /* Stay in place */
             z-index: 1; /* Sit on top */
             padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
             width: 100%; /* Full width */
             height: 100%; /* Full height */
             overflow: auto; /* Enable scroll if needed */
             background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-            }
+        }
 
             /* Modal Content */
-            .modal-content {
+        .modal-content {
             background-color: #fefefe;
             margin: auto;
             padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            }
+            border: 10px solid #888;
+            width: 70%;
+        }
+
+        .modal-dialog-lg {
+            width: 100%; /* Full width of dialog */
+        }
 
             /* The Close Button */
             .close {
@@ -67,12 +82,24 @@
             font-weight: bold;
             }
 
-            .close:hover,
-            .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
+            .col-25 {
+                float: right;
+                width: 50%;
+                margin-top: 6px;
+            }
+
+            .col-75 {
+                float: right;
+                width: 75%;
+                margin-top: 6px;
+            }
+
+                /* Clear floats after the columns */
+            .row:after {
+                content: "";
+                display: table;
+                clear: both;
+            }
 
     </style>
     <meta charset="UTF-8">
@@ -81,7 +108,68 @@
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Welcome, {{username}}!
+    <h1>Welcome, {{username}}! </h1>
+        <button id="add_button" class="button" type="button" onclick="/" data-toggle="modal" data-target="modal">Add New</button>
+        <div id="modal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Create New Event:</h5>
+                        <button type="button" class="button_close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Enter Event Details:</p>
+                        <form action="/">
+                            <div class="row">
+                            <div class="col-25">
+                                <label for="company">Company</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="company" name="company" placeholder="enter the company name...">
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-25">
+                                <label for="job_name">Job Name</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="job_name" name="job_name" placeholder="enter the job name...">
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-25">
+                                <label for="date_applied">Date Applied</label>
+                            </div>
+                            <div class="col-75">
+                                <input type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
+                            </div>
+                            </div>
+                            <div class="row">
+                            <div class="col-25">
+                                <label for="status">Status</label>
+                            </div>
+                            <div class="col-75">
+                                <select id="status" name="status">
+                                    <option>Select Status...</option>
+                                    <option value="applied">Applied</option>
+                                    <option value="not-applied">Not Applied</option>
+                                    <option value="accepted">Accepted</option>
+                                    <option value="denied">Denied</option>
+                                </select>
+                            </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>     
+            </div>
+        </div>
+        <!--
         <button id="add_button" class="button" type="button" onclick="/">Add New</button>
         <div id="modal" class="modal">
             <div class="modal-content">
@@ -90,6 +178,7 @@
                 </span>
             </div>
         </div>
+        -->
         <script>
             // Get the modal
             var modal = document.getElementById("modal");
@@ -117,7 +206,6 @@
             }
             }
             </script>
-    </h1>
 {{> dashboard}}
 </body>
 
