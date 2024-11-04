@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3000;
 
 // Set Handlebars as the view engine
 
-const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
+// const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
 
 const hbs = exphbs.create({
     extname: '.hbs',
@@ -36,7 +36,7 @@ const hbs = exphbs.create({
 
 app.engine('hbs', hbs.engine);
 
-
+/*
 const dbConfig = {
     host: 'db', 
     port: 5432,
@@ -46,7 +46,7 @@ const dbConfig = {
   };
   
 const db = pgp(dbConfig);
-  
+
   db.connect()
     .then(obj => {
       console.log('Database connection successful'); // you can view this message in the docker compose logs
@@ -55,7 +55,7 @@ const db = pgp(dbConfig);
     .catch(error => {
       console.log('ERROR:', error.message || error);
     });
-
+*/
   
 // Duplicate app.engine declaration from above, KEEPING JUST IN CASE
 // app.engine('hbs', express({
@@ -98,6 +98,10 @@ const user = {
     phoneNumber: undefined,
 };
 
+app.get('/home', (req, res) => {
+    res.render('pages/home');
+});
+
 app.get('/login', (req, res) => {
     res.render('pages/login');
 });
@@ -129,10 +133,6 @@ app.get('/register', (req, res) => {
 // });
 
 // -------------------------------------  ROUTES for home.hbs   --------------------------------------------
-
-app.get('/home', (req, res) => {
-    res.render('pages/home');
-});
 
 // Use the theme controller for routes
 app.use('/', themeController);
