@@ -2,6 +2,8 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const themeController = require('./resources/js/themeController'); // Adjust if necessary
+const bodyParser = require('body-parser');
+const session = require('express-session');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -33,7 +35,7 @@ const dbConfig = {
   };
   
 const db = pgp(dbConfig);
-  
+
   db.connect()
     .then(obj => {
       console.log('Database connection successful'); // you can view this message in the docker compose logs
@@ -44,21 +46,48 @@ const db = pgp(dbConfig);
     });
 */
   
-/*
-app.engine('hbs', express({
-    extname: '.hbs',
-    layoutsDir: path.join(__dirname, 'views/layouts'), // Adjust path if needed
-    defaultLayout: 'main'
-}));
-*/
+// Duplicate app.engine declaration from above, KEEPING JUST IN CASE
+// app.engine('hbs', express({
+//     extname: '.hbs',
+//     layoutsDir: path.join(__dirname, 'views/layouts'), // Adjust path if needed
+//     defaultLayout: 'main'
+// }));
 
+
+
+// Set Session
+app.use(
+    session({
+      secret: process.env.SESSION_SECRET,
+      saveUninitialized: true,
+      resave: true,
+    })
+);
+
+app.use(
+    bodyParser.urlencoded({
+      extended: true,
+    })
+  );
 
 app.get('/', (req, res) => {
-    res.redirect('/login');
+    res.redirect('/home');
 });
 
 
 // -------------------------------------  ROUTES for login.hbs   ----------------------------------------------
+
+const user = {
+    userID: undefined,
+    username: undefined,
+    password: undefined,
+    email: undefined,
+    phoneNumber: undefined,
+};
+
+app.get('/home', (req, res) => {
+    res.render('pages/home');
+});
 
 app.get('/login', (req, res) => {
     res.render('pages/login');
@@ -69,17 +98,28 @@ app.get('/login', (req, res) => {
     
 // });
 
+// Authentication middleware.
+const auth = (req, res, next) => {
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+        next();
+};
+
+app.use(auth);
+
 // -------------------------------------  ROUTES for register.hbs   --------------------------------------------
 
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });
 
-// -------------------------------------  ROUTES for home.hbs   --------------------------------------------
+// TODO for Irene: Register submission
+// app.post('/register', (req, res) => {
+    
+// });
 
-app.get('/home', (req, res) => {
-    res.render('pages/home');
-});
+// -------------------------------------  ROUTES for home.hbs   --------------------------------------------
 
 // Use the theme controller for routes
 app.use('/', themeController);
