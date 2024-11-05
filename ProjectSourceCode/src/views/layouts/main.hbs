@@ -1,5 +1,15 @@
+<!-- src/views/layouts/main.hbs -->
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  <div class="min-h-screen flex flex-col">
     {{> header}}
-
-    {{> nav}}
-
-    {{{body}}} <!-- Render pages here -->
+    {{> nav}}                       <!-- Header with theme toggle -->
+    <main class="flex-grow p-6 bg-base-100">
+      {{{body}}}                       <!-- Content from each page -->
+    </main>
+    {{> footer}}
+  </div>
+</body>
+</html>

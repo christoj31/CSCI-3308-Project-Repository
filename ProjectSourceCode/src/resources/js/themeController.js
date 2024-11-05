@@ -1,26 +1,13 @@
-const express = require('express');
-const router = express.Router();
+// Load the stored theme or default to "emerald"
+//let theme = localStorage.getItem('theme') || 'emerald';
 
-// Theme settings
-let currentTheme = 'light'; // default theme
+// Apply the stored or default theme on load
+//document.documentElement.setAttribute('data-theme', theme);
+//document.getElementById('theme-toggle').checked = theme === 'dim';
 
-// Route to switch theme
-router.get('/theme/:theme', (req, res) => {
-    const theme = req.params.theme;
-
-    // Validate theme
-    if (['light', 'dark'].includes(theme)) {
-        currentTheme = theme;
-    }
-
-    // Redirect to the home page
-    res.redirect('/');
-});
-
-// Middleware to provide current theme
-router.use((req, res, next) => {
-    res.locals.currentTheme = currentTheme; // Make the theme accessible in views
-    next();
-});
-
-module.exports = router;
+// Toggle theme on checkbox change
+//function toggleTheme() {
+  //theme = theme === 'dim' ? 'emerald' : 'dim';
+  //document.documentElement.setAttribute('data-theme', theme);
+  //localStorage.setItem('theme', theme); // Store the theme in localStorage
+//}

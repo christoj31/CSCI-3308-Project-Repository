@@ -3,7 +3,7 @@ module.exports = {
   content: [
     './views/**/*.{hbs,html}', // Add your views directory
     './public/**/*.html',       // If you have static HTML files
-    './styles/**/*.css'         // If you use Tailwind CSS classes in your CSS files
+    './resources/**/*.css'         // If you use Tailwind CSS classes in your CSS files
   ],
   theme: {
     extend: {},
