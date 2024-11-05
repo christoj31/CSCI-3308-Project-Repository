@@ -1,9 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const path = require('path');
-const themeController = require('./resources/js/themeController'); // Adjust if necessary
-const bodyParser = require('body-parser');
-const session = require('express-session');
+//const themeController = require('./resources/js/themeController'); // Adjust if necessary
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,7 +33,7 @@ const dbConfig = {
   };
   
 const db = pgp(dbConfig);
-
+  
   db.connect()
     .then(obj => {
       console.log('Database connection successful'); // you can view this message in the docker compose logs
@@ -46,48 +44,21 @@ const db = pgp(dbConfig);
     });
 */
   
-// Duplicate app.engine declaration from above, KEEPING JUST IN CASE
-// app.engine('hbs', express({
-//     extname: '.hbs',
-//     layoutsDir: path.join(__dirname, 'views/layouts'), // Adjust path if needed
-//     defaultLayout: 'main'
-// }));
+/*
+app.engine('hbs', express({
+    extname: '.hbs',
+    layoutsDir: path.join(__dirname, 'views/layouts'), // Adjust path if needed
+    defaultLayout: 'main'
+}));
+*/
 
-
-
-// Set Session
-app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      saveUninitialized: true,
-      resave: true,
-    })
-);
-
-app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  );
 
 app.get('/', (req, res) => {
-    res.redirect('/home');
+    res.redirect('/login');
 });
 
 
 // -------------------------------------  ROUTES for login.hbs   ----------------------------------------------
-
-const user = {
-    userID: undefined,
-    username: undefined,
-    password: undefined,
-    email: undefined,
-    phoneNumber: undefined,
-};
-
-app.get('/home', (req, res) => {
-    res.render('pages/home');
-});
 
 app.get('/login', (req, res) => {
     res.render('pages/login');
@@ -98,31 +69,20 @@ app.get('/login', (req, res) => {
     
 // });
 
-// Authentication middleware.
-const auth = (req, res, next) => {
-    if (!req.session.user) {
-        return res.redirect('/login');
-    }
-        next();
-};
-
-app.use(auth);
-
 // -------------------------------------  ROUTES for register.hbs   --------------------------------------------
 
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });
 
-// TODO for Irene: Register submission
-// app.post('/register', (req, res) => {
-    
-// });
-
 // -------------------------------------  ROUTES for home.hbs   --------------------------------------------
 
+app.get('/home', (req, res) => {
+    res.render('pages/home');
+});
+
 // Use the theme controller for routes
-app.use('/', themeController);
+//app.use('/', themeController);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
@@ -133,3 +93,4 @@ app.use(express.static(path.join(__dirname, 'src/resources')));
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
