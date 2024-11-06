@@ -44,7 +44,7 @@ CREATE TABLE contactAttempt (
   contactDate VARCHAR(45) NOT NULL,
   followUpDate VARCHAR(45) NOT NULL,
   meetingID INT NOT NULL,
-  FOREIGN KEY (meetingID) REFERENCES meetings (meetingID)
+  FOREIGN KEY (meetingID) REFERENCES meetings (meetingID) ON DELETE SET NULL
 );
 
 DROP TABLE IF EXISTS jobs CASCADE;
@@ -56,9 +56,9 @@ CREATE TABLE jobs (
   resumeID INT NOT NULL,
   pocID INT NOT NULL,
   attemptID INT NOT NULL,
-  FOREIGN KEY (resumeID) REFERENCES resume (resumeID),
-  FOREIGN KEY (pocID) REFERENCES point0fContact (pocID),
-  FOREIGN KEY (attemptID) REFERENCES contactAttempt (attemptID)
+  FOREIGN KEY (resumeID) REFERENCES resume (resumeID) ON DELETE SET NULL,
+  FOREIGN KEY (pocID) REFERENCES point0fContact (pocID) ON DELETE SET NULL,
+  FOREIGN KEY (attemptID) REFERENCES contactAttempt (attemptID) ON DELETE SET NULL
 );
 
 DROP TABLE IF EXISTS userJobs CASCADE;
