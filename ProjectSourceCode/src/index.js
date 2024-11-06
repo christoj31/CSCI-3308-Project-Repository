@@ -32,6 +32,17 @@ app.get('/home', (req, res) => {
     res.render('pages/home');
 });
 
+//route for get jobs 
+app.get('/jobs', async (req, res) => { 
+    try {
+        const jobs = await db.any('SELECT * FROM jobs');//query on jobs table 
+        res.status(200).json(jobs); // jobs data as a JSON response for status
+    } catch (error) {
+        console.error('Database query error:', error);
+        res.status(500).json({ error: 'Database query error' });
+    }
+});
+
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
