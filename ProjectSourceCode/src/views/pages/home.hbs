@@ -85,3 +85,54 @@
         }
     };
 </script>
+
+    <script>
+// Open and close modal
+const modal = document.getElementById("modal");
+const addButton = document.getElementById("add_button");
+const closeButton = document.querySelector(".button_close");
+
+
+addButton.onclick = () => modal.style.display = "block";
+closeButton.onclick = () => modal.style.display = "none";
+
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+
+// Add new row to table on form submit
+document.getElementById("addNewForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent page reload
+
+
+    // Get input values
+    const company = document.getElementById("company").value;
+    const jobName = document.getElementById("job_name").value;
+    const dateApplied = document.getElementById("date_applied").value;
+    const status = document.getElementById("status").value;
+
+
+    // Create a new row and cells
+    const table = document.getElementById("internshipTable").getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+
+
+    // Insert cells and values
+    newRow.insertCell(0).textContent = company;
+    newRow.insertCell(1).textContent = jobName;
+    newRow.insertCell(2).textContent = dateApplied;
+    newRow.insertCell(3).textContent = status;
+
+
+    // Clear form fields
+    document.getElementById("addNewForm").reset();
+
+
+    // Hide the modal
+    modal.style.display = "none";
+});
+</script>

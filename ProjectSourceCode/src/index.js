@@ -3,6 +3,7 @@ const exphbs = require('express-handlebars');  // Note: Do not destructure here
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const bcrypt = require('bcrypt');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
