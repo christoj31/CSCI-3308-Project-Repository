@@ -3,11 +3,7 @@ const exphbs = require('express-handlebars');  // Note: Do not destructure here
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-<<<<<<< HEAD
-const bcrypt = require('bcrypt');
-=======
 const pgp = require('pg-promise')();
->>>>>>> 2c1b866 (added pgp and dbconfig)
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,15 +19,6 @@ const hbs = exphbs.create({
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
-
-// app.engine('hbs', exphbs({
-//     layoutsDir: path.join(__dirname, 'views/layouts'),
-//     defaultLayout: 'main',
-//     extname: '.hbs',
-//     partialsDir: path.join(__dirname, 'views/partials')
-// }));
-// app.set('view engine', 'hbs');
-// app.set('views', path.join(__dirname, 'views'));
 
 const dbConfig = {
     host: 'db', 
