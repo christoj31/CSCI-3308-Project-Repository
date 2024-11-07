@@ -20,7 +20,7 @@
     "autoprefixer": "^10.4.20",
     "daisyui": "^4.12.14",
     "express": "^4.21.1",
-    "express-handlebars": "^5.3.5",
+    "express-handlebars": "^8.0.1",
     "express-session": "^1.18.1",
     "pg-promise": "^10.15.4",
     "postcss": "^8.4.47",
