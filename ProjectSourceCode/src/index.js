@@ -50,6 +50,31 @@ app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
+app.post('/login', async (req, res) => {
+    try{
+        const query =  `SELECT username FROM users WHERE username = $1`;
+        const value = [req.body.username];
+
+        const user = await db.oneOrNone(query, value);
+    
+        const match = await bcrypt.compare(req.body.password, user.password);
+        
+        if(!match){
+            return res.status(401).render('pages/login', {
+                error: 'Incorrect username or password.'
+            });
+        }
+    
+        req.session.user = user;
+        req.session.save();
+    
+        res.redirect('/home');
+    } catch(error){
+        console.error('Error occurred: ', error)
+        res.render('pages/login');
+    }
+});
+
 // Authentication middleware.
 const auth = (req, res, next) => {
     if (!req.session.user) {
