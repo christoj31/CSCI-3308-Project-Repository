@@ -149,7 +149,7 @@
                     </div>
                     
                     <div class="modal-body">
-                        <form action="/">
+                        <form id="addNewForm" action="/">
                             <div class="row">
                             <div class="col-25">
                                 <label for="company">Company:</label>
@@ -197,17 +197,7 @@
                 </div>     
             </div>
         </div>
-        <!--
-        <button id="add_button" class="button" type="button" onclick="/">Add New</button>
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close">
-                    <p>close</p>
-                </span>
-            </div>
-        </div>
-        -->
-        <script>
+        {{!-- <script>
             // Get the modal
             var modal = document.getElementById("modal");
 
@@ -233,7 +223,50 @@
                 modal.style.display = "none";
             }
             }
-            </script>
+            </script> --}}
+
+    <script>
+// Open and close modal
+const modal = document.getElementById("modal");
+const addButton = document.getElementById("add_button");
+const closeButton = document.querySelector(".button_close");
+
+addButton.onclick = () => modal.style.display = "block";
+closeButton.onclick = () => modal.style.display = "none";
+
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+};
+
+// Add new row to table on form submit
+document.getElementById("addNewForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent page reload
+
+    // Get input values
+    const company = document.getElementById("company").value;
+    const jobName = document.getElementById("job_name").value;
+    const dateApplied = document.getElementById("date_applied").value;
+    const status = document.getElementById("status").value;
+
+    // Create a new row and cells
+    const table = document.getElementById("internshipTable").getElementsByTagName('tbody')[0];
+    const newRow = table.insertRow();
+
+    // Insert cells and values
+    newRow.insertCell(0).textContent = company;
+    newRow.insertCell(1).textContent = jobName;
+    newRow.insertCell(2).textContent = dateApplied;
+    newRow.insertCell(3).textContent = status;
+
+    // Clear form fields
+    document.getElementById("addNewForm").reset();
+
+    // Hide the modal
+    modal.style.display = "none";
+});
+</script>
 {{> dashboard}}
 </body>
 
