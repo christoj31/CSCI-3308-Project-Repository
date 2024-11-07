@@ -92,6 +92,15 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Authentication middleware.
+// const auth = (req, res, next) => {
+//     if (!req.session.user) {
+//         return res.redirect('/login');
+//     }
+//         next();
+// };
+// app.use(auth);
+
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });
