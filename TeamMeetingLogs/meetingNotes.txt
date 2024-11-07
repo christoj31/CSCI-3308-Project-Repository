@@ -25,3 +25,7 @@ Discussed MPV
   modal for CRUD
   Theme Controller
 Spend more time reviewing database file storing?
+
+Monday Nov4th -- Team Point Poker
+Determined user stories & epics
+Assigned story points
