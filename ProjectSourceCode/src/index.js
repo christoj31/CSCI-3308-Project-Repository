@@ -3,7 +3,11 @@ const exphbs = require('express-handlebars');  // Note: Do not destructure here
 const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+<<<<<<< HEAD
 const bcrypt = require('bcrypt');
+=======
+const pgp = require('pg-promise')();
+>>>>>>> 2c1b866 (added pgp and dbconfig)
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -28,6 +32,26 @@ app.set('views', path.join(__dirname, 'views'));
 // }));
 // app.set('view engine', 'hbs');
 // app.set('views', path.join(__dirname, 'views'));
+
+const dbConfig = {
+    host: 'db', 
+    port: 5432,
+    database: process.env.POSTGRES_DB,
+    user: process.env.POSTGRES_USER, 
+    password: process.env.POSTGRES_PASSWORD,
+  };
+
+  
+const db = pgp(dbConfig);
+  
+db.connect()
+    .then(obj => {
+      console.log('Database connection successful'); // you can view this message in the docker compose logs
+      obj.done(); // success, release the connection;
+    })
+    .catch(error => {
+      console.log('ERROR:', error.message || error);
+    });
 
 // Set Session
 app.use(
@@ -62,30 +86,30 @@ app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
-// app.post('/login', async (req, res) => {
-//     try{
-//         const query =  `SELECT username FROM users WHERE username = $1`;
-//         const value = [req.body.username];
+app.post('/login', async (req, res) => {
+    try{
+        const query =  `SELECT username FROM users WHERE username = $1`;
+        const value = [req.body.username];
 
-//         const user = await db.oneOrNone(query, value);
+        const user = await db.oneOrNone(query, value);
     
-//         const match = await bcrypt.compare(req.body.password, user.password);
+        const match = await bcrypt.compare(req.body.password, user.password);
         
-//         if(!match){
-//             return res.status(401).render('pages/login', {
-//                 error: 'Incorrect username or password.'
-//             });
-//         }
+        if(!match){
+            return res.status(401).render('pages/login', {
+                error: 'Incorrect username or password.'
+            });
+        }
     
-//         req.session.user = user;
-//         req.session.save();
+        req.session.user = user;
+        req.session.save();
     
-//         res.redirect('/home');
-//     } catch(error){
-//         console.error('Error occurred: ', error)
-//         res.render('pages/login');
-//     }
-// });
+        res.redirect('/home');
+    } catch(error){
+        console.error('Error occurred: ', error)
+        res.render('pages/login');
+    }
+});
 
 // Authentication middleware.
 const auth = (req, res, next) => {
