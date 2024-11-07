@@ -1,233 +1,87 @@
-<!--
+<!-- Add New Button -->
+<button id="add_button" class="button" type="button" data-toggle="modal" data-target="modal">Add New</button>
 
-{{#extend "main"}}
-    {{#content "body"}}
-        <h1 class="text-2xl font-bold">Welcome to My App!</h1>
-        <p class="text-gray-700">This is the home page.</p>
-    {{/content}}
-{{/extend}}
--->
+<!-- Modal Structure -->
+<div id="modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Create New:</h5>
+                <button type="button" class="button_close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
 
-<head>
-    <style>
-        table, th, td {
-            border: 1px solid;
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        .button {
-            background-color: #3341be; /* Green */
-            border: none;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 25px;
-            float: right;
-        }
-
-        button:hover {
-            background-color: rgb(0, 0, 0);
-        }
-
-        .button_close {
-            left: 20px;
-            float: right;
-            background-color: rgb(70, 211, 159);
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .close_button:hover,
-        .close_button:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-
-        .modal {
-            text-align: center;
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            background-color: rgb(0,0,0); /* Fallback color */
-            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-        }
-
-            /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 10px solid #888;
-            width: 70%;
-            text-align: center;
-        }
-
-        .modal-dialog-lg {
-            width: 100%; /* Full width of dialog */
-        }
-
-        .modal-header {
-            text-align: center;
-        }
-
-        .modal-title {
-            padding-left: 425px;
-            padding-right: 350px;
-            text-align: center;
-        }
-
-        .modal-row {
-            float: left;
-            size: 40;
-            width: 300px;
-            margin: auto;
-            padding: 20px;
-        }
-        label {
-            padding: 12px 12px 12px 0;
-            display: inline-block;
-        }
-
-            /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-
-        .col-25 {
-            float: right;
-            width: 25%;
-            margin-top: 6px;
-        }
-
-        .col-75 {
-            float: right;
-            width: 75%;
-            margin-top: 6px;
-        }
-
-                /* Clear floats after the columns */
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-
-        .input {
-            width: 100%;
-        }
-
-    </style>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-<div class="container mt-5">
-    <h1>Welcome, {{username}}! </h1>
-        <button id="add_button" class="button" type="button" onclick="/" data-toggle="modal" data-target="modal">Add New</button>
-        <div id="modal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog-lg" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Create New:</h5>
+            <div class="modal-body">
+                <form action="/">
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="company">Company:</label>
+                        </div>
+                        <div class="col-75">
+                            <input class="input" type="text" id="company" name="company" placeholder="enter the company name...">
+                        </div>
                     </div>
-                    
-                    <div class="modal-body">
-                        <form action="/">
-                            <div class="row">
-                            <div class="col-25">
-                                <label for="company">Company:</label>
-                            </div>
-                            <div class="col-75">
-                                <input class="input" type="text" id="company" name="company" placeholder="enter the company name...">
-                            </div>
-                            </div>
-                            <div class="row">
-                            <div class="col-25">
-                                <label for="job_name">Job Name:</label>
-                            </div>
-                            <div class="col-75">
-                                <input class="input" type="text" id="job_name" name="job_name" placeholder="enter the job name...">
-                            </div>
-                            </div>
-                            <div class="row">
-                            <div class="col-25">
-                                <label for="date_applied">Date Applied:</label>
-                            </div>
-                            <div class="col-75">
-                                <input class="input" type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
-                            </div>
-                            </div>
-                            <div class="row">
-                            <div class="col-25">
-                                <label for="status">Status:</label>
-                            </div>
-                            <div class="col-75">
-                                <select class="input" id="status" name="status">
-                                    <option>Select Status...</option>
-                                    <option value="applied">Applied</option>
-                                    <option value="not-applied">Not Applied</option>
-                                    <option value="accepted">Accepted</option>
-                                    <option value="denied">Denied</option>
-                                </select>
-                            </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="job_name">Job Name:</label>
+                        </div>
+                        <div class="col-75">
+                            <input class="input" type="text" id="job_name" name="job_name" placeholder="enter the job name...">
+                        </div>
                     </div>
-                </div>     
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="date_applied">Date Applied:</label>
+                        </div>
+                        <div class="col-75">
+                            <input class="input" type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="status">Status:</label>
+                        </div>
+                        <div class="col-75">
+                            <select class="input" id="status" name="status">
+                                <option>Select Status...</option>
+                                <option value="applied">Applied</option>
+                                <option value="not-applied">Not Applied</option>
+                                <option value="accepted">Accepted</option>
+                                <option value="denied">Denied</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <!--
-        <button id="add_button" class="button" type="button" onclick="/">Add New</button>
-        <div id="modal" class="modal">
-            <div class="modal-content">
-                <span class="close">
-                    <p>close</p>
-                </span>
-            </div>
-        </div>
-        -->
-        <script>
-            // Get the modal
-            var modal = document.getElementById("modal");
+    </div>
+</div>
 
-            // Get the button that opens the modal
-            var btn = document.getElementById("add_button");
-
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-
-            // When the user clicks the button, open the modal 
-            btn.onclick = function() {
-            modal.style.display = "block";
-            }
-
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-            modal.style.display = "none";
-            }
-
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-            }
-            </script>
+<!-- Dashboard Partial -->
 {{> dashboard}}
-</body>
+
+<script>
+    // Modal functionality
+    const modal = document.getElementById("modal");
+    const btn = document.getElementById("add_button");
+    const closeBtn = document.getElementsByClassName("close")[0];
+
+    btn.onclick = function() {
+        modal.style.display = "block";
+    };
+
+    closeBtn.onclick = function() {
+        modal.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+</script>

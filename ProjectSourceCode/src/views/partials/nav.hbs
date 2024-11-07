@@ -1,6 +1,6 @@
 <div class="navbar bg-base-100">
   <div class="flex-1">
-    <a class="btn btn-ghost text-xl">Lead Trailers</a>
+    <a class="btn btn-ghost text-xl" onclick="navigateToHome()">Lead Trailers</a>
   </div>
   <div class="flex-none">
     <ul class="menu menu-horizontal px-1">
@@ -26,3 +26,9 @@
     </ul>
   </div>
 </div>
+
+<script>
+  function navigateToHome() {
+    window.location.href = "/home";
+  }
+</script>
