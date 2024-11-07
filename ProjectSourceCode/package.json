@@ -1,15 +1,16 @@
 {
   "name": "csci-3308-project-repository",
   "version": "1.0.0",
-  "description": "Project Overview Your application must have a GUI, a database, API data source(optional), a middle layer connecting your UI to your data. The code should be built within Docker containers so they are portable. Make sure to consider these core requirements when designing the architecture of your application. You are required to use the technology stack that you have learned in this course. Refer to the project guide for detailed expectations. If you would like clarifications, please ask your instructor/TA.",
-  "main": "index.js",
+  "description": "Project Overview: Your application must have a GUI, a database, API data source (optional), a middle layer connecting your UI to your data. The code should be built within Docker containers so they are portable. Make sure to consider these core requirements when designing the architecture of your application.",
+  "main": "src/index.js",
   "directories": {
-    "test": "tests"
+    "test": "test"
   },
   "scripts": {
-    "build:css": "tailwindcss build styles/main.css -o public/styles.css",
-    "watch:css": "tailwindcss build styles/main.css -o public/styles.css --watch",
+    "build:css": "tailwindcss build src/resources/css/style.css -o public/styles.css",
+    "watch:css": "tailwindcss build src/resources/css/style.css -o public/styles.css --watch",
     "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -17,12 +18,15 @@
   "license": "ISC",
   "dependencies": {
     "autoprefixer": "^10.4.20",
-    "daisyui": "^4.12.13",
+    "daisyui": "^4.12.14",
     "express": "^4.21.1",
     "express-handlebars": "^5.3.5",
     "express-session": "^1.18.1",
-    "pg-promise": "^10.11.1",
+    "pg-promise": "^10.15.4",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

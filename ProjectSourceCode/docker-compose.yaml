@@ -6,8 +6,8 @@ services:
     expose:
       - '5432'
     volumes:
-      - group_project:/var/lib/postgresql/data
-      - ./init_data:/docker-entrypoint-initdb.d
+      - group-project:/var/lib/postgresql/data
+      - ./src/init_data:/docker-entrypoint-initdb.d
 
   web:
     image: node:lts
@@ -22,6 +22,7 @@ services:
       - '3000:3000'
     volumes:
       - ./:/repository
-    command: 'npm start'
+    command: sh -c "npm install && npm start"
+
 volumes:
-  group_project:
+  group-project:
