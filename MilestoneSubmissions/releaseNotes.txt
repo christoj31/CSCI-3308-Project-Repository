@@ -10,3 +10,9 @@ Next Steps
 2. Fully drafted dashboard that can be accessed with CRUD operations
 3. Entity level diagrams are in progress for implementation
 4. Theme contoller complete
+
+11/01 Release Notes
+Created primary diagrams, finalized directoy structure, assigned tasks, began learning general project requirements
+
+Next Steps
+begin preliminary development
