@@ -57,7 +57,7 @@ app.use(
 
 // Routes
 
-// routes for login
+// Store user data
 const user = {
     userID: undefined,
     username: undefined,
@@ -65,6 +65,8 @@ const user = {
     email: undefined,
     phoneNumber: undefined,
 };
+
+// routes for login
 
 app.get('/', (req, res) => {
     res.redirect('/login');
@@ -117,7 +119,7 @@ app.post('/login', async (req, res) => {
     }    
 });
 
-// Authentication middleware.
+// Authentication middleware. NOTE: Irene will include this once auth testing is finished
 // const auth = (req, res, next) => {
 //     if (!req.session.user) {
 //         return res.redirect('/login');
@@ -126,44 +128,41 @@ app.post('/login', async (req, res) => {
 // };
 // app.use(auth);
 
+// Register account routes
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });
 
 app.post('/register', async (req, res) => {
-    const { username, password, email, phoneNumber } = req.body;
-
-    // Step 1: Validation
-    if (!username || !password || !email || !phoneNumber) {
-        return res.status(400).render('pages/register', {
-            error: 'All fields are required.'
-        });
-    }
-
-    // Step 2: Check if the username already exists
-    const checkQuery = 'SELECT username FROM users WHERE username = $1 LIMIT 1';
-    const checkValues = [username];
-
     try {
+        const username = req.body.username;
+        const email = req.body.email;
+        const phoneNumber = req.body.phoneNumber;
+        const password = req.body.password;
+
+        const checkQuery = 'SELECT username FROM users WHERE username = $1 LIMIT 1';
+        const checkValues = [username];
+        
         const existingUser = await db.oneOrNone(checkQuery, checkValues);
 
+        // check if username already exists
         if (existingUser) {
             return res.status(400).render('pages/register', {
                 error: 'Username already taken.'
             });
         }
 
-        // Step 3: Insert the new user into the database (storing plain text password)
-        const insertQuery = `
-            INSERT INTO users (username, password, email, phoneNumber)
-            VALUES ($1, $2, $3, $4)
-        `;
+        // Insert the new user into the database
+        const insertQuery = 
+            'INSERT INTO users (username, password, email, phoneNumber)VALUES ($1, $2, $3, $4)';
+
         const insertValues = [username, password, email, phoneNumber];
 
         await db.none(insertQuery, insertValues);
 
-        // Step 4: Redirect to login page after successful registration
+        // Redirect to login page after successful registration
         res.redirect('/login');
+
     } catch (err) {
         console.error('Error inserting user:', err);
         res.status(500).render('pages/register', {
