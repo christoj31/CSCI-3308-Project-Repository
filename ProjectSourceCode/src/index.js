@@ -74,29 +74,36 @@ app.get('/login', (req, res) => {
     res.render('pages/login');
 });
 
-app.post('/login', async (req, res) => {
-    try{
-        const query =  `SELECT username FROM users WHERE username = $1`;
-        const value = [req.body.username];
 
-        const user = await db.oneOrNone(query, value);
+app.post('/login', async (req, res) => {
+    try {
+        const username = req.body.username;
+        const password = req.body.password;
+        const query = 'SELECT * FROM users WHERE username = $1 LIMIT 1';
+        const value = [username];
     
-        const match = await bcrypt.compare(req.body.password, user.password);
-        
-        if(!match){
-            return res.status(401).render('pages/login', {
-                error: 'Incorrect username or password.'
-            });
+        const user = await db.one(query, value);
+    
+        // Check if the user exists and if the password matches
+        if (user) {
+            req.session.user = {
+                userID: user.userID,
+                username: user.username,
+                email: user.email,
+                phoneNumber: user.phoneNumber,
+            };
+            req.session.save();
+            return res.redirect('/home');
         }
     
-        req.session.user = user;
-        req.session.save();
-    
-        res.redirect('/home');
-    } catch(error){
-        console.error('Error occurred: ', error)
-        res.render('pages/login');
-    }
+        // If no user is found or password doesn't match, show an error
+        res.status(401).render('pages/login', {
+            error: 'Incorrect username or password.'
+        });
+    } catch (error) {
+        console.error('Error occurred', error);
+        res.status(500).render('pages/login', { error: 'An error occurred. Please try again.' });
+    }    
 });
 
 // Authentication middleware.
@@ -110,6 +117,48 @@ app.post('/login', async (req, res) => {
 
 app.get('/register', (req, res) => {
     res.render('pages/register');
+});
+
+app.post('/register', async (req, res) => {
+    const { username, password, email, phoneNumber } = req.body;
+
+    // Step 1: Validation
+    if (!username || !password || !email || !phoneNumber) {
+        return res.status(400).render('pages/register', {
+            error: 'All fields are required.'
+        });
+    }
+
+    // Step 2: Check if the username already exists
+    const checkQuery = 'SELECT username FROM users WHERE username = $1 LIMIT 1';
+    const checkValues = [username];
+
+    try {
+        const existingUser = await db.oneOrNone(checkQuery, checkValues);
+
+        if (existingUser) {
+            return res.status(400).render('pages/register', {
+                error: 'Username already taken.'
+            });
+        }
+
+        // Step 3: Insert the new user into the database (storing plain text password)
+        const insertQuery = `
+            INSERT INTO users (username, password, email, phoneNumber)
+            VALUES ($1, $2, $3, $4)
+        `;
+        const insertValues = [username, password, email, phoneNumber];
+
+        await db.none(insertQuery, insertValues);
+
+        // Step 4: Redirect to login page after successful registration
+        res.redirect('/login');
+    } catch (err) {
+        console.error('Error inserting user:', err);
+        res.status(500).render('pages/register', {
+            error: 'There was an issue creating your account.'
+        });
+    }
 });
 
 app.get('/home', (req, res) => {
