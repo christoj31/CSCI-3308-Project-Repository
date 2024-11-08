@@ -86,20 +86,31 @@ app.post('/login', async (req, res) => {
     
         // Check if the user exists and if the password matches
         if (user) {
-            req.session.user = {
-                userID: user.userID,
-                username: user.username,
-                email: user.email,
-                phoneNumber: user.phoneNumber,
-            };
-            req.session.save();
-            return res.redirect('/home');
-        }
+            // check if password matches
+            if (password == user.password){
+                req.session.user = {
+                    userID: user.userID,
+                    username: username,
+                    email: user.email,
+                    phoneNumber: user.phoneNumber,
+                };
     
-        // If no user is found or password doesn't match, show an error
-        res.status(401).render('pages/login', {
-            error: 'Incorrect username or password.'
-        });
+                req.session.save();
+                // For testing user sessions, KEEP FOR NOW
+                // console.log("Session UserID:", req.session.user.userID);
+                // console.log("Session Username:", req.session.user.username);
+                // console.log("Session Email:", req.session.user.email);
+                // console.log("Session Phone Number:", req.session.user.phoneNumber);
+                return res.redirect('/home');
+            }
+
+            else {
+                return res.status(401).render('pages/login', {
+                    error: 'Incorrect username or password.'
+                });
+            }
+        }
+        
     } catch (error) {
         console.error('Error occurred', error);
         res.status(500).render('pages/login', { error: 'An error occurred. Please try again.' });
