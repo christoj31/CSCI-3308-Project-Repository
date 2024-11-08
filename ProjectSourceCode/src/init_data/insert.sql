@@ -1,10 +1,10 @@
     -- Insert data into users table
 INSERT INTO users 
-    (userID, username, password, email, phoneNumber) 
+    (username, password, email, phoneNumber) 
 VALUES 
-    (1, 'johnDoe', 'pass12', 'johnDoe@gmail.com', '123-456-7891'),
-    (2, 'AmandaB', '123pass', 'AmandaB@yahoo.com', '246-357-1309'),
-    (3, 'Bobjoe', 'notpassword', 'Bobjoe@outlook.com', '224-789-389');
+    ('johnDoe', 'pass12', 'johnDoe@gmail.com', '123-456-7891'),
+    ('AmandaB', '123pass', 'AmandaB@yahoo.com', '246-357-1309'),
+    ('Bobjoe', 'notpassword', 'Bobjoe@outlook.com', '224-789-389');
 
 -- Insert data into resume table
 INSERT INTO resume 
