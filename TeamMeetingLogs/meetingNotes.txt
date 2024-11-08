@@ -40,10 +40,10 @@ Weeks Accomplishments:
 	Jay: 
 		This Week: Updated Theme Controller implementing DaisyUI for a theme controller icon 
 		Next Week: Consistent Styling throughout application pages and focus on backend routes for other parts of app
-Max: 
+	Max: 
 		This Week: Managerial Items: Creating layout for home page and dashboard formatting, more detail and effort into SQL
 		Next Week: Less managerial, more coding, assist Christo with database initialization
-Andrew: 
+	Andrew: 
 		This Week: Worked on home page, pulling info from modal form and inserting into table
 		Next Week: Database work to insert form data
 	Christo: 
