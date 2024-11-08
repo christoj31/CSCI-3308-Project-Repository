@@ -1,0 +1,12 @@
+11/08 Release Notes
+Irene: Preliminary Login & Registration Pages
+Christo & Andrew: 1/2 draft of modal & dashboard done
+Max: Debugged linking errors, created hi-fi dashboard diagram, finalized the github project dashboard
+Daria: Finalized database
+Jay: Finalizing theme controller
+
+Next Steps
+1. Finish registration, login & authentication with test cases using mocha
+2. Fully drafted dashboard that can be accessed with CRUD operations
+3. Entity level diagrams are in progress for implementation
+4. Theme contoller complete
