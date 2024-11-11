@@ -89,3 +89,8 @@ To run the application on your local machine, follow these steps:
 9. You should be updating the ReadMe.md file as you progress through the project. Remember to add/revise sections as you add new features to the application.
 
 10. Read this freeCodeCamp article for guidance on writing a quality ReadMe.md.
+
+
+If ur docker thing still doesn't work, try this order of CLI commands:
+
+Commands: docker compose down, rm -rf node_modules, npm install, docker compose up --build, docker exec -it projectsourcecode-web-1 sh -c "rm -rf node_modules && npm install", docker compose up
