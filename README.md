@@ -15,8 +15,7 @@ Our application is a streamlined leads tracker designed specifically for interns
 Technology Stack:
 Frontend:
   Languages: HTML, CSS, JS
-  Framework: Svelte
-  Tools: Tailwind, DaisyUI
+  UI Tools: Tailwind, DaisyUI
 Backend:
   Language: Nodejs
   Framework: Express
@@ -35,17 +34,9 @@ To run this application, ensure the following software is installed on your mach
 
 ### Frontend
 
-- **Node.js**: Required for running Svelte and managing packages.
+- **Node.js**: Required for running and managing packages.
   - [Download Node.js](https://nodejs.org/)
   
-- **Svelte**: JavaScript framework for building the user interface.
-  - Initialize a new Svelte project:
-    ```bash
-    npx degit sveltejs/template svelte-app
-    cd svelte-app
-    npm install
-    ```
-
 - **Tailwind CSS**: Utility-first CSS framework for styling.
   - Install Tailwind CSS in your Svelte project:
     ```bash
