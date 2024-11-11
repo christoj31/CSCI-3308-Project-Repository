@@ -1,4 +1,3 @@
-// Irene's branch
 const express = require('express');
 const exphbs = require('express-handlebars');  // Note: Do not destructure here
 const path = require('path');
@@ -98,11 +97,6 @@ app.post('/login', async (req, res) => {
                 };
     
                 req.session.save();
-                // For testing user sessions, KEEP FOR NOW
-                // console.log("Session UserID:", req.session.user.userID);
-                // console.log("Session Username:", req.session.user.username);
-                // console.log("Session Email:", req.session.user.email);
-                // console.log("Session Phone Number:", req.session.user.phoneNumber);
                 return res.redirect('/home');
             }
 
@@ -139,16 +133,54 @@ app.post('/register', async (req, res) => {
         const email = req.body.email;
         const phoneNumber = req.body.phoneNumber;
         const password = req.body.password;
-
+        const retypePassword = req.body['retype password'];
         const checkQuery = 'SELECT username FROM users WHERE username = $1 LIMIT 1';
         const checkValues = [username];
-        
+
+        // regex input validators
+        const checkEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const checkPhoneNumber = /^\d{10}$|^\d{3}-\d{3}-\d{4}$/;
+        const passwordPattern = /^(?!.*(.)\1)[A-Za-z\d@$!%*?&]{8,}$/;
+        const containsUpperCase = /[A-Z]/.test(password);
+        const containsLowerCase = /[a-z]/.test(password);
+        const containsDigit = /\d/.test(password);
+        const containsSpecial = /[@$!%*?&]/.test(password);
+
         const existingUser = await db.oneOrNone(checkQuery, checkValues);
 
         // check if username already exists
         if (existingUser) {
             return res.status(400).render('pages/register', {
                 error: 'Username already taken.'
+            });
+        }
+
+        // check if valid email input
+        if (!checkEmail.test(email)) {
+            return res.status(400).render('pages/register', {
+                error: 'Please enter a valid email address.'
+            });
+        }
+
+        // check if valid phone number input
+        if (!checkPhoneNumber.test(phoneNumber)) {
+            return res.status(400).render('pages/register', {
+                error: 'Please enter a valid phone number (e.g., 123-456-7890 or 1234567890.'
+            });
+        }
+
+        // check if password and retyped passwords match
+        if (password !== retypePassword) {
+            return res.status(400).render('pages/register', {
+                error: 'Passwords do not match.'
+            });
+        }
+
+        // check if password meets criteria
+        if (!passwordPattern.test(password) || !containsUpperCase 
+            || !containsLowerCase || !containsDigit || !containsSpecial) {
+            return res.status(400).render('pages/register', {
+                error: 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, one special character, and no consecutive repeated characters.'
             });
         }
 
