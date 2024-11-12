@@ -1,0 +1,15 @@
+<!-- dropdown.hbs -->
+<div class="dropdown">
+  <label tabindex="0" class="btn btn-primary dropdown-toggle">
+    {{dropdownTitle}}
+  </label>
+  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+    {{#each options}}
+      <li>
+        <a class="dropdown-item" href="#" data-value="{{this.stepID}}">
+          {{this.stepName}}
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+</div>
