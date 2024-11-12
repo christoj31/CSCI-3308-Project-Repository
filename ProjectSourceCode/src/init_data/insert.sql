@@ -1,3 +1,25 @@
+INSERT INTO application_steps (stepID, stepName) VALUES 
+    (1, 'Applied'), 
+    (2, 'Interviews'), 
+    (3, 'Offer'), 
+    (4, 'Rejected');
+
+INSERT INTO thank_you_status (statusID, status) VALUES 
+    (1, 'unsent'), 
+    (2, 'sent');
+
+INSERT INTO resume_stage (stageID, stageName) VALUES 
+    (1, 'unwritten'),
+    (2, 'written'),
+    (3, 'tailored'),
+    (4, 'AI checked');
+
+INSERT INTO contacted_status (statusID, status) VALUES 
+    (1, 'no'),
+    (2, 'yes');
+
+
+
     -- Insert data into users table
 INSERT INTO users 
     (username, password, email, phoneNumber) 
@@ -23,7 +45,7 @@ VALUES
     (3, 'J&J', 'Finance', 'Chicago');
 
 -- Insert data into pointOfContact table
-INSERT INTO pointOfContact 
+INSERT INTO pointofcontact 
     (pocID, firstName, lastName, email, phoneNumber) 
 VALUES
     (1, 'John', 'Doe', 'johnDoe@yahoo.com', '456-789-0123'),
@@ -39,7 +61,7 @@ VALUES
     (3, '2024-9-01', 1);
 
 -- Insert data into contactAttempt table
-INSERT INTO contactAttempt 
+INSERT INTO contactattempt 
     (attemptID, contactedStatusID, contactDate, meetingID) 
 VALUES
     (1, 1, '2023-09-25', 1),
@@ -51,11 +73,11 @@ INSERT INTO jobs
     (jobID, jobTitle, jobApplicationLink, applicationStepID, resumeID, pocID, attemptID) 
 VALUES
     (1, 'Software Engineer', 'https://techcorp.com/jobs/1', 2, 1, 1, 1),
-    (2, 'Data Analyst', 'https://healthinc.com/jobs/2', 0, 2, 2, 2),
+    (2, 'Data Analyst', 'https://healthinc.com/jobs/2', 1, 2, 2, 2),
     (3, 'Product Manager', 'https://edulabs.com/jobs/3', 4, 3, 3, 3);
 
 -- Insert data into userJobs table
-INSERT INTO userJobs 
+INSERT INTO userjobs 
     (userID, jobID) 
 VALUES
     (1, 1),
@@ -63,7 +85,7 @@ VALUES
     (3, 3);
 
 -- Insert data into trackingTable
-INSERT INTO trackingTable 
-    (userCount, jobCount, resumeCount, companyCount, point0fContactCount, contactAttemptCount, meetingCount)
+INSERT INTO trackingtable 
+    (userCount, jobCount, resumeCount, companyCount, pointOfContactCount, contactAttemptCount, meetingCount)
 VALUES
     (3, 3, 3, 3, 3, 3, 3);
