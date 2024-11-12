@@ -49,7 +49,7 @@
     username VARCHAR(45) UNIQUE NOT NULL,
     password VARCHAR(45) NOT NULL,
     email VARCHAR(45) UNIQUE NOT NULL,
-    phoneNumber VARCHAR(45) UNIQUE,
+    phoneNumber VARCHAR(45) UNIQUE
   );
 
   CREATE TABLE resume (
@@ -103,7 +103,7 @@
     jobID SERIAL PRIMARY KEY,
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
-    applicationStepID INT DEFAULT 1,
+    applicationStepID INT,
     resumeID INT,
     pocID INT,
     attemptID INT,
