@@ -7,64 +7,31 @@
     height:auto;
     display:inline-block;
     }
-
-        .modal {
-        }
-        .button {
-
-        }
-            /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 10px solid #888;
-            width: 70%;
-            text-align: center;
-        }
-        .modal-dialog-lg {
-            width: 100%; /* Full width of dialog */
-        }
-        .modal-header {
-            text-align: center;
-        }
-        .modal-title {
-            padding-left: 425px;
-            padding-right: 350px;
-            text-align: center;
-        }
-        .modal-row {
-            float: left;
-            size: 40;
-            width: 300px;
-            margin: auto;
-            padding: 20px;
-        }
-        label {
-            padding: 12px 12px 12px 0;
-            display: inline-block;
-        }
-        .col-25 {
-            float: right;
-            width: 25%;
-            margin-top: 6px;
-        }
-        .col-75 {
-            float: right;
-            width: 75%;
-            margin-top: 6px;
-        }
-        .row:after {
-            content: "";
-            display: table;
-            clear: both;
-        }
-        .input {
-            width: 100%;
-        }
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+    .col-25 {
+        float: right;
+        width: 25%;
+        margin-top: 6px;
+    }
+    .col-75 {
+        float: right;
+        width: 75%;
+        margin-top: 6px;
+    }
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .input {
+        width: 100%;
+    }
 </style>
 
-<button class="btn btn-primary btn-lg rounded-full" style="float: right;" onclick="my_modal.showModal()">Add Event</button>
+<button class="btn btn-primary rounded-full" style="float: right;" onclick="my_modal.showModal()">Add Event</button>
 <dialog id="my_modal" class="modal">
     <div class="modal-box">
     <form method="dialog">
@@ -110,14 +77,13 @@
             <label for="status">Status:</label>
         </div>
         </div>
-        <p class="py-4">Press ESC key or click on ✕ button to close</p>
     </form>
         <div style="padding-top: 10px">
-            <form method="dialog">
-                <button class="btn btn-secondary" style="float: right; padding: 15px 16px;">Close</button>
-            </form>
             <form method="dialog" style="padding-right: 10px;">
                 <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Submit</button>
+            </form>
+            <form method="dialog">
+                <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
             </form>
         </div>
   </div>
