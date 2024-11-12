@@ -113,7 +113,7 @@
     FOREIGN KEY (resumeID) REFERENCES resume (resumeID) 
       ON DELETE SET NULL 
       ON UPDATE CASCADE,
-    FOREIGN KEY (pocID) REFERENCES point0fContact (pocID) 
+    FOREIGN KEY (pocID) REFERENCES pointOfContact (pocID) 
       ON DELETE SET NULL 
       ON UPDATE CASCADE,
     FOREIGN KEY (attemptID) REFERENCES contactAttempt (attemptID) 
@@ -138,7 +138,7 @@
     jobCount INT DEFAULT 0,
     resumeCount INT DEFAULT 0,
     companyCount INT DEFAULT 0,
-    point0fContactCount INT DEFAULT 0,
+    pointOfContactCount INT DEFAULT 0,
     contactAttemptCount INT DEFAULT 0,
     meetingCount INT DEFAULT 0
   );
