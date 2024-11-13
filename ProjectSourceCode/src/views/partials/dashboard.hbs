@@ -17,7 +17,13 @@
                 <td>{{jobapplicationlink}}</td>
                 <td>'Test Data'</td>
                 <td>
-                    <button class="btn btn-secondary" onclick="openModalForEdit({{jobid}})">Edit</button>
+                    <button class="btn btn-secondary"
+                        onclick="edit_modal(this)"
+                        data-jobid="{{jobid}}"
+                        data-jobtitle="{{jobtitle}}"
+                        data-joblink="{{jobapplicationlink}}">
+                        Edit
+                    </button>                
                 </td>
             </tr>
             {{/each}}
@@ -25,8 +31,67 @@
     </table>
 </div>
 
+<dialog id="edit_modal" class="modal">
+    <div class="modal-box">
+    <form method="dialog">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="text-lg font-bold text-center">Edit Event:</h3>
+    <form action="/editModal" method="POST">
+        <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="jobid" name="jobid" disabled>
+        </div>
+        <div class="form-label">
+            <label for="jobid">Job ID:</label>
+        </div>
+        <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="edit_job_name" name="job_name" placeholder="enter the job name...">
+        </div>
+        <div class="form-label">
+            <label for="job_name">Job Name:</label>
+        </div>
+        <div class="form-group">
+            <input type="link" class="input input-bordered w-full" id="edit_job_link" name="job_link" placeholder="enter the job link...">
+        </div>
+        <div class="form-label">
+            <label for="job link">Job Link:</label>
+        </div>
+        <div class="form-group">
+            <select class="input input-bordered w-full" id="status" name="status">
+                <option>Select Status...</option>
+                <option value="applied">Applied</option>
+                <option value="not-applied">Not Applied</option>
+                <option value="accepted">Accepted</option>
+                <option value="denied">Denied</option>
+            </select>
+        </div>
+        <div class="form-label" style="padding-bottom: 15px;">
+            <label for="status">Status:</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
+    </form>
+        <div style="padding-top: 20px">
+            <form method="dialog">
+                <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
 <script>
-    openModalForEdit(jobid) {
-        
-    }
+function edit_modal(button) {
+    console.log('Edit modal');
+    const jobId = button.getAttribute('data-jobid');
+    const jobTitle = button.getAttribute('data-jobtitle');
+    const jobLink = button.getAttribute('data-joblink');
+
+    console.log('Job info: ', jobId, jobTitle, jobLink);
+
+    document.getElementById('jobid').value = jobId;
+    document.getElementById('edit_job_name').value = jobTitle;
+    document.getElementById('edit_job_link').value = jobLink;
+
+    // Open the modal dialog
+    document.getElementById('edit_modal').showModal();
+}
 </script>

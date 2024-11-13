@@ -207,7 +207,7 @@ app.post('/submitModal', async (req, res) => {
 
         const results_query = 'SELECT * FROM jobs;';
         let results = await db.any(results_query);
-        console.log('results: ', results);
+        //console.log('results: ', results);
 
         return res.render('pages/home', {results: results});
 
@@ -216,9 +216,9 @@ app.post('/submitModal', async (req, res) => {
     }
 });
 
-app.get('/getModal', (req, res) => {
+app.post('/editModal', (req, res) => {
 
-});
+})
 
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
