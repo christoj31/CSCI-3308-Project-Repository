@@ -161,21 +161,21 @@ app.post('/register', async (req, res) => {
 
         // check if valid email input
         if (!checkEmail.test(email)) {
-            return res.status(400).render('pages/register', {
+            return res.status(401).render('pages/register', {
                 error: 'Please enter a valid email address.'
             });
         }
 
         // check if valid phone number input
         if (!checkPhoneNumber.test(phoneNumber)) {
-            return res.status(400).render('pages/register', {
+            return res.status(402).render('pages/register', {
                 error: 'Please enter a valid phone number (e.g., 123-456-7890 or 1234567890).'
             });
         }
 
         // check if password and retyped passwords match
         if (password !== retypePassword) {
-            return res.status(400).render('pages/register', {
+            return res.status(403).render('pages/register', {
                 error: 'Passwords do not match.'
             });
         }
@@ -183,7 +183,7 @@ app.post('/register', async (req, res) => {
         // check if password meets criteria
         if (!passwordPattern.test(password) || !containsUpperCase 
             || !containsLowerCase || !containsDigit || !containsSpecial) {
-            return res.status(400).render('pages/register', {
+            return res.status(404).render('pages/register', {
                 error: 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, one special character, and no consecutive repeated characters.'
             });
         }
@@ -210,7 +210,7 @@ app.post('/register', async (req, res) => {
 app.get('/home', (req, res) => {
     // if not logged in, redirect to login
     if (!req.session.user) {
-        return res.redirect(302, '/login');
+        return res.status(302).redirect('/login');
     }
     res.render('pages/home');
 });

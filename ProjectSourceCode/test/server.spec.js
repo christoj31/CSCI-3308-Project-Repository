@@ -36,9 +36,9 @@ describe('Testing Register API', () => {
       .request(server)
       .post('/register')
       .send({
-        username: 'uniqueuser',
-        email: 'uniqueuser@example.com',
-        phoneNumber: '1234567890',
+        username: 'testuser1',
+        email: 'testuser@gmail.com',
+        phoneNumber: '123-456-7890',
         password: 'Pasword@1',
         'retype password': 'Pasword@1'
       })
@@ -59,14 +59,29 @@ describe('Testing Register API', () => {
       .post('/register')
       .send({
         username: 'uniqueuser2',
-        email: 'uniqueuser2@example.com',
-        phoneNumber: '1234567890',
+        email: 'uniqueuser2@gmail.com',
+        phoneNumber: '223-456-7890',
         password: 'Pasword@1',
         'retype password': 'Pasword@2'
       })
       .end((err, res) => {
         expect(res).to.have.status(400);
         assert.include(res.text, 'Passwords do not match.');
+        done();
+      });
+  });
+  // Test the /login endpoint
+  it('Positive: Should login successfully with correct credentials', done => {
+    chai
+      .request(server)
+      .post('/login')
+      .send({
+        username: 'testuser1',
+        password: 'pasword@1'
+      })
+      .end((err, res) => {
+        expect(res).to.have.status(201); // Expecting redirect on successful login
+        expect(res).to.redirectTo('/home');
         done();
       });
   });  
