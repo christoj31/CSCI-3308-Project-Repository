@@ -177,7 +177,6 @@ app.get('/home', (req, res) => {
 
 
 app.post('/submitModal', async (req, res) => {
-    console.log('submit modal back route');
     try {
         //const company = req.body.company;
         const job_name = req.body.job_name;
@@ -210,7 +209,7 @@ app.post('/submitModal', async (req, res) => {
         const test_query = 'SELECT * FROM jobs;';
         let test_results = await db.any(test_query);
         */
-       
+
         return res.redirect('/home');
 
     } catch (err) {
