@@ -2,7 +2,17 @@
     <title>Home</title>
 
 <style>
-    .divider{
+    .form-group {
+        float: right;
+        width: 75%;
+        margin-top: 6px;
+    }
+    .form-label {
+        float: right;
+        width: 25%;
+        margin-top: 6px;
+    }
+    .divider {
     width:5px;
     height:auto;
     display:inline-block;
@@ -31,6 +41,8 @@
     }
 </style>
 
+<h1>Welcome, {{first_name}} {{last_name}}</h1>
+
 <button class="btn btn-primary rounded-full" style="float: right;" onclick="my_modal.showModal()">Add Event</button>
 <dialog id="my_modal" class="modal">
     <div class="modal-box">
@@ -38,34 +50,33 @@
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
     <h3 class="text-lg font-bold text-center">Create New Event:</h3>
-    <form action="/">
-        <div class="row">
-        <div class="col-75">
-            <input class="input" type="text" id="company" name="company" placeholder="enter the company name...">
+    <form action="/submitModal" method="POST">
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="company" name="company" placeholder="enter the company name...">
         </div>
-        <div class="col-25">
+        <div class="form-label">
             <label for="company">Company:</label>
         </div>
+        <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="job_name" name="job_name" placeholder="enter the job name...">
         </div>
-        <div class="row">
-        <div class="col-75">
-            <input class="input" type="text" id="job_name" name="job_name" placeholder="enter the job name...">
-        </div>
-        <div class="col-25">
+        <div class="form-label">
             <label for="job_name">Job Name:</label>
         </div>
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
         </div>
-        <div class="row">
-        <div class="col-75">
-            <input class="input" type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
-        </div>
-        <div class="col-25">
+        <div class="form-label">
             <label for="date_applied">Date Applied:</label>
         </div>
+        <div class="form-group">
+            <input type="link" class="input input-bordered w-full" id="job_link" name="job_link" placeholder="enter the job link...">
         </div>
-        <div class="row">
-        <div class="col-75">
-            <select class="input" id="status" name="status">
+        <div class="form-label">
+            <label for="job link">Job Link:</label>
+        </div>
+        <div class="form-group">
+            <select class="input input-bordered w-full" id="status" name="status">
                 <option>Select Status...</option>
                 <option value="applied">Applied</option>
                 <option value="not-applied">Not Applied</option>
@@ -73,15 +84,12 @@
                 <option value="denied">Denied</option>
             </select>
         </div>
-        <div class="col-25">
+        <div class="form-label" style="padding-bottom: 15px;">
             <label for="status">Status:</label>
         </div>
-        </div>
+        <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Submit</button>
     </form>
-        <div style="padding-top: 10px">
-            <form method="dialog" style="padding-right: 10px;">
-                <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Submit</button>
-            </form>
+        <div style="padding-top: 20px">
             <form method="dialog">
                 <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
             </form>
