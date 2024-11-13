@@ -176,7 +176,7 @@ app.get('/home', (req, res) => {
 });
 
 
-app.post('/submitModal', async (req, res) => {
+app.post('/home', async (req, res) => {
     try {
         //const company = req.body.company;
         const job_name = req.body.job_name;
