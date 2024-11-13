@@ -113,10 +113,14 @@ app.post('/login', async (req, res) => {
     }    
 });
 
-// Authentication middleware. NOTE: Irene will include this once auth testing is finished
+// // Authentication middleware
 // const auth = (req, res, next) => {
+//     if (req.path === '/login' || req.path === '/register' || req.path === '/welcome') {
+//         return next();
+//     }
+
 //     if (!req.session.user) {
-//         return res.redirect('/login');
+//         return res.redirect(302, '/login');
 //     }
 //         next();
 // };
@@ -165,7 +169,7 @@ app.post('/register', async (req, res) => {
         // check if valid phone number input
         if (!checkPhoneNumber.test(phoneNumber)) {
             return res.status(400).render('pages/register', {
-                error: 'Please enter a valid phone number (e.g., 123-456-7890 or 1234567890.'
+                error: 'Please enter a valid phone number (e.g., 123-456-7890 or 1234567890).'
             });
         }
 
@@ -204,6 +208,10 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/home', (req, res) => {
+    // if not logged in, redirect to login
+    if (!req.session.user) {
+        return res.redirect(302, '/login');
+    }
     res.render('pages/home');
 });
 

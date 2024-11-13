@@ -39,8 +39,8 @@ describe('Testing Register API', () => {
         username: 'uniqueuser',
         email: 'uniqueuser@example.com',
         phoneNumber: '1234567890',
-        password: 'Password@1',
-        'retype password': 'Password@1'
+        password: 'Pasword@1',
+        'retype password': 'Pasword@1'
       })
       .end((err, res) => {
         if (err) {
@@ -61,8 +61,8 @@ describe('Testing Register API', () => {
         username: 'uniqueuser2',
         email: 'uniqueuser2@example.com',
         phoneNumber: '1234567890',
-        password: 'Password@1',
-        'retype password': 'Password@2'
+        password: 'Pasword@1',
+        'retype password': 'Pasword@2'
       })
       .end((err, res) => {
         expect(res).to.have.status(400);
