@@ -197,14 +197,12 @@ app.post('/home', async (req, res) => {
         const query = 'SELECT jobTitle FROM jobs WHERE jobTitle = $1 LIMIT 1';
         const check_values = [job_name];
 
-        /*
         const job_exists = await db.oneOrNone(query, check_values);
         if (job_exists) {
-            return  {
-                error: 'Job already listed.'
-            };
+                return res.status(400).render('pages/register', {
+                    error: 'Job already listed.'
+                });
         }
-        */
 
         const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
         let result = await db.one(generate_job_id_query);
