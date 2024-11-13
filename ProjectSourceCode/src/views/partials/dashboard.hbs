@@ -18,7 +18,7 @@
                 <td>'Test Data'</td>
                 <td>
                     <button class="btn btn-secondary"
-                        onclick="edit_modal(this)"
+                        onclick="editModal(this)"
                         data-jobid="{{jobid}}"
                         data-jobtitle="{{jobtitle}}"
                         data-joblink="{{jobapplicationlink}}">
@@ -38,11 +38,17 @@
     </form>
     <h3 class="text-lg font-bold text-center">Edit Event:</h3>
     <form action="/editModal" method="POST">
+    <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="jobid" name="jobid" style="display: none;">
+        </div>
+        <div class="form-label" style="display: none;">
+            <label for="jobid">jobid:</label>
+        </div>
         <div class="form-group">
-            <input ctype="text" class="input input-bordered w-full" id="jobid" name="jobid" disabled>
+            <input ctype="text" class="input input-bordered w-full" id="jobid_holder" name="jobid_holder" disabled>
         </div>
         <div class="form-label">
-            <label for="jobid">Job ID:</label>
+            <label for="jobid_holder">Job ID:</label>
         </div>
         <div class="form-group">
             <input ctype="text" class="input input-bordered w-full" id="edit_job_name" name="job_name" placeholder="enter the job name...">
@@ -68,6 +74,7 @@
         <div class="form-label" style="padding-bottom: 15px;">
             <label for="status">Status:</label>
         </div>
+    
         <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
     </form>
         <div style="padding-top: 20px">
@@ -79,15 +86,20 @@
 </dialog>
 
 <script>
-function edit_modal(button) {
+function editModal(button) {
     console.log('Edit modal');
     const jobId = button.getAttribute('data-jobid');
+    const jobid_holder = button.getAttribute('data-jobid');
+    console.log(jobid_holder);
     const jobTitle = button.getAttribute('data-jobtitle');
     const jobLink = button.getAttribute('data-joblink');
+
+    console.log('JOBID & JOBIDHOLDER: ', jobId, jobid_holder);
 
     console.log('Job info: ', jobId, jobTitle, jobLink);
 
     document.getElementById('jobid').value = jobId;
+    document.getElementById('jobid_holder').value = jobId;
     document.getElementById('edit_job_name').value = jobTitle;
     document.getElementById('edit_job_link').value = jobLink;
 

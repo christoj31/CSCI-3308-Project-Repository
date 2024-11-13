@@ -212,13 +212,50 @@ app.post('/submitModal', async (req, res) => {
         return res.render('pages/home', {results: results});
 
     } catch (err) {
-        console.error('Error creating event:', err);
+        console.error('Error creating event.', err);
     }
 });
 
-app.post('/editModal', (req, res) => {
+app.post('/editModal', async (req, res) => {
+    try {
+        console.log('Body: ', req.body);
+        const jobID = req.body.jobid;
+        const job_name = req.edit_job_name;
+        const job_link = req.job_link;
+        const status = req.status;
 
-})
+        let newjob_name = job_name;
+        let newjob_link = job_link;
+        let newstatus = status;
+
+        const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
+        const results = await db.one(match_query, jobID);
+        console.log('Results: ', results);
+
+        console.log('Name', results.jobtitle);
+
+        if (job_name != results.jobtitle) {
+            newjob_name = job_name;
+        }
+        if (job_link != results.jobapplicationlink) {
+            newjob_link = job_link;
+        }
+        if (status != results.status) {
+            newstatus = status;
+        }
+
+        console.log('NEW: ', newjob_name, newjob_link);
+
+        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink) VALUES ($1, $2)';
+        const insert_values = [newjob_name, newjob_link];
+        await db.none(insert_query, insert_values);
+
+        res.render('pages/home');
+    }
+    catch (err) {
+        console.log('Error updating event.', err);
+    }
+});
 
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
