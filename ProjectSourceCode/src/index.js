@@ -205,16 +205,19 @@ app.post('/submitModal', async (req, res) => {
         const insertValues = [job_id, job_name, job_link];
         await db.none(insert_query, insertValues);
 
-        /*
-        const test_query = 'SELECT * FROM jobs;';
-        let test_results = await db.any(test_query);
-        */
+        const results_query = 'SELECT * FROM jobs;';
+        let results = await db.any(results_query);
+        console.log('results: ', results);
 
-        return res.redirect('/home');
+        return res.render('pages/home', {results: results});
 
     } catch (err) {
         console.error('Error creating event:', err);
     }
+});
+
+app.get('/getModal', (req, res) => {
+
 });
 
 //route for get jobs 

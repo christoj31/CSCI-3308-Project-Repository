@@ -2,28 +2,31 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Company</th>
+                <th>Job ID</th>
                 <th>Job Name</th>
-                <th>Date Applied</th>
-                <th>Status</th>
+                <th>Job Link</th>
+                <th>Test</th>
                 <th>Edit</th>
             </tr>
         </thead>
         <tbody>
-            {{#each jobs}}
+            {{#each results}}
             <tr>
-                <td>{{jobID}}</td>
-                <td>{{job_name}}</td>
-                <td>{{job_link}}</td>
+                <td>{{jobid}}</td>
+                <td>{{jobtitle}}</td>
+                <td>{{jobapplicationlink}}</td>
                 <td>'Test Data'</td>
-                <td>More test data</td>
-                <!--
                 <td>
-                    <button class="btn btn-primary" onclick="openModalForEdit({{jobID}})">Edit</button>
+                    <button class="btn btn-secondary" onclick="openModalForEdit({{jobid}})">Edit</button>
                 </td>
-                -->
             </tr>
             {{/each}}
         </tbody>
     </table>
 </div>
+
+<script>
+    openModalForEdit(jobid) {
+        
+    }
+</script>
