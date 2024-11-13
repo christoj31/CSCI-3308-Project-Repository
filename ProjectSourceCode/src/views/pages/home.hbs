@@ -1,70 +1,171 @@
-<!-- Add New Button -->
-<button id="add_button" class="button" type="button" data-toggle="modal" data-target="modal">Add New</button>
+<head>
+    <title>Home</title>
 
-<!-- Modal Structure -->
-<div id="modal" class="modal" tabindex="-1" role="dialog">
-    <div class="modal-dialog-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create New:</h5>
-                <button type="button" class="button_close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
+<style>
+    .form-group {
+        float: right;
+        width: 75%;
+        margin-top: 6px;
+    }
+    .form-label {
+        float: right;
+        width: 25%;
+        margin-top: 6px;
+    }
+    .divider {
+    width:5px;
+    height:auto;
+    display:inline-block;
+    }
+    label {
+        padding: 12px 12px 12px 0;
+        display: inline-block;
+    }
+    .col-25 {
+        float: right;
+        width: 25%;
+        margin-top: 6px;
+    }
+    .col-75 {
+        float: right;
+        width: 75%;
+        margin-top: 6px;
+    }
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+    .input {
+        width: 100%;
+    }
+</style>
 
-            <div class="modal-body">
-                <form action="/">
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="company">Company:</label>
-                        </div>
-                        <div class="col-75">
-                            <input class="input" type="text" id="company" name="company" placeholder="enter the company name...">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="job_name">Job Name:</label>
-                        </div>
-                        <div class="col-75">
-                            <input class="input" type="text" id="job_name" name="job_name" placeholder="enter the job name...">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="date_applied">Date Applied:</label>
-                        </div>
-                        <div class="col-75">
-                            <input class="input" type="text" id="date_applied" name="date_applied" placeholder="enter the date you applied...">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-25">
-                            <label for="status">Status:</label>
-                        </div>
-                        <div class="col-75">
-                            <select class="input" id="status" name="status">
-                                <option>Select Status...</option>
-                                <option value="applied">Applied</option>
-                                <option value="not-applied">Not Applied</option>
-                                <option value="accepted">Accepted</option>
-                                <option value="denied">Denied</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+<h1>Welcome, {{username}}</h1>
+
+{{#if success}}
+    <div role="alert" class="alert alert-success">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6 shrink-0 stroke-current"
+        fill="none"
+        viewBox="0 0 24 24">
+        <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    <span>{{success}}</span>
 </div>
+{{/if}}
+{{#if error}}
+    <div role="alert" class="alert alert-warning">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6 shrink-0 stroke-current"
+            fill="none"
+            viewBox="0 0 24 24">
+            <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        <span>{{error}}</span>
+    </div>
+{{/if}}
+
+<button class="btn btn-primary rounded-full" style="float: right;" onclick="my_modal.showModal()">Add Event</button>
+<dialog id="my_modal" class="modal">
+    <div class="modal-box">
+    <form method="dialog">
+      <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <h3 class="text-lg font-bold text-center">Create New Event:</h3>
+    <form action="/home" method="POST">
+        <div class="form-group">
+<!--
+            <label class="input input-bordered flex items-center gap-2">
+                <input ctype="text" class="input input-bordered w-full" id="job_name" name="job_name" placeholder="enter the job name...">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="h-4 w-4 opacity-70">
+                    <path
+                    fill-rule="evenodd"
+                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+                    clip-rule="evenodd" />
+                </svg>
+            </label>
+-->
+            <input ctype="text" class="input input-bordered w-full" id="job_name" name="job_name" placeholder="enter the job name...">
+        </div>
+        <div class="form-label">
+            <label for="job_name">Job Name:</label>
+        </div>
+        <div class="form-group">
+            <input type="link" class="input input-bordered w-full" id="job_link" name="job_link" placeholder="enter the job link...">
+        </div>
+        <div class="form-label">
+            <label for="job link">Job Link:</label>
+        </div>
+        <div class="form-group">
+            <select class="input input-bordered w-full" id="status" name="status">
+                <option>Select Status...</option>
+                <option value="applied">Applied</option>
+                <option value="not-applied">Not Applied</option>
+                <option value="accepted">Accepted</option>
+                <option value="denied">Denied</option>
+            </select>
+        </div>
+        <div class="form-label" style="padding-bottom: 15px;">
+            <label for="status">Status:</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Submit</button>
+    </form>
+        <div style="padding-top: 20px">
+            <form method="dialog">
+                <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
+            </form>
+        </div>
+  </div>
+</dialog>
+{{> dashboard }}
+</head>
+
+<body>
+
+        <!--
+        <script>
+            // Get the modal
+            var modal = document.getElementById("modal");
+            // Get the button that opens the modal
+            var btn = document.getElementById("add_button");
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+            // When the user clicks the button, open the modal 
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }
+            </script>
+            -->
+</body>
 
 <!-- Dashboard Partial -->
-{{> dashboard}}
 
+<!--
 <script>
     // Modal functionality
     const modal = document.getElementById("modal");
@@ -136,3 +237,4 @@ document.getElementById("addNewForm").addEventListener("submit", function(event)
     modal.style.display = "none";
 });
 </script>
+-->

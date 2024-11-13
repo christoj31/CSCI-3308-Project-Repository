@@ -106,7 +106,14 @@ app.post('/login', async (req, res) => {
                 // console.log("Session Username:", req.session.user.username);
                 // console.log("Session Email:", req.session.user.email);
                 // console.log("Session Phone Number:", req.session.user.phoneNumber);
-                return res.redirect('/home');
+                
+                //res.render('pages/home');
+                //return res.redirect('/home');
+                console.log('TEST');
+                const results_query = 'SELECT * FROM jobs;';
+                let results = await db.any(results_query);
+                console.log('results: ', results);
+                return res.render('pages/home', {results: results});
             }
 
             else {
@@ -174,8 +181,92 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/home', (req, res) => {
-    res.render('pages/home');
+app.get('/home', async (req, res) => {
+    const results_query = 'SELECT * FROM jobs;';
+    let results = await db.any(results_query);
+    console.log('results: ', results);
+    return res.render('pages/home', {results: results});
+});
+
+
+app.post('/home', async (req, res) => {
+    try {
+        const jobID = req.body.jobID;
+        const job_name = req.body.job_name;
+        const job_link = req.body.job_link;
+        //const status = req.body.status;
+
+        const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
+        const check_values = [jobID];
+
+        const job_exists = await db.oneOrNone(query, check_values);
+        if (job_exists) {
+                return res.status(400).render('pages/home', {
+                    error: 'Job already listed.'
+                });
+            }
+
+        const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
+        let result = await db.one(generate_job_id_query);
+        let job_id = result.jobid;
+        job_id += 1; 
+
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink) VALUES ($1, $2, $3)';
+        const insertValues = [job_id, job_name, job_link];
+        await db.none(insert_query, insertValues);
+
+        return res.redirect('/home');
+
+    } catch (err) {
+        console.error('Error creating event.', err);
+    }
+});
+
+app.post('/editModal', async (req, res) => {
+    try {
+        console.log('Body: ', req.body);
+        const jobID = req.body.jobid;
+        const job_name = req.body.job_name;
+        const job_link = req.body.job_link;
+        const status = req.body.status;
+
+        let newjob_name = job_name;
+        let newjob_link = job_link;
+        let newstatus = status;
+
+        console.log('NEW FIRST: ', newjob_name, newjob_link);
+
+        const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
+        const results = await db.one(match_query, jobID);
+        console.log('Results: ', results);
+
+        console.log('Name', results.jobtitle);
+
+        if (job_name != results.jobtitle) {
+            newjob_name = job_name;
+        }
+        if (job_link != results.jobapplicationlink) {
+            newjob_link = job_link;
+        }
+        if (status != results.status) {
+            newstatus = status;
+        }
+
+        console.log('NEW: ', newjob_name, newjob_link);
+
+        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2 WHERE jobID = $3';
+        const insert_values = [newjob_name, newjob_link, jobID];
+        await db.none(insert_query, insert_values);
+
+        const results_query = 'SELECT * FROM jobs;';
+        let result = await db.any(results_query);
+        //console.log('results: ', results);
+
+        return res.render('pages/home', {results: result});
+    }
+    catch (err) {
+        console.log('Error updating event.', err);
+    }
 });
 
 //route for get jobs 
