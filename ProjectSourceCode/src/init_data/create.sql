@@ -5,11 +5,21 @@
       stepName VARCHAR(20) NOT NULL
     );
 
+    INSERT INTO application_steps (stepID, stepName) VALUES 
+    (1, 'Applied'), 
+    (2, 'Interviews'), 
+    (3, 'Offer'), 
+    (4, 'Rejected');
+
   --Create the thank you letter send status
     CREATE TABLE thank_you_status (
       statusID SERIAL PRIMARY KEY,
       status VARCHAR(6) NOT NULL
     );
+
+    INSERT INTO thank_you_status (statusID, status) VALUES 
+    (1, 'unsent'), 
+    (2, 'sent');
 
   --Create the resume stage dropdown options
     CREATE TABLE resume_stage (
@@ -17,21 +27,39 @@
       stageName VARCHAR(10) NOT NULL
     );
 
+    INSERT INTO resume_stage (stageID, stageName) VALUES 
+    (1, 'unwritten'),
+    (2, 'written'),
+    (3, 'tailored'),
+    (4, 'AI checked');
+
   --Create the contacted dropdown options
     CREATE TABLE contacted_status (
       statusID SERIAL PRIMARY KEY,
       status VARCHAR(3) NOT NULL
     );
 
+    INSERT INTO contacted_status (statusID, status) VALUES 
+    (1, 'no'),
+    (2, 'yes');
+
 --Create the primary entity tables
   CREATE TABLE users (
     userID SERIAL PRIMARY KEY,
-    firstName VARCHAR(45),
-    lastName VARCHAR(45),
+    firstName VARCHAR(45) NOT NULL,
+    lastName VARCHAR(45) NOT NULL,
     username VARCHAR(45) UNIQUE NOT NULL,
     password VARCHAR(45) NOT NULL,
     email VARCHAR(45) UNIQUE NOT NULL,
-    phoneNumber VARCHAR(45) UNIQUE
+    phoneNumber VARCHAR(45) UNIQUE,
+  );
+
+  CREATE TABLE resume (
+    resumeID SERIAL PRIMARY KEY,
+    resumeStageID INT DEFAULT 1,
+    FOREIGN KEY (resumeStageID) REFERENCES resume_stage (stageID) 
+      ON DELETE SET NULL 
+      ON UPDATE CASCADE
   );
 
   CREATE TABLE company (
@@ -41,7 +69,7 @@
     location VARCHAR(45)
   );
 
-  CREATE TABLE pointofcontact (
+  CREATE TABLE pointOfContact (
     pocID SERIAL PRIMARY KEY,
     firstName VARCHAR(45) NOT NULL,
     lastName VARCHAR(45) NOT NULL,
@@ -59,7 +87,7 @@
       ON UPDATE CASCADE
   );
 
-  CREATE TABLE contactattempt (
+  CREATE TABLE contactAttempt (
     attemptID SERIAL PRIMARY KEY,
     contactedStatusID INT DEFAULT 1,
     contactDate DATE NOT NULL,
@@ -77,7 +105,8 @@
     jobID SERIAL PRIMARY KEY,
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
-    applicationStepID INT,
+    applicationStepID INT DEFAULT 1,
+    resumeID INT,
     pocID INT,
     attemptID INT,
     FOREIGN KEY (applicationStepID) REFERENCES application_steps (stepID) 
@@ -94,7 +123,7 @@
       ON UPDATE CASCADE
   );
 
-  CREATE TABLE userjobs (
+  CREATE TABLE userJobs (
     userID INT NOT NULL,
     jobID INT NOT NULL,
     PRIMARY KEY (userID, jobID),
@@ -106,7 +135,7 @@
       ON UPDATE CASCADE
   );
 
-  CREATE TABLE trackingtable (
+  CREATE TABLE trackingTable (
     userCount INT DEFAULT 0,
     jobCount INT DEFAULT 0,
     resumeCount INT DEFAULT 0,

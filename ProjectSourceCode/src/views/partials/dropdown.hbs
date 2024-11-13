@@ -1,15 +1,110 @@
-<!-- dropdown.hbs -->
-<div class="dropdown">
-  <label tabindex="0" class="btn btn-primary dropdown-toggle">
-    {{dropdownTitle}}
-  </label>
-  <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
-    {{#each options}}
-      <li>
-        <a class="dropdown-item" href="#" data-value="{{this.stepID}}">
-          {{this.stepName}}
-        </a>
-      </li>
-    {{/each}}
-  </ul>
-</div>
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Status Table</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+
+    <!-- Job Table with Dropdown Status in Each Row -->
+    <table id="mainTable" class="w-full border mt-5">
+        <thead>
+            <tr>
+                <th class="border px-4 py-2">Job Title</th>
+                <th class="border px-4 py-2">Company</th>
+                <th class="border px-4 py-2">Location</th>
+                <th class="border px-4 py-2">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Row 1 -->
+            <tr>
+                <td class="border px-4 py-2">Software Engineer</td>
+                <td class="border px-4 py-2">Tech Corp</td>
+                <td class="border px-4 py-2">San Francisco</td>
+                <td class="border px-4 py-2">
+                    <div class="relative inline-block">
+                        <button 
+                            class="status-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+                            type="button"
+                        >
+                            <span class="statusButtonText">Choose Status</span>
+                            <svg class="w-2.5 h-2.5 ms-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                        </button>
+                        <!-- Dropdown for Status -->
+                        <div class="status-dropdown z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2 absolute">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accepted</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Not Applied</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Declined</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- Repeat for other rows as needed -->
+            <tr>
+                <td class="border px-4 py-2">Data Analyst</td>
+                <td class="border px-4 py-2">Data Inc.</td>
+                <td class="border px-4 py-2">New York</td>
+                <td class="border px-4 py-2">
+                    <div class="relative inline-block">
+                        <button 
+                            class="status-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+                            type="button"
+                        >
+                            <span class="statusButtonText">Choose Status</span>
+                            <svg class="w-2.5 h-2.5 ms-3 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                            </svg>
+                        </button>
+                        <!-- Dropdown for Status -->
+                        <div class="status-dropdown z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2 absolute">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accepted</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Not Applied</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Declined</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+
+    <!-- JavaScript for Dropdowns and Updating Button Text in Each Row -->
+    <script>
+        // Toggle dropdown visibility for each status button
+        document.querySelectorAll('.status-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('hidden');
+            });
+        });
+
+        // Update button text and hide dropdown when selecting an option
+        document.querySelectorAll('.dropdown-option').forEach(option => {
+            option.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                const button = this.closest('.relative').querySelector('.status-button');
+                const dropdown = this.closest('.status-dropdown');
+
+                // Update the button text to the selected status
+                button.querySelector('.statusButtonText').textContent = this.textContent;
+
+                // Hide the dropdown
+                dropdown.classList.add('hidden');
+            });
+        });
+    </script>
+
+</body>
+</html>
