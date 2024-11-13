@@ -220,13 +220,15 @@ app.post('/editModal', async (req, res) => {
     try {
         console.log('Body: ', req.body);
         const jobID = req.body.jobid;
-        const job_name = req.edit_job_name;
-        const job_link = req.job_link;
-        const status = req.status;
+        const job_name = req.body.job_name;
+        const job_link = req.body.job_link;
+        const status = req.body.status;
 
         let newjob_name = job_name;
         let newjob_link = job_link;
         let newstatus = status;
+
+        console.log('NEW FIRST: ', newjob_name, newjob_link);
 
         const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
         const results = await db.one(match_query, jobID);
@@ -246,11 +248,12 @@ app.post('/editModal', async (req, res) => {
 
         console.log('NEW: ', newjob_name, newjob_link);
 
-        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink) VALUES ($1, $2)';
-        const insert_values = [newjob_name, newjob_link];
+        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2 WHERE jobID = $3';
+        const insert_values = [newjob_name, newjob_link, jobID];
         await db.none(insert_query, insert_values);
 
-        res.render('pages/home');
+        //res.render('pages/home');
+        res.redirect('/home');
     }
     catch (err) {
         console.log('Error updating event.', err);
