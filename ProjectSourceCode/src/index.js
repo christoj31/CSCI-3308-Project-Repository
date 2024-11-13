@@ -212,11 +212,7 @@ app.post('/home', async (req, res) => {
         const insertValues = [job_id, job_name, job_link];
         await db.none(insert_query, insertValues);
 
-        const results_query = 'SELECT * FROM jobs;';
-        let results = await db.any(results_query);
-        //console.log('results: ', results);
-
-        return res.render('pages/home', {results: results});
+        return res.redirect('/home');
 
     } catch (err) {
         console.error('Error creating event.', err);
