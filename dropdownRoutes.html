@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Status Filter</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-5">
+
+    <!-- Dropdown Button -->
+    <button 
+        id="dropdownDefaultButton" 
+        data-dropdown-toggle="dropdown" 
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" 
+        type="button"
+    >
+        Filter by Status
+        <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        </svg>
+    </button>
+
+    <!-- Dropdown menu -->
+    <div 
+        id="dropdown" 
+        class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2"
+    >
+        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+            <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-filter="accepted">Accepted</a></li>
+            <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-filter="not applied">Not Applied</a></li>
+            <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-filter="declined">Declined</a></li>
+            <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-filter="applied">Applied</a></li>
+            <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" data-filter="all">Show All</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Table -->
+    <table id="mainTable" class="w-full border mt-5">
+        <thead>
+            <tr>
+                <th class="border px-4 py-2">Job Title</th>
+                <th class="border px-4 py-2">Company</th>
+                <th class="border px-4 py-2">Location</th>
+                <th class="border px-4 py-2">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="border px-4 py-2">Software Engineer</td><td class="border px-4 py-2">Tech Corp</td><td class="border px-4 py-2">San Francisco</td><td class="border px-4 py-2">Accepted</td></tr>
+            <tr><td class="border px-4 py-2">Data Analyst</td><td class="border px-4 py-2">Data Inc.</td><td class="border px-4 py-2">New York</td><td class="border px-4 py-2">Applied</td></tr>
+            <tr><td class="border px-4 py-2">Product Manager</td><td class="border px-4 py-2">Startup Hub</td><td class="border px-4 py-2">Austin</td><td class="border px-4 py-2">Declined</td></tr>
+            <tr><td class="border px-4 py-2">UX Designer</td><td class="border px-4 py-2">Design Co</td><td class="border px-4 py-2">Remote</td><td class="border px-4 py-2">Not Applied</td></tr>
+        </tbody>
+    </table>
+
+    <!-- JavaScript for Dropdown and Filtering -->
+    <script>
+        // Toggle dropdown visibility
+        document.getElementById('dropdownDefaultButton').addEventListener('click', function() {
+            document.getElementById('dropdown').classList.toggle('hidden');
+        });
+
+        // Event listener for each dropdown option
+        document.querySelectorAll('.dropdown-option').forEach(item => {
+            item.addEventListener('click', function(event) {
+                event.preventDefault();
+                
+                const filterValue = this.getAttribute('data-filter');
+                
+                filterJobs(filterValue);
+                document.getElementById('dropdown').classList.add('hidden'); // Hide dropdown after selection
+            });
+        });
+
+        function filterJobs(status) {
+            const table = document.getElementById('mainTable');
+            const rows = table.getElementsByTagName('tr');
+
+            // Loop through rows and show/hide based on filter
+            for (let i = 1; i < rows.length; i++) { // Start from 1 to skip the header row
+                const statusCell = rows[i].getElementsByTagName('td')[3]; // Assuming 'Status' is the 4th column
+
+                if (statusCell) {
+                    const cellText = statusCell.textContent.trim().toLowerCase();
+
+                    if (status === 'all') {
+                        rows[i].style.display = ''; // Show all rows if 'Show All' is selected
+                    } else if (cellText === status) {
+                        rows[i].style.display = ''; // Show row if it matches the filter status
+                    } else {
+                        rows[i].style.display = 'none'; // Hide row if it doesn't match
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>

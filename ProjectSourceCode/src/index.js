@@ -5,6 +5,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const pgp = require('pg-promise')();
+const dropdownRoutes = require('../src/server/routes/dropdownRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -55,7 +56,9 @@ app.use(
     })
   );
 
+
 // Routes
+
 
 // Store user data
 const user = {
@@ -188,6 +191,8 @@ app.get('/jobs', async (req, res) => {
 
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use('/dropdown', dropdownRoutes);
 
 // Start the server
 app.listen(PORT, () => {
