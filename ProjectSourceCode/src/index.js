@@ -188,21 +188,20 @@ app.get('/home', async (req, res) => {
 
 app.post('/home', async (req, res) => {
     try {
-        //const company = req.body.company;
+        const jobID = req.body.jobID;
         const job_name = req.body.job_name;
-        //const date_applied = req.body.date_applied;
         const job_link = req.body.job_link;
         //const status = req.body.status;
 
-        const query = 'SELECT jobTitle FROM jobs WHERE jobTitle = $1 LIMIT 1';
-        const check_values = [job_name];
+        const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
+        const check_values = [jobID];
 
         const job_exists = await db.oneOrNone(query, check_values);
         if (job_exists) {
-                return res.status(400).render('pages/register', {
+                return res.status(400).render('pages/home', {
                     error: 'Job already listed.'
                 });
-        }
+            }
 
         const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
         let result = await db.one(generate_job_id_query);
