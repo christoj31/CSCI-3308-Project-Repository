@@ -26,18 +26,12 @@
 --Create the primary entity tables
   CREATE TABLE users (
     userID SERIAL PRIMARY KEY,
+    firstName VARCHAR(45),
+    lastName VARCHAR(45),
     username VARCHAR(45) UNIQUE NOT NULL,
     password VARCHAR(45) NOT NULL,
     email VARCHAR(45) UNIQUE NOT NULL,
     phoneNumber VARCHAR(45) UNIQUE
-  );
-
-  CREATE TABLE resume (
-    resumeID SERIAL PRIMARY KEY,
-    resumeStageID INT DEFAULT 1,
-    FOREIGN KEY (resumeStageID) REFERENCES resume_stage (stageID) 
-      ON DELETE SET NULL 
-      ON UPDATE CASCADE
   );
 
   CREATE TABLE company (
@@ -84,7 +78,6 @@
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
     applicationStepID INT,
-    resumeID INT,
     pocID INT,
     attemptID INT,
     FOREIGN KEY (applicationStepID) REFERENCES application_steps (stepID) 
