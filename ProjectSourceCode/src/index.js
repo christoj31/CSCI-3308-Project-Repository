@@ -103,7 +103,14 @@ app.post('/login', async (req, res) => {
                 // console.log("Session Username:", req.session.user.username);
                 // console.log("Session Email:", req.session.user.email);
                 // console.log("Session Phone Number:", req.session.user.phoneNumber);
-                return res.redirect('/home');
+                
+                //res.render('pages/home');
+                //return res.redirect('/home');
+                console.log('TEST');
+                const results_query = 'SELECT * FROM jobs;';
+                let results = await db.any(results_query);
+                console.log('results: ', results);
+                return res.render('pages/home', {results: results});
             }
 
             else {
@@ -171,8 +178,11 @@ app.post('/register', async (req, res) => {
     }
 });
 
-app.get('/home', (req, res) => {
-    res.render('pages/home');
+app.get('/home', async (req, res) => {
+    const results_query = 'SELECT * FROM jobs;';
+    let results = await db.any(results_query);
+    console.log('results: ', results);
+    return res.render('pages/home', {results: results});
 });
 
 
