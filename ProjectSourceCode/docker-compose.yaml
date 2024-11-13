@@ -22,7 +22,7 @@ services:
       - '3000:3000'
     volumes:
       - ./:/repository
-    command: sh -c "npm install && npm start"
+    command: sh -c "npm run testandrun" # old "npm install && npm start"
 
 volumes:
   group-project:

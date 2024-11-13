@@ -97,7 +97,7 @@ app.post('/login', async (req, res) => {
                 };
     
                 req.session.save();
-                return res.redirect('/home');
+                return res.status(201).redirect('/home');
             }
 
             else {
@@ -193,7 +193,7 @@ app.post('/register', async (req, res) => {
         await db.none(insertQuery, insertValues);
 
         // Redirect to login page after successful registration
-        res.redirect('/login');
+        res.status(200).redirect('/login');
 
     } catch (err) {
         console.error('Error inserting user:', err);
@@ -221,10 +221,12 @@ app.get('/jobs', async (req, res) => {
 // Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Start the server
+/* Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-});
+});*/
+
+module.exports = app.listen(3000);
 
 //test for lab 11
 app.get('/welcome', (req, res) => {
