@@ -252,8 +252,11 @@ app.post('/editModal', async (req, res) => {
         const insert_values = [newjob_name, newjob_link, jobID];
         await db.none(insert_query, insert_values);
 
-        //res.render('pages/home');
-        res.redirect('/home');
+        const results_query = 'SELECT * FROM jobs;';
+        let result = await db.any(results_query);
+        //console.log('results: ', results);
+
+        return res.render('pages/home', {results: result});
     }
     catch (err) {
         console.log('Error updating event.', err);
