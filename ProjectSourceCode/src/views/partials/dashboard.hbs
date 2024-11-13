@@ -10,11 +10,11 @@
             </tr>
         </thead>
         <tbody>
-            {{#each leeds}}
+            {{#each jobs}}
             <tr>
-                <td>{{company}}</td>
+                <td>{{jobID}}</td>
                 <td>{{job_name}}</td>
-                <td>{{date_applied}}</td>
+                <td>{{job_link}}</td>
                 <td>{{status}}</td>
                 <td>
                     <button class="btn btn-primary" onclick="openModalForEdit({{jobID}})">Edit</button>

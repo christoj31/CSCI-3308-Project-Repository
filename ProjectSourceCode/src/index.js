@@ -179,40 +179,38 @@ app.get('/home', (req, res) => {
 app.post('/submitModal', async (req, res) => {
     console.log('submit modal back route');
     try {
-        const company = req.body.company;
+        //const company = req.body.company;
         const job_name = req.body.job_name;
-        const date_applied = req.body.date_applied;
+        //const date_applied = req.body.date_applied;
         const job_link = req.body.job_link;
-        const status = req.body.status;
+        //const status = req.body.status;
 
         const query = 'SELECT jobTitle FROM jobs WHERE jobTitle = $1 LIMIT 1';
         const check_values = [job_name];
-        console.log('Job name query success:', job_name);
 
+        /*
         const job_exists = await db.oneOrNone(query, check_values);
-
-        // check if username already exists
         if (job_exists) {
             return  {
                 error: 'Job already listed.'
             };
         }
+        */
 
         const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
         let result = await db.one(generate_job_id_query);
-        console.log('Result id query:', result);
-
         let job_id = result.jobid;
-        console.log('Job id query:', job_id);
-
         job_id += 1; 
-
-        console.log('Job id query success:', job_id);
 
         const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink) VALUES ($1, $2, $3)';
         const insertValues = [job_id, job_name, job_link];
         await db.none(insert_query, insertValues);
 
+        /*
+        const test_query = 'SELECT * FROM jobs;';
+        let test_results = await db.any(test_query);
+        */
+       
         return res.redirect('/home');
 
     } catch (err) {
