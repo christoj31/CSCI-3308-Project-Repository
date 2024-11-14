@@ -7,6 +7,7 @@
                 <th>Job Link</th>
                 <th>Status</th>
                 <th>Edit</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -24,6 +25,13 @@
                         data-joblink="{{jobapplicationlink}}">
                         Edit
                     </button>                
+                </td>
+                <td>
+                    <button class="btn btn-secondary"
+                        onclick="deleteModal(this)"
+                        data-jobid="{{jobid}}">
+                        ✕
+                        </button>
                 </td>
             </tr>
             {{/each}}
@@ -85,6 +93,11 @@
     </div>
 </dialog>
 
+<!--Delete Modal-->
+<dialog id="delete_modal" class="modal">
+    <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
+</dialog>
+
 <script>
 function editModal(button) {
     console.log('Edit modal');
@@ -105,5 +118,27 @@ function editModal(button) {
 
     // Open the modal dialog
     document.getElementById('edit_modal').showModal();
+}
+
+function deleteModal(button) {
+    const jobId = button.getAttribute('data-jobid');
+    document.getElementById('delete-modal').showModal();
+
+    fetch(`/home/${jobId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json'}
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+
+        const row = button.closest("tr");
+        if (row) {
+            row.remove();
+        }
+
+        document.getElementById('delete_modal').close();
+    })
+    .catch(error => console.error('Error deleting job:', error));
 }
 </script>

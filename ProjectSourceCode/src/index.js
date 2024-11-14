@@ -269,6 +269,18 @@ app.post('/editModal', async (req, res) => {
     }
 });
 
+app.delete('/home/:id', (req, res) => {
+    const jobId = parseInt(req.params.id);
+    const jobIndex = jobs.findIndex(job => job.id === jobId);
+
+    if(jobIndex !== -1) {
+        jobs.splice(jobIndex, 1);
+        res.status(200).json({ message: 'Job deleted successfully' });
+    } else {
+        res.status(404).json({ message: 'Job not found' });
+    }
+})
+
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
     try {
