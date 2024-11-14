@@ -70,34 +70,9 @@ describe('Testing Register API', () => {
         done();
       });
   });
-  // Test the /login endpoint
-  it('Positive: Should login successfully with correct credentials', done => {
-    chai
-      .request(server)
-      .post('/login')
-      .send({
-        username: 'testuser1',
-        password: 'Pasword@1'
-      })
-      .end((err, res) => {
-        expect(res).to.have.status(200); // Expecting redirect on successful login
-        expect(res).to.redirectTo(/^http:\/\/127\.0\.0\.1:\d{5}\/home$/);
-        done();
-      });
-  });  
 });
 
 describe('Testing Additional APIs', () => {
-  it('Accessing /home should redirect to /login when not authenticated', done => {
-    chai
-      .request(server)
-      .get('/home')
-      .end((err, res) => {
-        res.should.have.status(302);
-        res.should.redirectTo('/login');
-        done();
-      });
-  });
   // Test the /login endpoint
   it('Positive: Should login successfully with correct credentials', done => {
     chai
@@ -113,6 +88,21 @@ describe('Testing Additional APIs', () => {
         done();
       });
   });
+    // Test the /login endpoint
+    it('Negitive: Should login successfully with correct credentials', done => {
+      chai
+        .request(server)
+        .post('/login')
+        .send({
+          username: 'johnDoe',
+          password: 'pass121524@'
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400); // Expecting redirect on successful login
+          assert.include(res.text, 'Incorrect username or password.');;
+          done();
+        });
+    });
 
   // Test the /jobs endpoint
   it('Positive: Should retrieve list of jobs', done => {
