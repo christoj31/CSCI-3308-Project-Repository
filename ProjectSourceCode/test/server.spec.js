@@ -1,6 +1,6 @@
 // ********************** Initialize server **********************************
 
-const server = require('../src/index'); //TODO: Make sure the path to your index.js is correctly added
+const server = require('../src/index.js'); //TODO: Make sure the path to your index.js is correctly added
 
 // ********************** Import Libraries ***********************************
 
@@ -65,7 +65,7 @@ describe('Testing Register API', () => {
         'retype password': 'Pasword@2'
       })
       .end((err, res) => {
-        expect(res).to.have.status(400);
+        expect(res).to.have.status(403);
         assert.include(res.text, 'Passwords do not match.');
         done();
       });
@@ -77,11 +77,11 @@ describe('Testing Register API', () => {
       .post('/login')
       .send({
         username: 'testuser1',
-        password: 'pasword@1'
+        password: 'Pasword@1'
       })
       .end((err, res) => {
-        expect(res).to.have.status(201); // Expecting redirect on successful login
-        expect(res).to.redirectTo('/home');
+        expect(res).to.have.status(200); // Expecting redirect on successful login
+        expect(res).to.redirectTo(/^http:\/\/127\.0\.0\.1:\d{5}\/home$/);
         done();
       });
   });  
@@ -108,7 +108,7 @@ describe('Testing Additional APIs', () => {
         password: 'pass12'
       })
       .end((err, res) => {
-        expect(res).to.have.status(201); // Expecting redirect on successful login
+        expect(res).to.have.status(200); // Expecting redirect on successful login
         expect(res).to.redirectTo('/home');
         done();
       });

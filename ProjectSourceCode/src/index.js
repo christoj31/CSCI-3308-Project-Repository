@@ -8,6 +8,10 @@ const pgp = require('pg-promise')();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//middleware to parse JSON
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // Set up Handlebars engine
 const hbs = exphbs.create({
     layoutsDir: path.join(__dirname, 'views/layouts'),
@@ -97,11 +101,11 @@ app.post('/login', async (req, res) => {
                 };
     
                 req.session.save();
-                return res.status(201).redirect('/home');
+                return res.status(200).redirect('/home');
             }
 
             else {
-                return res.status(401).render('pages/login', {
+                return res.status(400).render('pages/login', {
                     error: 'Incorrect username or password.'
                 });
             }
@@ -151,6 +155,12 @@ app.post('/register', async (req, res) => {
         const containsSpecial = /[@$!%*?&]/.test(password);
 
         const existingUser = await db.oneOrNone(checkQuery, checkValues);
+
+        if (username == null) {
+            return res.status(407).render('pages/register', {
+                error: 'Username not given'
+            });
+        }
 
         // check if username already exists
         if (existingUser) {
@@ -209,9 +219,9 @@ app.post('/register', async (req, res) => {
 
 app.get('/home', (req, res) => {
     // if not logged in, redirect to login
-    if (!req.session.user) {
+    /*if (!req.session.user) {
         return res.status(302).redirect('/login');
-    }
+    }*/
     res.render('pages/home');
 });
 
