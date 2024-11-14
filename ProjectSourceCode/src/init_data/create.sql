@@ -82,7 +82,7 @@
   CREATE TABLE jobs (
     jobID SERIAL PRIMARY KEY,
     jobTitle VARCHAR(100) NOT NULL,
-    jobApplicationLink VARCHAR(100) NOT NULL,
+    jobApplicationLink VARCHAR NOT NULL,
     applicationStepID INT,
     resumeID INT,
     pocID INT,
