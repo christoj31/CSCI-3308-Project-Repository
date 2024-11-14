@@ -84,6 +84,7 @@
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
     applicationStepID INT,
+    due_date DATE,
     resumeID INT,
     pocID INT,
     attemptID INT,
