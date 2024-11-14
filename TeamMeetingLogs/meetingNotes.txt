@@ -26,7 +26,7 @@ Discussed MPV
   Theme Controller
 Spend more time reviewing database file storing?
 
-Monday Nov4th -- Team Point Poker
+Monday Nov 4th -- Team Point Poker
 Determined user stories & epics
 Assigned story points
 
@@ -53,5 +53,14 @@ Weeks Accomplishments:
 		This Week: Worked on create and insert SQL for database 
 		Next Week: Assist Christo with database stuff
 
-		
+----
 
+Meeting Notes (11/13)
+Confirmed status update on all components. Finalized general components to prepare for the branch merging tomorrow, Thursday 11/14.
+	Dashboard & Modal (Andrew & Christo): CRU operations work, excluding delete. Dashboard displays primary information. Missing 5 more columns
+		Next Steps: Add remaining attributes to columns. Develop input validation & mark optional attributes for records. correct the app 		due date
+	Authentication, login, lab 11 testing (Irene & Jay): Proper registration & login & general unit tests
+		Next steps: include a first name, last name, attributes to the registration page. load those as a name into the nav bar. password 		validation with output messages.
+	Dropdown (Max & Daria): dropdown button frontend complete. Database tables complete for it.
+		Next steps: buld the backend to store the data to the database to pull on. if we can, color code change the different drop downs
+	
