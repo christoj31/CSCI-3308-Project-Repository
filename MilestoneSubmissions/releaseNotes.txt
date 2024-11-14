@@ -16,3 +16,4 @@ Created primary diagrams, finalized directoy structure, assigned tasks, began le
 
 Next Steps
 begin preliminary development
+
