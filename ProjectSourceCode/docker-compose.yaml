@@ -23,6 +23,7 @@ services:
     volumes:
       - ./:/repository
     command: sh -c "rm -rf node_modules && npm install && npm run dev"  # Changed to run `npm run dev` instead of `npm start`
+    # use sh -c "npm run testandrun" for unit tests
 
 volumes:
   group-project:
