@@ -117,18 +117,21 @@ app.post('/login', async (req, res) => {
     }    
 });
 
-// // Authentication middleware
-// const auth = (req, res, next) => {
-//     if (req.path === '/login' || req.path === '/register' || req.path === '/welcome') {
-//         return next();
-//     }
+// Authentication middleware
+const auth = (req, res, next) => {
+    console.log('Auth middleware called for path:', req.path);
 
-//     if (!req.session.user) {
-//         return res.redirect(302, '/login');
-//     }
-//         next();
-// };
-// app.use(auth);
+    if (req.path === '/login' || req.path === '/register' 
+        || req.path === '/welcome' || req.path === '/jobs') {
+        return next();
+    }
+
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
+};
+app.use(auth);
 
 // Register account routes
 app.get('/register', (req, res) => {
@@ -218,10 +221,6 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-    // if not logged in, redirect to login
-    /*if (!req.session.user) {
-        return res.status(302).redirect('/login');
-    }*/
     res.render('pages/home');
 });
 

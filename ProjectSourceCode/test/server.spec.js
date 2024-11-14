@@ -109,7 +109,7 @@ describe('Testing Additional APIs', () => {
       })
       .end((err, res) => {
         expect(res).to.have.status(200); // Expecting redirect on successful login
-        expect(res).to.redirectTo('/home');
+        expect(res).to.redirectTo(/^http:\/\/127\.0\.0\.1:\d{5}\/home$/);
         done();
       });
   });
