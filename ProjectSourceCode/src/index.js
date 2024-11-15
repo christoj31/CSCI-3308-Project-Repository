@@ -184,6 +184,9 @@ app.post('/register', async (req, res) => {
 app.get('/home', async (req, res) => {
     const results_query = 'SELECT * FROM jobs;';
     let results = await db.any(results_query);
+    const date_query = 'SELECT * FROM time LIMIT 1';
+    //results += await db.oneOrNone(date_query);
+
     console.log('results: ', results);
     console.log('NEW: ', results[0].due_date);
 
@@ -218,32 +221,37 @@ app.post('/home', async (req, res) => {
         let current_date = await db.one(current_date_query);
         console.log('CURRENT_DATE:', current_date);
 
+        date_bool = false;
+        const select_time_query = 'SELECT * FROM time'
+        const select_time = await db.any(select_time_query);
+        if(date_bool) {
+            console.log('CURRENT DATE: ', select_time);
+        }
+        else {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const day = now.getDate();
+
+            console.log(now.getFullYear());    // 2024
+            console.log(now.getMonth());       // 10 (November, as it’s 0-indexed)
+            console.log(now.getDate());
+            let date_today = year + '-' + month + '-' + day;
+            const insert_date_today_query = 'INSERT INTO time (date_today) VALUES ($1)';
+            await db.none(insert_date_today_query, [date_today]);
+            
+            console.log('Due date, Todays date: ', due_date, date_today);
+        }
+
         //let current_date_day = getDate(current_date);
         //console.log('Current date days:', current_date_day);
-
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth();
-        const day = now.getDate();
-
-        console.log(now.getFullYear());    // 2024
-        console.log(now.getMonth());       // 10 (November, as it’s 0-indexed)
-        console.log(now.getDate());
-        let date_today = year + '-' + month + '-' + day;
-        const insert_date_today_query = 'INSERT INTO time (date_today) VALUES ($1)';
-        await db.none(insert_date_today_query, [date_today]);
-        //due_date = year + '-' + month + '-' + day;
-        console.log('Due date, Todays date: ', due_date, date_today);
-
+        let counter = 0;
         const due_date_new = new Date(due_date);
         const due_date_month = due_date_new.getMonth();
         const due_date_day = due_date_new.getDate();
 
         console.log('DUE DATE MONTH, CURRENT MONTH: ', due_date_month, month);
         console.log('DUE DATE DAY, CURRENT DAY: ', due_date_day, day);
-
-
-        let counter = 0;
 
         if(month != due_date_month) {
             counter = ((due_date_month - month) * 30) + (due_date_day - day);
