@@ -312,17 +312,40 @@ app.post('/editModal', async (req, res) => {
     }
 });
 
-app.delete('/home/:id', (req, res) => {
-    const jobId = parseInt(req.params.id);
-    const jobIndex = jobs.findIndex(job => job.id === jobId);
+// app.use(express.json());
 
-    if(jobIndex !== -1) {
-        jobs.splice(jobIndex, 1);
-        res.status(200).json({ message: 'Job deleted successfully' });
-    } else {
-        res.status(404).json({ message: 'Job not found' });
+
+app.delete('/delete-job', auth, async (req, res) => {
+    console.log('Request Body: ', req.body);
+    console.log('DELETE /delete-JOB route hit');
+    const jobID = req.body.jobID;
+
+
+    console.log('Job ID: ', jobID);
+
+
+    if(!jobID) {
+        return res.status(400).json({ message: "Job ID is required" });
     }
-})
+
+
+    try {
+        const query = `DELETE FROM jobs WHERE jobID = $1 RETURNING *`;
+        const results = await db.result(query, jobID);
+
+
+        if (results.rowCount === 0) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+
+        res.json({ message: 'Job successfully deleted' });
+    } catch (error) {
+        console.error('Error deleting job:', error);
+        res.status(500).json({ message: 'Server error deleting job' })
+    }
+});
+
 
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
@@ -340,10 +363,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dropdown', dropdownRoutes);
 
-/* Start the server
+//Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-});*/
+});
 
 module.exports = app.listen(3000);
 
