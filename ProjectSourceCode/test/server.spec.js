@@ -89,7 +89,7 @@ describe('Testing Additional APIs', () => {
       });
   });
     // Test the /login endpoint
-    it('Negitive: Should login successfully with correct credentials', done => {
+    it('Negitive: Should fail to login if incorrect credentials are inputed', done => {
       chai
         .request(server)
         .post('/login')

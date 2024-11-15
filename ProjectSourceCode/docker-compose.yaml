@@ -22,8 +22,8 @@ services:
       - '3000:3000'
     volumes:
       - ./:/repository
-    command: sh -c "rm -rf node_modules && npm install && npm run dev"  # Changed to run `npm run dev` instead of `npm start`
-    # use sh -c "npm run testandrun" for unit tests
-
+    command: sh -c "npm run testandrun"
+    # sh -c "rm -rf node_modules && npm install && npm run dev"  # Changed to run `npm run dev` instead of `npm start`
+    ##sh -c "npm run testandrun" for testing
 volumes:
   group-project:

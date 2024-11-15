@@ -340,7 +340,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dropdown', dropdownRoutes);
 
-// Start the server
+/* Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
