@@ -343,7 +343,7 @@ app.use('/dropdown', dropdownRoutes);
 /* Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
-});
+});*/
 
 module.exports = app.listen(3000);
 
