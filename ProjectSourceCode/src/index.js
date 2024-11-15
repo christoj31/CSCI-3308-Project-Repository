@@ -236,26 +236,29 @@ app.post('/home', async (req, res) => {
         const jobID = req.body.jobID;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
-        const due_date = req.body.due_date;
+        // const due_date = req.body.due_date;
         //const status = req.body.status;
 
-        const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
-        const check_values = [jobID];
+        // const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
+        // const check_values = [jobID];
 
-        const job_exists = await db.oneOrNone(query, check_values);
-        if (job_exists) {
-                return res.status(400).render('pages/home', {
-                    error: 'Job already listed.'
-                });
-            }
+        // const job_exists = await db.oneOrNone(query, check_values);
+        // if (job_exists) {
+        //         return res.status(400).render('pages/home', {
+        //             error: 'Job already listed.'
+        //         });
+        //     }
 
-        const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
-        let result = await db.one(generate_job_id_query);
-        let job_id = result.jobid;
-        job_id += 1; 
+        // const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
+        // let result = await db.one(generate_job_id_query);
+        // let job_id = result.jobID;
+        // job_id += 1; 
 
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date) VALUES ($1, $2, $3, $4)';
-        const insertValues = [job_id, job_name, job_link, due_date];
+        // const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date) VALUES ($1, $2, $3, $4)';
+        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink) VALUES ($1, $2)';
+        // const insertValues = [job_id, job_name, job_link, due_date];
+        const insertValues = [job_name, job_link];
+
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
