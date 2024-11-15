@@ -192,9 +192,9 @@ app.get('/home', async (req, res) => {
     }
     else {
         const now = new Date();
-        const year = now.getFullYear() - 1;
+        const year = now.getFullYear();
         const month = now.getMonth() + 1;
-        const day = now.getDate();
+        const day = now.getDate() - 1;
 
         let date_today = year + '-' + month + '-' + day;
 
@@ -239,18 +239,18 @@ app.post('/home', async (req, res) => {
         let job_id = result.jobid;
         job_id += 1; 
 
-        
-        
         let current_date_query = 'SELECT  CURRENT_DATE';
         let current_date = await db.one(current_date_query);
         console.log('CURRENT_DATE:', current_date);
 
         date_bool = false;
         const month_query = 'SELECT date_today_month FROM time LIMIT 1';
-        const month = await db.one(month_query);
+        const month_result = await db.one(month_query);
+        month = month_result.date_today_month;
 
         const day_query = 'SELECT date_today_day FROM time LIMIT 1';
-        const day = await db.one(day_query);
+        const day_result = await db.one(day_query);
+        day = day_result.date_today_day;
 
         let counter = 0;
         const due_date_new = new Date(due_date);
@@ -267,10 +267,10 @@ app.post('/home', async (req, res) => {
             counter = due_date_day - day;
         }
 
-        console.log('COUNTER: ', counter);
+        console.log('COUNTER: ', counter, due_date);
 
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, countdown) VALUES ($1, $2, $3, $4, $5)';
-        const insertValues = [job_id, job_name, job_link, due_date, counter];
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown) VALUES ($1, $2, $3, $4, $5, $6)';
+        const insertValues = [job_id, job_name, job_link, due_date, due_date, counter];
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
@@ -286,10 +286,12 @@ app.post('/editModal', async (req, res) => {
         const jobID = req.body.jobid;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
+        const due_date = req.body.due_date;
         const status = req.body.status;
 
         let newjob_name = job_name;
         let newjob_link = job_link;
+        let newdue_date = due_date;
         let newstatus = status;
 
         console.log('NEW FIRST: ', newjob_name, newjob_link);
@@ -299,6 +301,12 @@ app.post('/editModal', async (req, res) => {
         console.log('Results: ', results);
 
         console.log('Name', results.jobtitle);
+        console.log('DUE DATE: ', due_date);
+        const due_date_new = new Date(due_date);
+        const getDate = due_date_new.getDate();
+        console.log('NEW DATE: ', getDate);
+        const due_date_month = due_date_new.getMonth();
+        const due_date_day = due_date_new.getDate();
 
         if (job_name != results.jobtitle) {
             newjob_name = job_name;
@@ -309,18 +317,17 @@ app.post('/editModal', async (req, res) => {
         if (status != results.status) {
             newstatus = status;
         }
+        if (due_date != results.due_date) {
+            newdue_date = due_date;
+        }
 
-        console.log('NEW: ', newjob_name, newjob_link);
+        console.log('NEW: ', newjob_name, newjob_link, newdue_date);
 
-        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2 WHERE jobID = $3';
-        const insert_values = [newjob_name, newjob_link, jobID];
+        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3 WHERE jobID = $4';
+        const insert_values = [newjob_name, newjob_link, newdue_date, jobID];
         await db.none(insert_query, insert_values);
 
-        const results_query = 'SELECT * FROM jobs;';
-        let result = await db.any(results_query);
-        //console.log('results: ', results);
-
-        return res.render('pages/home', {results: result});
+        return res.redirect('/home');
     }
     catch (err) {
         console.log('Error updating event.', err);

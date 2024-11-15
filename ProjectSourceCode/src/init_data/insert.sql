@@ -70,11 +70,11 @@ VALUES
 
 -- Insert data into jobs table
 INSERT INTO jobs 
-    (jobID, jobTitle, jobApplicationLink, due_date, countdown, applicationStepID, resumeID, pocID, attemptID) 
+    (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID, resumeID, pocID, attemptID) 
 VALUES
-    (1, 'Software Engineer', 'https://techcorp.com/jobs/1', '2024-11-14', 30, 2, 1, 1, 1),
-    (2, 'Data Analyst', 'https://healthinc.com/jobs/2', '2024-11-24', 22, 1, 2, 2, 2),
-    (3, 'Product Manager', 'https://edulabs.com/jobs/3', '2024-11-28', 1, 4, 3, 3, 3);
+    (1, 'Software Engineer', 'https://techcorp.com/jobs/1', '2024-11-14', '2024-11-14', 30, 2, 1, 1, 1),
+    (2, 'Data Analyst', 'https://healthinc.com/jobs/2', '2024-11-24', '2024-11-24', 22, 1, 2, 2, 2),
+    (3, 'Product Manager', 'https://edulabs.com/jobs/3', '2024-11-28', '2024-11-28', 1, 4, 3, 3, 3);
 
 -- Insert data into userJobs table
 INSERT INTO userjobs 

@@ -84,6 +84,7 @@
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
     due_date DATE,
+    due_date_string VARCHAR(45),
     countdown INT,
     applicationStepID INT,
     resumeID INT,
