@@ -126,5 +126,8 @@
   );
 
   CREATE TABLE time (
-    date_today DATE
+    date_today DATE,
+    date_today_string VARCHAR(45),
+    date_today_month VARCHAR(45), 
+    date_today_day VARCHAR(45)
   );

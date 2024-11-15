@@ -184,13 +184,35 @@ app.post('/register', async (req, res) => {
 app.get('/home', async (req, res) => {
     const results_query = 'SELECT * FROM jobs;';
     let results = await db.any(results_query);
-    const date_query = 'SELECT * FROM time LIMIT 1';
-    //results += await db.oneOrNone(date_query);
 
-    console.log('results: ', results);
-    console.log('NEW: ', results[0].due_date);
+    date_bool = false;
 
-    return res.render('pages/home', {results: results});
+    if(date_bool) {
+        console.log('CURRENT DATE: ', select_time);
+    }
+    else {
+        const now = new Date();
+        const year = now.getFullYear() - 1;
+        const month = now.getMonth() + 1;
+        const day = now.getDate();
+
+        let date_today = year + '-' + month + '-' + day;
+
+        const insert_date_today_query = 'INSERT INTO time (date_today, date_today_string, date_today_month, date_today_day) VALUES ($1, $2, $3, $4)';
+        const insert_values = [date_today, date_today, month, day];
+        await db.none(insert_date_today_query, insert_values);
+        
+        console.log('Todays date: ', date_today);
+        date_bool = true;
+    }
+    const select_time_query = 'SELECT date_today_string FROM time LIMIT 1';
+    const select_time = await db.one(select_time_query);
+    console.log('SELECT QUERY TODAY DATE: ', select_time);
+
+    const final_time = select_time.date_today_string;
+    console.log('SELECT QUERY TODAY DATE NARROW: ', final_time);
+
+    return res.render('pages/home', {results: results, final_time});
 });
 
 
@@ -217,34 +239,19 @@ app.post('/home', async (req, res) => {
         let job_id = result.jobid;
         job_id += 1; 
 
-        let current_date_query = 'SELECT CURRENT_DATE';
+        
+        
+        let current_date_query = 'SELECT  CURRENT_DATE';
         let current_date = await db.one(current_date_query);
         console.log('CURRENT_DATE:', current_date);
 
         date_bool = false;
-        const select_time_query = 'SELECT * FROM time'
-        const select_time = await db.any(select_time_query);
-        if(date_bool) {
-            console.log('CURRENT DATE: ', select_time);
-        }
-        else {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = now.getMonth();
-            const day = now.getDate();
+        const month_query = 'SELECT date_today_month FROM time LIMIT 1';
+        const month = await db.one(month_query);
 
-            console.log(now.getFullYear());    // 2024
-            console.log(now.getMonth());       // 10 (November, as it’s 0-indexed)
-            console.log(now.getDate());
-            let date_today = year + '-' + month + '-' + day;
-            const insert_date_today_query = 'INSERT INTO time (date_today) VALUES ($1)';
-            await db.none(insert_date_today_query, [date_today]);
-            
-            console.log('Due date, Todays date: ', due_date, date_today);
-        }
+        const day_query = 'SELECT date_today_day FROM time LIMIT 1';
+        const day = await db.one(day_query);
 
-        //let current_date_day = getDate(current_date);
-        //console.log('Current date days:', current_date_day);
         let counter = 0;
         const due_date_new = new Date(due_date);
         const due_date_month = due_date_new.getMonth();

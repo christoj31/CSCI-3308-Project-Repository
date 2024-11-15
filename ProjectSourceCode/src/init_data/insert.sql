@@ -90,7 +90,3 @@ INSERT INTO trackingtable
 VALUES
     (3, 3, 3, 3, 3, 3, 3);
 
-INSERT INTO time
-    (date_today)
-VALUES
-    ('12-12-2024');
