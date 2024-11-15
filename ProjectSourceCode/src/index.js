@@ -185,6 +185,8 @@ app.get('/home', async (req, res) => {
     const results_query = 'SELECT * FROM jobs;';
     let results = await db.any(results_query);
     console.log('results: ', results);
+    console.log('NEW: ', results[0].due_date);
+
     return res.render('pages/home', {results: results});
 });
 
@@ -194,6 +196,7 @@ app.post('/home', async (req, res) => {
         const jobID = req.body.jobID;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
+        let due_date = req.body.due_date;
         //const status = req.body.status;
 
         const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
@@ -211,8 +214,48 @@ app.post('/home', async (req, res) => {
         let job_id = result.jobid;
         job_id += 1; 
 
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink) VALUES ($1, $2, $3)';
-        const insertValues = [job_id, job_name, job_link];
+        let current_date_query = 'SELECT CURRENT_DATE';
+        let current_date = await db.one(current_date_query);
+        console.log('CURRENT_DATE:', current_date);
+
+        //let current_date_day = getDate(current_date);
+        //console.log('Current date days:', current_date_day);
+
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const day = now.getDate();
+
+        console.log(now.getFullYear());    // 2024
+        console.log(now.getMonth());       // 10 (November, as it’s 0-indexed)
+        console.log(now.getDate());
+        let date_today = year + '-' + month + '-' + day;
+        const insert_date_today_query = 'INSERT INTO time (date_today) VALUES ($1)';
+        await db.none(insert_date_today_query, [date_today]);
+        //due_date = year + '-' + month + '-' + day;
+        console.log('Due date, Todays date: ', due_date, date_today);
+
+        const due_date_new = new Date(due_date);
+        const due_date_month = due_date_new.getMonth();
+        const due_date_day = due_date_new.getDate();
+
+        console.log('DUE DATE MONTH, CURRENT MONTH: ', due_date_month, month);
+        console.log('DUE DATE DAY, CURRENT DAY: ', due_date_day, day);
+
+
+        let counter = 0;
+
+        if(month != due_date_month) {
+            counter = ((due_date_month - month) * 30) + (due_date_day - day);
+        }
+        else {
+            counter = due_date_day - day;
+        }
+
+        console.log('COUNTER: ', counter);
+
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, countdown) VALUES ($1, $2, $3, $4, $5)';
+        const insertValues = [job_id, job_name, job_link, due_date, counter];
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');

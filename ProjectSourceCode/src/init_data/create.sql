@@ -83,6 +83,8 @@
     jobID SERIAL PRIMARY KEY,
     jobTitle VARCHAR(100) NOT NULL,
     jobApplicationLink VARCHAR(100) NOT NULL,
+    due_date DATE,
+    countdown INT,
     applicationStepID INT,
     resumeID INT,
     pocID INT,
@@ -121,4 +123,8 @@
     pointOfContactCount INT DEFAULT 0,
     contactAttemptCount INT DEFAULT 0,
     meetingCount INT DEFAULT 0
+  );
+
+  CREATE TABLE time (
+    date_today DATE
   );
