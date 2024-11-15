@@ -147,32 +147,6 @@
 
 <script>
 
- document.addEventListener("DOMContentLoaded", function () {
-        // Toggle dropdown visibility for each status button
-        document.querySelectorAll('.status-button').forEach(button => {
-            button.addEventListener('click', function () {
-                const dropdown = this.nextElementSibling;
-                dropdown.classList.toggle('hidden');
-            });
-        });
-
-        // Update button text and hide dropdown when selecting an option
-        document.querySelectorAll('.dropdown-option').forEach(option => {
-            option.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                const button = this.closest('.relative').querySelector('.status-button');
-                const dropdown = this.closest('.status-dropdown');
-
-                // Update the button text to the selected status
-                button.querySelector('.statusButtonText').textContent = this.textContent;
-
-                // Hide the dropdown
-                dropdown.classList.add('hidden');
-            });
-        });
-    });
-
 function editModal(button) {
     console.log('Edit modal');
     const jobId = button.getAttribute('data-jobid');
@@ -219,7 +193,6 @@ function deleteModal(button) {
 }
 
 <!-- JavaScript for Dropdown and Edit Modal -->
-<script>
     // Function for opening the edit modal
     function editModal(button) {
         const jobId = button.getAttribute('data-jobid');
