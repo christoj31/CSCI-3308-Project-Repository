@@ -61,3 +61,8 @@ Confirmed status update on all components. Finalized general components to prepa
 		Next steps: include a first name, last name, attributes to the registration page. load those as a name into the nav bar. password 		validation with output messages.
 	Dropdown (Max & Daria): dropdown button frontend complete. Database tables complete for it.
 		Next steps: buld the backend to store the data to the database to pull on. if we can, color code change the different drop downs
+
+Meeting Notes (11/15) Whole Team with Chloe
+- Everything seems assigned well
+- we can also attach the user stories to the particular epics
+- component circle. things look good. finalize the backend. add another big feature and your chilling. be mindful of the creativity aspect of the grade
