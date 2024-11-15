@@ -45,6 +45,7 @@
                             </ul>
                         </div>
                     </div>
+                    <p id="selectedStatus" style="display: ;">Selected Status: None</p>
                 </td>
 
                 <td>
@@ -70,7 +71,7 @@
                         onclick="deleteModal(this)"
                         data-jobid="{{jobid}}">
                         ✕
-                        </button>
+                    </button>
                 </td>
             </tr>
             {{/each}}
@@ -145,6 +146,28 @@
 </dialog>
 
 <script>
+
+// Select all dropdown options
+const dropdownOptions = document.querySelectorAll('.dropdown-option');
+const dropDown = document.getElementById('selectedStatus');
+console.log('NEW STATUS: ', dropDown);
+
+// Add click event listeners to each option
+dropdownOptions.forEach(option => {
+  option.addEventListener('click', (event) => {
+    event.preventDefault();  // Prevents default anchor behavior
+
+    // Get the selected text
+    const selectedStatus = event.target.textContent;
+    console.log('SELECTED STATUS: ', selectedStatus);
+    
+    // Display the selected status (or handle as needed)
+    document.getElementById('selectedStatus').textContent = `Selected Status: ${selectedStatus}`;
+    
+    // Optionally, you could also hide the dropdown here if needed
+    document.querySelector('.status-dropdown').classList.add('hidden');
+  });
+});
 
 function editModal(button) {
     console.log('Edit modal');
