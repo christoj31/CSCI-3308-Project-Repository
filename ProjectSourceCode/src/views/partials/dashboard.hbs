@@ -19,7 +19,34 @@
                 <td>{{jobtitle}}</td>
                 <td><a class="link link-secondary link-hover" href="{{jobapplicationlink}}">{{jobapplicationlink}}</a></td>
                 <td>{{due_date}}</td>
-                <td>{{status}}</td>
+                  
+                <!-- Status Column with Dropdown Button -->
+                <td>
+                    <div class="relative inline-block">
+                        <button
+                            class="status-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button">
+                            <span class="statusButtonText">Not Applied</span> <!-- Set default to "Not Applied" -->
+                            <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 4 4 4-4" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div
+                            class="status-dropdown z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2 absolute">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accepted</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Not Applied</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Declined</a></li>
+                                <li><a href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </td>
+
                 <td>
                     <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
                     <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
@@ -190,4 +217,48 @@ function deleteModal(button) {
     })
     .catch(error => console.error('Error deleting job:', error));
 }
+
+<!-- JavaScript for Dropdown and Edit Modal -->
+<script>
+    // Function for opening the edit modal
+    function editModal(button) {
+        const jobId = button.getAttribute('data-jobid');
+        const jobTitle = button.getAttribute('data-jobtitle');
+        const jobLink = button.getAttribute('data-joblink');
+
+        document.getElementById('jobid').value = jobId;
+        document.getElementById('jobid_holder').value = jobId;
+        document.getElementById('edit_job_name').value = jobTitle;
+        document.getElementById('edit_job_link').value = jobLink;
+
+        // Open the modal dialog
+        document.getElementById('edit_modal').showModal();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle dropdown visibility for each status button
+        document.querySelectorAll('.status-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('hidden');
+            });
+        });
+
+        // Update button text and hide dropdown when selecting an option
+        document.querySelectorAll('.dropdown-option').forEach(option => {
+            option.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const button = this.closest('.relative').querySelector('.status-button');
+                const dropdown = this.closest('.status-dropdown');
+
+                // Update the button text to the selected status
+                button.querySelector('.statusButtonText').textContent = this.textContent;
+
+                // Hide the dropdown
+                dropdown.classList.add('hidden');
+            });
+        });
+    });
+
 </script>
