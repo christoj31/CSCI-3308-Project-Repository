@@ -254,7 +254,7 @@ app.post('/home', async (req, res) => {
 
         let counter = 0;
         const due_date_new = new Date(due_date);
-        const due_date_month = due_date_new.getMonth();
+        const due_date_month = due_date_new.getMonth() + 1;
         const due_date_day = due_date_new.getDate();
 
         console.log('DUE DATE MONTH, CURRENT MONTH: ', due_date_month, month);
