@@ -236,6 +236,7 @@ app.post('/home', async (req, res) => {
         const jobID = req.body.jobID;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
+        const due_date = req.body.due_date;
         //const status = req.body.status;
 
         const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
@@ -253,8 +254,8 @@ app.post('/home', async (req, res) => {
         let job_id = result.jobid;
         job_id += 1; 
 
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink) VALUES ($1, $2, $3)';
-        const insertValues = [job_id, job_name, job_link];
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date) VALUES ($1, $2, $3, $4)';
+        const insertValues = [job_id, job_name, job_link, due_date];
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
