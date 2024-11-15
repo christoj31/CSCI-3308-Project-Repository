@@ -12,6 +12,6 @@ module.exports = {
     require('daisyui'),        // Ensure DaisyUI is included
   ],
   daisyui: {
-    themes: ["emerald", "synthwave"],
+    themes: ["synthwave", "emerald"]
   },
 };
