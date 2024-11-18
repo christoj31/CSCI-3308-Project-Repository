@@ -198,11 +198,13 @@ app.get('/home', async (req, res) => {
     
     const results_query = 'SELECT * FROM jobs;';
     let results = await db.any(results_query);
+    console.log('REVIEW RESULTS: ', results);
 
     date_bool = false;
 
     if(!date_bool) {
         const now = new Date();
+        console.log('NEW DATE: ', now);
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
         const day = now.getDate();
@@ -244,6 +246,18 @@ app.get('/home', async (req, res) => {
     }
 });
 
+function timeDifference(date1, date2) {
+    console.log('DATE1, DATE2: ', date1, date2);
+
+    const d1 = new Date(date1.current_date);
+    const d2 = new Date(date2);
+
+    const millisecondDifference = d2 - d1;
+    console.log('D1, D2, DIFF: ', d1, d2, millisecondDifference);
+    const daysDifference = millisecondDifference / 1000 / 60 / 60 / 24;
+
+    return daysDifference;
+}
 
 app.post('/home', async (req, res) => {
     try {
@@ -273,30 +287,10 @@ app.post('/home', async (req, res) => {
         console.log('CURRENT_DATE:', current_date);
 
         date_bool = false;
-        const month_query = 'SELECT date_today_month FROM time LIMIT 1';
-        const month_result = await db.one(month_query);
-        month = month_result.date_today_month;
 
-        const day_query = 'SELECT date_today_day FROM time LIMIT 1';
-        const day_result = await db.one(day_query);
-        day = day_result.date_today_day;
-
-        let counter = 0;
         const due_date_new = new Date(due_date);
-        const due_date_month = due_date_new.getMonth() + 1;
-        const due_date_day = due_date_new.getDate();
-
-        console.log('DUE DATE MONTH, CURRENT MONTH: ', due_date_month, month);
-        console.log('DUE DATE DAY, CURRENT DAY: ', due_date_day, day);
-
-        if(month != due_date_month) {
-            counter = ((due_date_month - month) * 30) + (due_date_day - day);
-        }
-        else {
-            counter = due_date_day - day;
-        }
-
-        console.log('COUNTER: ', counter, due_date);
+        let counter = timeDifference(current_date, due_date_new);
+        console.log('TIME DIFFERENCE: ', counter);
 
         const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown) VALUES ($1, $2, $3, $4, $5, $6)';
         const insertValues = [job_id, job_name, job_link, due_date, due_date, counter];
@@ -316,6 +310,7 @@ app.post('/editModal', async (req, res) => {
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         const due_date = req.body.due_date;
+        console.log('REQ DUE DATE: ', due_date);
         const status = req.body.status;
 
         let newjob_name = job_name;
@@ -323,7 +318,7 @@ app.post('/editModal', async (req, res) => {
         let newdue_date = due_date;
         let newstatus = status;
 
-        console.log('NEW FIRST: ', newjob_name, newjob_link);
+        console.log('NEW FIRST: ', newjob_name, newjob_link, newdue_date);
 
         const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
         const results = await db.one(match_query, jobID);
@@ -333,9 +328,6 @@ app.post('/editModal', async (req, res) => {
         console.log('DUE DATE: ', due_date);
         const due_date_new = new Date(due_date);
         const getDate = due_date_new.getDate();
-        console.log('NEW DATE: ', getDate);
-        const due_date_month = due_date_new.getMonth();
-        const due_date_day = due_date_new.getDate();
 
         if (job_name != results.jobtitle) {
             newjob_name = job_name;

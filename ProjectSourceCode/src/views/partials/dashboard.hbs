@@ -147,6 +147,7 @@
 
 <script>
 
+/*
 // Select all dropdown options
 const dropdownOptions = document.querySelectorAll('.dropdown-option');
 const dropDown = document.getElementById('selectedStatus');
@@ -168,7 +169,9 @@ dropdownOptions.forEach(option => {
     document.querySelector('.status-dropdown').classList.add('hidden');
   });
 });
+*/
 
+/*
 function editModal(button) {
     console.log('Edit modal');
     const jobId = button.getAttribute('data-jobid');
@@ -178,7 +181,7 @@ function editModal(button) {
     const jobLink = button.getAttribute('data-joblink');
     const due_date = button.getAttribute('data-due_date');
 
-    console.log('JOBID & JOBIDHOLDER: ', jobId, jobid_holder);
+    console.log('DUE DATE GET ATTRIBUTE: ', due_date);
 
     console.log('Job info: ', jobId, jobTitle, jobLink);
 
@@ -191,7 +194,9 @@ function editModal(button) {
     // Open the modal dialog
     document.getElementById('edit_modal').showModal();
 }
+*/
 
+/*
 function deleteModal(button) {
     const jobId = button.getAttribute('data-jobid');
     document.getElementById('delete-modal').showModal();
@@ -213,12 +218,15 @@ function deleteModal(button) {
     })
     .catch(error => console.error('Error deleting job:', error));
 }
+*/
 
     // Function for opening the edit modal
     function editModal(button) {
+        console.log('EDITMODAL FUNCTION ENTERED');
         const jobId = button.getAttribute('data-jobid');
         const jobTitle = button.getAttribute('data-jobtitle');
         const jobLink = button.getAttribute('data-joblink');
+        console.log('TEST!!!');
 
         document.getElementById('jobid').value = jobId;
         document.getElementById('jobid_holder').value = jobId;
