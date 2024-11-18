@@ -41,8 +41,6 @@
     }
 </style>
 
-<h1>Welcome, {{username}}</h1>
-
 {{#if success}}
     <div role="alert" class="alert alert-success">
     <svg
@@ -76,11 +74,20 @@
     </div>
 {{/if}}
 
-<div>
-    <h3>Todays Date: {{final_time}}</h3>
+<div style="margin-bottom: 20px;">
+    <h1 style="float: left; ">Welcome, {{username}}</h1>
+    <h5 style="float: right; margin-bottom: 500px;"> {{final_time}}</h5>
+    <div class="avatar placeholder" style="float: right;">
+        <div class="bg-neutral text-neutral-content w-16 rounded-full">
+            <span class="text-xl">{{avatar_char}}</span>
+        </div>
+    </div>
 </div>
 
-<button class="btn btn-primary rounded-full" style="float: right;" onclick="my_modal.showModal()">Add Event</button>
+
+<div>
+<button class="btn btn-primary rounded-full" style="float: right; margin-top: 60px;" onclick="my_modal.showModal()">Add Event</button>
+</div>
 <dialog id="my_modal" class="modal">
     <div class="modal-box">
     <form method="dialog">

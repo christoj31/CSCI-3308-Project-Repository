@@ -113,7 +113,19 @@ app.post('/login', async (req, res) => {
                 const results_query = 'SELECT * FROM jobs;';
                 let results = await db.any(results_query);
                 console.log('results: ', results);
-                return res.render('pages/home', {results: results});
+                //return res.render('pages/home', {results: results, username});
+
+                
+                return res.redirect(url.format({
+                    pathname:"/home",
+                    query: {value}
+                    })
+                );
+                
+
+                // return res.redirect('/home', + username);
+
+
             }
 
             else {
@@ -181,20 +193,19 @@ app.post('/register', async (req, res) => {
     }
 });
 
+const url = require('url'); 
 app.get('/home', async (req, res) => {
+    
     const results_query = 'SELECT * FROM jobs;';
     let results = await db.any(results_query);
 
     date_bool = false;
 
-    if(date_bool) {
-        console.log('CURRENT DATE: ', select_time);
-    }
-    else {
+    if(!date_bool) {
         const now = new Date();
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
-        const day = now.getDate() - 1;
+        const day = now.getDate();
 
         let date_today = year + '-' + month + '-' + day;
 
@@ -205,14 +216,32 @@ app.get('/home', async (req, res) => {
         console.log('Todays date: ', date_today);
         date_bool = true;
     }
+    
     const select_time_query = 'SELECT date_today_string FROM time LIMIT 1';
     const select_time = await db.one(select_time_query);
-    console.log('SELECT QUERY TODAY DATE: ', select_time);
 
     const final_time = select_time.date_today_string;
-    console.log('SELECT QUERY TODAY DATE NARROW: ', final_time);
 
-    return res.render('pages/home', {results: results, final_time});
+    if(req.query.value) {
+        console.log('req.query.value', req.query.value);
+        const username = req.query.value;
+        const avatar_char = username.substring(0,1);
+
+        const delete_current_user_date = 'DELETE FROM currentuser';
+        await db.none(delete_current_user_date);
+
+        const insert_current_user = 'INSERT INTO currentuser (username, avatar_char) VALUES ($1, $2)';
+        await db.none(insert_current_user, [username, avatar_char]);
+
+        return res.render('pages/home', {results: results, final_time, username, avatar_char});
+    }
+    else {
+        const current_user_query = 'SELECT * FROM currentuser';
+        const user_results = await db.one(current_user_query);
+        const username = user_results.username;
+        const avatar_char = user_results.avatar_char;
+        return res.render('pages/home', {results: results, final_time, username, avatar_char});
+    }
 });
 
 

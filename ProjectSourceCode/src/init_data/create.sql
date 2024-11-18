@@ -132,3 +132,8 @@
     date_today_month VARCHAR(45), 
     date_today_day VARCHAR(45)
   );
+
+  CREATE TABLE currentuser (
+    username VARCHAR(45),
+    avatar_char VARCHAR(45)
+  );
