@@ -1,18 +1,25 @@
 <div class="navbar bg-primary text-primary-content">
-  <div class="flex-1">
-    <a class="btn btn-ghost text-xl" onclick="navigateToHome()">Lead Trailers</a>
+  <div class="navbar-start">
+    <span class="pages text-l font-bold tracking-wide">Lead Trailers</span>
   </div>
-  <div class="flex-none">
+  <div class="navbar-center">
+          {{#if user}}
+            <span class="pages text-l font-bold tracking-wide">Welcome, {{user.username}}</span>
+          {{/if}}
+  </div>
+  <div class="navbar-end">
     <ul class="menu menu-horizontal px-1">
         <li>
-            <a class="pages" href="/home">Home</a> 
+            <a class="pages text-l font-bold tracking-wide" href="/home">Home</a> 
         </li>
         <li>
-            <a class="pages" href="/resources">Resources</a> 
+            <a class="pages text-l font-bold tracking-wide" href="/resources">Resources</a> 
         </li>
-        <li>
-            <a class="pages" href="/logout">Log out</a> 
-        </li>
+        {{#if user}}
+          <li>
+            <a class="pages text-l font-bold tracking-wide" href="javascript:void(0)" onclick="handleLogout()">Log out</a>
+          </li>
+        {{/if}}
     </ul>
     <label class="swap swap-rotate">
   <!-- this hidden checkbox controls the state -->
@@ -43,4 +50,23 @@
   function navigateToHome() {
     window.location.href = "/home";
   }
+</script>
+
+<script>
+    function handleLogout() {
+        fetch('/logout', { method: 'GET' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    // Show a popup notification
+                    alert(data.message); // Replace with a custom modal if needed
+                    // Redirect to the login page
+                    window.location.href = '/login';
+                }
+            })
+            .catch(error => {
+                console.error('Error during logout:', error);
+                alert('An error occurred while logging out.');
+            });
+    }
 </script>

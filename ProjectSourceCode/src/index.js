@@ -50,7 +50,7 @@ app.use(
     session({
       secret: process.env.SESSION_SECRET,
       saveUninitialized: true,
-      resave: true,
+      resave: true
     })
 );
 app.use(
@@ -58,6 +58,10 @@ app.use(
       extended: true,
     })
   );
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;  // Pass user info to views
+    next();
+});
 
 
 // Routes
@@ -354,6 +358,25 @@ app.delete('/delete-job', auth, async (req, res) => {
         res.status(500).json({ message: 'Server error deleting job' })
     }
 });
+
+// Logout route
+app.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ message: 'Logout failed.' });
+            }
+            res.status(200).json({ message: 'Logged out successfully.' });
+        });
+    } else {
+        res.status(200).json({ message: 'No active session to log out.' });
+    }
+});
+
+
+
+
 
 
 //route for get jobs 
