@@ -27,11 +27,12 @@
                     </button>                
                 </td>
                 <td>
-                    <button class="btn btn-secondary"
+                    <button id="delete-modal"
+                        class="btn btn-secondary"
                         onclick="deleteModal(this)"
                         data-jobid="{{jobid}}">
                         ✕
-                        </button>
+                    </button>
                 </td>
             </tr>
             {{/each}}
@@ -99,11 +100,6 @@
     </div>
 </dialog>
 
-<!--Delete Modal-->
-<dialog id="delete_modal" class="modal">
-    <button class="btn btn-danger" onclick="confirmDelete()">Delete</button>
-</dialog>
-
 <script>
 function editModal(button) {
     console.log('Edit modal');
@@ -126,25 +122,33 @@ function editModal(button) {
     document.getElementById('edit_modal').showModal();
 }
 
-function deleteModal(button) {
-    const jobId = button.getAttribute('data-jobid');
-    document.getElementById('delete-modal').showModal();
+function deleteModal(button){
+    console.log("deleteModal passed");
+    const delJobID = button.getAttribute('data-jobid');
+    {{!-- console.log("Job ID: ", delJobID); --}}
 
-    fetch(`/home/${jobId}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json'}
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log(data.message);
 
-        const row = button.closest("tr");
-        if (row) {
-            row.remove();
-        }
-
-        document.getElementById('delete_modal').close();
-    })
-    .catch(error => console.error('Error deleting job:', error));
+    const confirmation = confirm(`Are you sure you want to delete job ID: ${delJobID}?`);
+    if (confirmation) {
+        fetch(`/delete-job`, {
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ jobID: delJobID })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if(data.message === 'Job successfully deleted') {
+                alert(`Job with ID ${delJobID} has been successfully deleted.`);
+                button.closest('tr').remove();
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting job:', error);
+            alert('An error occurred while deleting the job.');
+        });
+    }
 }
+
 </script>

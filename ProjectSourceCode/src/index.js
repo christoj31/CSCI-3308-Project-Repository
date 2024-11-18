@@ -50,7 +50,7 @@ app.use(
     session({
       secret: process.env.SESSION_SECRET,
       saveUninitialized: true,
-      resave: true,
+      resave: true
     })
 );
 app.use(
@@ -58,6 +58,10 @@ app.use(
       extended: true,
     })
   );
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;  // Pass user info to views
+    next();
+});
 
 
 // Routes
@@ -236,7 +240,7 @@ app.post('/home', async (req, res) => {
         const jobID = req.body.jobID;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
-        const due_date = req.body.due_date;
+        // const due_date = req.body.due_date;
         //const status = req.body.status;
 
         const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
@@ -248,14 +252,23 @@ app.post('/home', async (req, res) => {
                     error: 'Job already listed.'
                 });
             }
+        
+        const check_table_empty_query = 'SELECT COUNT(*) FROM jobs';
+        const empty = await db.one(check_table_empty_query);
+        const isTableEmpty = empty.count === '0';
 
-        const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
-        let result = await db.one(generate_job_id_query);
-        let job_id = result.jobid;
-        job_id += 1; 
+        let job_id = 1; // Default job_id
+        if (!isTableEmpty) {
+            const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
+            const result = await db.one(generate_job_id_query);
+            job_id = result.jobID + 1;
+        }
 
         const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date) VALUES ($1, $2, $3, $4)';
+        // const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink) VALUES ($1, $2)';
         const insertValues = [job_id, job_name, job_link, due_date];
+        // const insertValues = [job_name, job_link];
+
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
@@ -312,17 +325,59 @@ app.post('/editModal', async (req, res) => {
     }
 });
 
-app.delete('/home/:id', (req, res) => {
-    const jobId = parseInt(req.params.id);
-    const jobIndex = jobs.findIndex(job => job.id === jobId);
+// app.use(express.json());
 
-    if(jobIndex !== -1) {
-        jobs.splice(jobIndex, 1);
-        res.status(200).json({ message: 'Job deleted successfully' });
-    } else {
-        res.status(404).json({ message: 'Job not found' });
+
+app.delete('/delete-job', auth, async (req, res) => {
+    console.log('Request Body: ', req.body);
+    console.log('DELETE /delete-JOB route hit');
+    const jobID = req.body.jobID;
+
+
+    console.log('Job ID: ', jobID);
+
+
+    if(!jobID) {
+        return res.status(400).json({ message: "Job ID is required" });
     }
-})
+
+
+    try {
+        const query = `DELETE FROM jobs WHERE jobID = $1 RETURNING *`;
+        const results = await db.result(query, jobID);
+
+
+        if (results.rowCount === 0) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+
+        res.json({ message: 'Job successfully deleted' });
+    } catch (error) {
+        console.error('Error deleting job:', error);
+        res.status(500).json({ message: 'Server error deleting job' })
+    }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ message: 'Logout failed.' });
+            }
+            res.status(200).json({ message: 'Logged out successfully.' });
+        });
+    } else {
+        res.status(200).json({ message: 'No active session to log out.' });
+    }
+});
+
+
+
+
+
 
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
@@ -340,7 +395,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dropdown', dropdownRoutes);
 
-// Start the server
+//Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

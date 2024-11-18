@@ -17,3 +17,26 @@ Created primary diagrams, finalized directoy structure, assigned tasks, began le
 Next Steps
 begin preliminary development
 
+---
+Release Notes – 11/14
+Dashboard & Modal (Contributors: Andrew & Christo)
+  Current Functionality: Create, Read, and Update (CRU) operations are operational; Delete functionality is not yet implemented. The dashboard 
+  currently displays primary information fields but is missing five additional columns.
+  Next Steps:
+    Add remaining attributes to the dashboard columns.
+    Develop input validation for data entry and mark optional attributes in the form.
+    Correct the due date attribute for applications.
+Authentication, Login, and Unit Testing (Contributors: Irene & Jay)
+  Current Functionality: User registration and login processes are fully functional, with general unit tests confirming stability and 
+  functionality.
+  Next Steps:
+    Add first name and last name fields to the registration page, displaying the full name in the navigation bar after login.
+    Implement password validation with feedback messages for users.
+Dropdown (Contributors: Max & Daria)
+  Current Functionality: Frontend functionality for dropdown buttons is complete, and database tables for dropdown options are established.
+  Next Steps:
+    Implement color coding for different dropdown stages if possible.
+  
+Future Potential Features
+  Google Calendar API Integration: Link to enable task scheduling and follow-up reminders for recruitment.
+  Entity-Level Dashboard: Develop dashboards to serve more granular data views for individual entities.
