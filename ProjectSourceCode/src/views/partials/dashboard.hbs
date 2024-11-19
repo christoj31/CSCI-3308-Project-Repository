@@ -147,7 +147,7 @@
 
 <script>
 
-/*
+
 // Select all dropdown options
 const dropdownOptions = document.querySelectorAll('.dropdown-option');
 const dropDown = document.getElementById('selectedStatus');
@@ -169,7 +169,51 @@ dropdownOptions.forEach(option => {
     document.querySelector('.status-dropdown').classList.add('hidden');
   });
 });
-*/
+
+    // Function for opening the edit modal
+    function editModal(button) {
+        console.log('EDITMODAL FUNCTION ENTERED');
+        const jobId = button.getAttribute('data-jobid');
+        const jobTitle = button.getAttribute('data-jobtitle');
+        const jobLink = button.getAttribute('data-joblink');
+        console.log('TEST!!!');
+
+        document.getElementById('jobid').value = jobId;
+        document.getElementById('jobid_holder').value = jobId;
+        document.getElementById('edit_job_name').value = jobTitle;
+        document.getElementById('edit_job_link').value = jobLink;
+
+        // Open the modal dialog
+        document.getElementById('edit_modal').showModal();
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle dropdown visibility for each status button
+        document.querySelectorAll('.status-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('hidden');
+            });
+        });
+
+        // Update button text and hide dropdown when selecting an option
+        document.querySelectorAll('.dropdown-option').forEach(option => {
+            option.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                const button = this.closest('.relative').querySelector('.status-button');
+                const dropdown = this.closest('.status-dropdown');
+
+                // Update the button text to the selected status
+                button.querySelector('.statusButtonText').textContent = this.textContent;
+
+                // Hide the dropdown
+                dropdown.classList.add('hidden');
+            });
+        });
+    });
+
+
 
 /*
 function editModal(button) {
@@ -219,48 +263,5 @@ function deleteModal(button) {
     .catch(error => console.error('Error deleting job:', error));
 }
 */
-
-    // Function for opening the edit modal
-    function editModal(button) {
-        console.log('EDITMODAL FUNCTION ENTERED');
-        const jobId = button.getAttribute('data-jobid');
-        const jobTitle = button.getAttribute('data-jobtitle');
-        const jobLink = button.getAttribute('data-joblink');
-        console.log('TEST!!!');
-
-        document.getElementById('jobid').value = jobId;
-        document.getElementById('jobid_holder').value = jobId;
-        document.getElementById('edit_job_name').value = jobTitle;
-        document.getElementById('edit_job_link').value = jobLink;
-
-        // Open the modal dialog
-        document.getElementById('edit_modal').showModal();
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        // Toggle dropdown visibility for each status button
-        document.querySelectorAll('.status-button').forEach(button => {
-            button.addEventListener('click', function () {
-                const dropdown = this.nextElementSibling;
-                dropdown.classList.toggle('hidden');
-            });
-        });
-
-        // Update button text and hide dropdown when selecting an option
-        document.querySelectorAll('.dropdown-option').forEach(option => {
-            option.addEventListener('click', function (event) {
-                event.preventDefault();
-
-                const button = this.closest('.relative').querySelector('.status-button');
-                const dropdown = this.closest('.status-dropdown');
-
-                // Update the button text to the selected status
-                button.querySelector('.statusButtonText').textContent = this.textContent;
-
-                // Hide the dropdown
-                dropdown.classList.add('hidden');
-            });
-        });
-    });
 
 </script>

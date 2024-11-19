@@ -249,7 +249,7 @@ app.get('/home', async (req, res) => {
 function timeDifference(date1, date2) {
     console.log('DATE1, DATE2: ', date1, date2);
 
-    const d1 = new Date(date1.current_date);
+    const d1 = new Date(date1);
     const d2 = new Date(date2);
 
     const millisecondDifference = d2 - d1;
@@ -284,13 +284,11 @@ app.post('/home', async (req, res) => {
 
         let current_date_query = 'SELECT  CURRENT_DATE';
         let current_date = await db.one(current_date_query);
-        console.log('CURRENT_DATE:', current_date);
 
         date_bool = false;
 
         const due_date_new = new Date(due_date);
-        let counter = timeDifference(current_date, due_date_new);
-        console.log('TIME DIFFERENCE: ', counter);
+        let counter = timeDifference(current_date.current_date, due_date_new);
 
         const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown) VALUES ($1, $2, $3, $4, $5, $6)';
         const insertValues = [job_id, job_name, job_link, due_date, due_date, counter];
@@ -302,6 +300,7 @@ app.post('/home', async (req, res) => {
         console.error('Error creating event.', err);
     }
 });
+
 
 app.post('/editModal', async (req, res) => {
     try {
@@ -344,8 +343,14 @@ app.post('/editModal', async (req, res) => {
 
         console.log('NEW: ', newjob_name, newjob_link, newdue_date);
 
-        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3 WHERE jobID = $4';
-        const insert_values = [newjob_name, newjob_link, newdue_date, jobID];
+        const now = new Date();
+        const duedater = new Date(newdue_date);
+        console.log('DATE: ', now, duedater);
+        const counter = timeDifference(now, duedater);
+        console.log('COUNTER: ', counter);
+
+        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3, due_date_string = $4, countdown = $5 WHERE jobID = $6';
+        const insert_values = [newjob_name, newjob_link, newdue_date, newdue_date, counter, jobID];
         await db.none(insert_query, insert_values);
 
         return res.redirect('/home');
