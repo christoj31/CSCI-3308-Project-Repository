@@ -265,7 +265,8 @@ app.post('/home', async (req, res) => {
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         let due_date = req.body.due_date;
-        //const status = req.body.status;
+        const status = req.body.status;
+        console.log('STATUS /home: ', status);
 
         const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
         const check_values = [jobID];
@@ -282,16 +283,35 @@ app.post('/home', async (req, res) => {
         let job_id = result.jobid;
         job_id += 1; 
 
-        let current_date_query = 'SELECT  CURRENT_DATE';
+        let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
 
         date_bool = false;
 
         const due_date_new = new Date(due_date);
         let counter = timeDifference(current_date.current_date, due_date_new);
+        
+        let newstatus = 0;
+        switch(status) {
+            case 'none': 
+                newstatus = 0;
+                break;
+            case 'applied': 
+                newstatus = 1;
+                break;
+            case 'not-applied': 
+                newstatus = 2;
+                break;
+            case 'accepted': 
+                newstatus = 3;
+                break;
+            case 'declined': 
+                newstatus = 4;
+                break;
+        }
 
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown) VALUES ($1, $2, $3, $4, $5, $6)';
-        const insertValues = [job_id, job_name, job_link, due_date, due_date, counter];
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+        const insertValues = [job_id, job_name, job_link, due_date, due_date, counter, newstatus];
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
@@ -334,14 +354,33 @@ app.post('/editModal', async (req, res) => {
         if (job_link != results.jobapplicationlink) {
             newjob_link = job_link;
         }
+        console.log('Status & New Status: ', status, newstatus, results.status);
+
         if (status != results.status) {
-            newstatus = status;
+            console.log('Status & New Status: ', status, newstatus, results.status);
+            switch(status) {
+                case 'none': 
+                    newstatus = 0;
+                    break;
+                case 'applied': 
+                    newstatus = 1;
+                    break;
+                case 'not-applied': 
+                    newstatus = 2;
+                    break;
+                case 'accepted': 
+                    newstatus = 3;
+                    break;
+                case 'denied': 
+                    newstatus = 4;
+                    break;
+            }
+            console.log('FINAL STATUS: ', newstatus);
         }
+
         if (due_date != results.due_date) {
             newdue_date = due_date;
         }
-
-        console.log('NEW: ', newjob_name, newjob_link, newdue_date);
 
         const now = new Date();
         const duedater = new Date(newdue_date);
@@ -349,8 +388,8 @@ app.post('/editModal', async (req, res) => {
         const counter = timeDifference(now, duedater);
         console.log('COUNTER: ', counter);
 
-        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3, due_date_string = $4, countdown = $5 WHERE jobID = $6';
-        const insert_values = [newjob_name, newjob_link, newdue_date, newdue_date, counter, jobID];
+        const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3, due_date_string = $4, countdown = $5, applicationStepID = $6 WHERE jobID = $7';
+        const insert_values = [newjob_name, newjob_link, newdue_date, newdue_date, counter, newstatus, jobID];
         await db.none(insert_query, insert_values);
 
         return res.redirect('/home');

@@ -84,7 +84,6 @@
     </div>
 </div>
 
-
 <div>
 <button class="btn btn-primary rounded-full" style="float: right; margin-top: 60px;" onclick="my_modal.showModal()">Add Event</button>
 </div>
@@ -96,21 +95,6 @@
     <h3 class="text-lg font-bold text-center">Create New Event:</h3>
     <form action="/home" method="POST">
         <div class="form-group">
-<!--
-            <label class="input input-bordered flex items-center gap-2">
-                <input ctype="text" class="input input-bordered w-full" id="job_name" name="job_name" placeholder="enter the job name...">
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-4 w-4 opacity-70">
-                    <path
-                    fill-rule="evenodd"
-                    d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
-                    clip-rule="evenodd" />
-                </svg>
-            </label>
--->
             <input type="text" class="input input-bordered w-full" id="job_name" name="job_name" placeholder="enter the job name..." required>
         </div>
         <div class="form-label">
@@ -156,104 +140,4 @@
 
 <body>
 
-        <!--
-        <script>
-            // Get the modal
-            var modal = document.getElementById("modal");
-            // Get the button that opens the modal
-            var btn = document.getElementById("add_button");
-            // Get the <span> element that closes the modal
-            var span = document.getElementsByClassName("close")[0];
-            // When the user clicks the button, open the modal 
-            btn.onclick = function() {
-            modal.style.display = "block";
-            }
-            // When the user clicks on <span> (x), close the modal
-            span.onclick = function() {
-            modal.style.display = "none";
-            }
-            // When the user clicks anywhere outside of the modal, close it
-            window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-            }
-            </script>
-            -->
 </body>
-
-<!-- Dashboard Partial -->
-
-<!--
-<script>
-    // Modal functionality
-    const modal = document.getElementById("modal");
-    const btn = document.getElementById("add_button");
-    const closeBtn = document.getElementsByClassName("close")[0];
-
-    btn.onclick = function() {
-        modal.style.display = "block";
-    };
-
-    closeBtn.onclick = function() {
-        modal.style.display = "none";
-    };
-
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.style.display = "none";
-        }
-    };
-</script>
-
-    <script>
-// Open and close modal
-const modal = document.getElementById("modal");
-const addButton = document.getElementById("add_button");
-const closeButton = document.querySelector(".button_close");
-
-
-addButton.onclick = () => modal.style.display = "block";
-closeButton.onclick = () => modal.style.display = "none";
-
-
-window.onclick = function(event) {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-};
-
-
-// Add new row to table on form submit
-document.getElementById("addNewForm").addEventListener("submit", function(event) {
-    event.preventDefault(); // Prevent page reload
-
-
-    // Get input values
-    const company = document.getElementById("company").value;
-    const jobName = document.getElementById("job_name").value;
-    const dateApplied = document.getElementById("date_applied").value;
-    const status = document.getElementById("status").value;
-
-
-    // Create a new row and cells
-    const table = document.getElementById("internshipTable").getElementsByTagName('tbody')[0];
-    const newRow = table.insertRow();
-
-
-    // Insert cells and values
-    newRow.insertCell(0).textContent = company;
-    newRow.insertCell(1).textContent = jobName;
-    newRow.insertCell(2).textContent = dateApplied;
-    newRow.insertCell(3).textContent = status;
-
-
-    // Clear form fields
-    document.getElementById("addNewForm").reset();
-
-
-    // Hide the modal
-    modal.style.display = "none";
-});
-</script>
--->
