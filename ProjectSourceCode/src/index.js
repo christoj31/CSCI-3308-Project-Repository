@@ -149,6 +149,9 @@ app.post('/register', async (req, res) => {
     try {
         const username = req.body.username;
         const email = req.body.email;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const linkedIn = req.body.linkedIn;
         const phoneNumber = req.body.phoneNumber;
         const password = req.body.password;
         const retypePassword = req.body['retype password'];
@@ -209,12 +212,17 @@ app.post('/register', async (req, res) => {
         }
 
         // Insert the new user into the database
-        const insertQuery = 
+        const insertUserQuery = 
             'INSERT INTO users (username, password, email, phoneNumber)VALUES ($1, $2, $3, $4)';
+        
+        const insertPOCQuery =
+            'INSERT INTO pointofcontact (firstName, lastName, email, phoneNumber, linkedIn)VALUES ($1, $2, $3, $4, $5)';
 
-        const insertValues = [username, password, email, phoneNumber];
+        const insertUserValues = [username, password, email, phoneNumber];
+        const insertPOCValues = [firstName, lastName, email, phoneNumber, linkedIn];
 
-        await db.none(insertQuery, insertValues);
+        await db.none(insertUserQuery, insertUserValues);
+        await db.none(insertPOCQuery, insertPOCValues);
 
         // Redirect to login page after successful registration
         res.status(200).redirect('/login');

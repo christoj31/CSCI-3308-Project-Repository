@@ -46,11 +46,11 @@ VALUES
 
 -- Insert data into pointOfContact table
 INSERT INTO pointofcontact 
-    (pocID, firstName, lastName, email, phoneNumber) 
+    (firstName, lastName, email, phoneNumber, linkedIn) 
 VALUES
-    (1, 'John', 'Doe', 'johnDoe@yahoo.com', '456-789-0123'),
-    (2, 'Daria', 'Ruch', 'dariaRuch@gmail.com', '567-890-1234'),
-    (3, 'Max', 'Brown', 'maxBrown@outlook.com', '678-901-2345');
+    ('John', 'Doe', 'johnDoe@yahoo.com', '456-789-0123', 'linkedIn.com/1'),
+    ('Daria', 'Ruch', 'dariaRuch@gmail.com', '567-890-1234', 'linkedIn.com/2'),
+    ('Max', 'Brown', 'maxBrown@outlook.com', '678-901-2345', 'linkedIn.com/3');
 
 -- Insert data into meetings table
 INSERT INTO meetings 
