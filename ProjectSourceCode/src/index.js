@@ -129,10 +129,6 @@ app.post('/login', async (req, res) => {
                     })
                 );
                 
-
-                // return res.redirect('/home', + username);
-
-
                 return res.status(200).redirect('/home');
             }
 
@@ -184,9 +180,10 @@ app.post('/register', async (req, res) => {
         const checkValues = [username];
 
         // regex input validators
+        const passwordErrors = {};
         const checkEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         const checkPhoneNumber = /^\d{10}$|^\d{3}-\d{3}-\d{4}$/;
-        const passwordPattern = /^(?!.*(.)\1)[A-Za-z\d@$!%*?&]{8,}$/;
+        const longEnough = /^.{8,}$/;
         const containsUpperCase = /[A-Z]/.test(password);
         const containsLowerCase = /[a-z]/.test(password);
         const containsDigit = /\d/.test(password);
@@ -228,12 +225,16 @@ app.post('/register', async (req, res) => {
             });
         }
 
-        // check if password meets criteria
-        if (!passwordPattern.test(password) || !containsUpperCase 
-            || !containsLowerCase || !containsDigit || !containsSpecial) {
-            return res.status(404).render('pages/register', {
-                error: 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, one special character, and no consecutive repeated characters.'
-            });
+        // check that all password criteria are met
+        if (!longEnough.test(password)) {passwordErrors.longEnough = '8 characters minimum'};
+        if (!containsUpperCase) {passwordErrors.containsUpperCase = 'At least one uppercase letter'};
+        if (!containsLowerCase) {passwordErrors.containsLowerCase = 'At least one lowercase letter'};
+        if (!containsDigit) {passwordErrors.containsDigit = 'At least one number'};
+        if (!containsSpecial) {passwordErrors.containsSpecial = 'At least one special character (@$!%*?&)'};
+
+        // if any password criteria not met, return the errors
+        if (Object.keys(passwordErrors).length > 0) {
+            return res.render('pages/register', {passwordErrors});
         }
 
         // Insert the new user into the database

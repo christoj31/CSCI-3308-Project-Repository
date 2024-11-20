@@ -38,6 +38,9 @@ describe('Testing Register API', () => {
       .send({
         username: 'testuser1',
         email: 'testuser@gmail.com',
+        firstName: 'test',
+        lastName: 'test',
+        linkedIn: 'test.com',
         phoneNumber: '123-456-7890',
         password: 'Pasword@1',
         'retype password': 'Pasword@1'
