@@ -50,31 +50,38 @@
 
                 <td>
                     <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
-                    <div class="bg-neutral rounded-box text-neutral-content flex flex-col p-2">
-                        <span class="countdown text-3xl">
-                        <span style="--value:{{countdown}};"></span>
-                        </span>
-                        days
-                    </div></td>
-                <td>
-                    <button class="btn btn-secondary"
-                        onclick="editModal(this)"
-                        data-jobid="{{jobid}}"
-                        data-jobtitle="{{jobtitle}}"
-                        data-joblink="{{jobapplicationlink}}"
-                        data-due_date="{{due_date}}"
-                        data-status="{{applicationstepid}}">
-                        Edit
-                    </button>                
+                        <div class="bg-primary rounded-box flex flex-col p-2">
+                            <span class="countdown text-3xl">
+                            <span style="--value:{{countdown}};"></span>
+                            </span>
+                            days
+                        </div>
+                    </div>
                 </td>
+
                 <td>
-                    <button class="btn btn-secondary"
-                    <button id="delete-modal"
-                        class="btn btn-secondary"
-                        onclick="deleteModal(this)"
-                        data-jobid="{{jobid}}">
-                        ✕
-                    </button>
+                    <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+                            <button class="btn btn-outline btn-secondary"
+                                onclick="editModal(this)"
+                                data-jobid="{{jobid}}"
+                                data-jobtitle="{{jobtitle}}"
+                                data-joblink="{{jobapplicationlink}}"
+                                data-due_date="{{due_date}}"
+                                data-status="{{applicationstepid}}">
+                                Edit
+                            </button>        
+                    </div>        
+                </td>
+
+                <td>
+                    <div class="grid auto-cols-max grid-flow-col gap-5 text-center">
+                        <button class="btn btn-outline btn-secondary"
+                            <button id="delete-modal"
+                                class="btn btn-secondary"
+                                onclick="deleteModal(this)"
+                                data-jobid="{{jobid}}">
+                                ✕
+                            </button>
                     </button>
                 </td>
             </tr>
