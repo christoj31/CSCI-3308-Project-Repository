@@ -329,21 +329,12 @@ function timeDifference(date1, date2) {
 app.post('/home', async (req, res) => {
     try {
         const jobID = req.body.jobID;
+        console.log('JOBID /home: ', jobID);
+
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         let due_date = req.body.due_date;
         const status = req.body.status;
-        console.log('STATUS /home: ', status);
-
-        const query = 'SELECT jobID FROM jobs WHERE jobID = $1 LIMIT 1';
-        const check_values = [jobID];
-
-        const job_exists = await db.oneOrNone(query, check_values);
-        if (job_exists) {
-                return res.status(400).render('pages/home', {
-                    error: 'Job already listed.'
-                });
-            }
         
         const check_table_empty_query = 'SELECT COUNT(*) FROM jobs';
         const empty = await db.one(check_table_empty_query);

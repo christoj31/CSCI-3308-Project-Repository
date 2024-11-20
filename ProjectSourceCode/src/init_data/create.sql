@@ -87,7 +87,6 @@
     due_date_string VARCHAR(45),
     countdown INT,
     applicationStepID INT,
-    due_date DATE,
     resumeID INT,
     pocID INT,
     attemptID INT,
