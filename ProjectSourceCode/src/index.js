@@ -326,6 +326,10 @@ function timeDifference(date1, date2) {
     return daysDifference;
 }
 
+app.get('/resources', auth, (req, res) => {
+    res.render('pages/resources');
+  });
+
 app.post('/home', async (req, res) => {
     try {
         const job_name = req.body.job_name;
