@@ -328,24 +328,10 @@ function timeDifference(date1, date2) {
 
 app.post('/home', async (req, res) => {
     try {
-        const jobID = req.body.jobID;
-        console.log('JOBID /home: ', jobID);
-
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         let due_date = req.body.due_date;
         const status = req.body.status;
-        
-        const check_table_empty_query = 'SELECT COUNT(*) FROM jobs';
-        const empty = await db.one(check_table_empty_query);
-        const isTableEmpty = empty.count === '0';
-
-        let job_id = 1; // Default job_id
-        if (!isTableEmpty) {
-            const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
-            const result = await db.one(generate_job_id_query);
-            job_id = result.jobID + 1;
-        }
 
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
@@ -373,9 +359,8 @@ app.post('/home', async (req, res) => {
                 newstatus = 4;
                 break;
         }
-
-        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-        const insertValues = [job_id, job_name, job_link, due_date, due_date, counter, newstatus];
+        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID) VALUES ($1, $2, $3, $4, $5, $6)';
+        const insertValues = [job_name, job_link, due_date, due_date, counter, newstatus];
         await db.none(insert_query, insertValues);
 
         return res.redirect('/home');
