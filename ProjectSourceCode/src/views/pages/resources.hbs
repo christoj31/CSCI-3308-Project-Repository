@@ -1,22 +1,66 @@
-<div role="tablist" class="tabs tabs-lifted">
-  <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
-  <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-    Tab content 1
-  </div>
+<!--TODO: Replace tabs method to accordion display-->
 
-  <input
-    type="radio"
-    name="my_tabs_2"
-    role="tab"
-    class="tab"
-    aria-label="Tab 2"
-    checked="checked" />
-  <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-    Tab content 2
-  </div>
+<div class="container flex flex-col items-center justify-center">
+  <h1>Resources</h1>
+  <div class="flex flex-wrap w-full items-center justify-center gap-4">
+    <!-- Tab Section -->
+    <div class="card bg-base-300 rounded-box flex-grow">
+      <div role="tablist" class="tabs tabs-lifted">
+        <!-- Tab 1 -->
+        <input type="radio" name="tabs" id="tab1" class="hidden" checked />
+        <label for="tab1" class="tab">General Interview Preparation Resources</label>
+        <!-- Tab 2 -->
+        <input type="radio" name="tabs" id="tab2" class="hidden" />
+        <label for="tab2" class="tab">Technology and Computer Science</label>
+        <!-- Tab 3 -->
+        <input type="radio" name="tabs" id="tab3" class="hidden" />
+        <label for="tab3" class="tab">Consulting</label>
+      </div>
+      <div class="bg-base-100 border-base-300 rounded-box p-6">
+        <div id="tab1-content" role="tabpanel" class="hidden">
+          Tab content 1
+        </div>
+        <div id="tab2-content" role="tabpanel" class="hidden">
+          Tab content 2
+        </div>
+        <div id="tab3-content" role="tabpanel" class="hidden">
+          Tab content 3
+        </div>
+      </div>
+    </div>
 
-  <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
-  <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
-    Tab content 3
+    <!-- Divider -->
+    <div class="divider divider-horizontal">OR</div>
+
+    <!-- Content Section -->
+    <div class="card bg-base-300 rounded-box flex-grow place-items-center">
+      Additional content here
+    </div>
   </div>
 </div>
+
+
+  <div class="card bg-base-300 rounded-box grid h-20 flex-grow place-items-center">
+    <div role="tablist" class="tabs tabs-lifted">
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 1" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        Tab content 1
+      </div>
+
+      <input
+        type="radio"
+        name="my_tabs_2"
+        role="tab"
+        class="tab"
+        aria-label="Tab 2"
+        checked="checked" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        Tab content 2
+      </div>
+
+      <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Tab 3" />
+      <div role="tabpanel" class="tab-content bg-base-100 border-base-300 rounded-box p-6">
+        Tab content 3
+      </div>
+    </div>
+  </div>
