@@ -1,0 +1,86 @@
+Summary of Test Execution Plans
+Testers: Irene, Jay,
+Environment: Localhost for initial testing, with cloud testing for final validation.
+Documentation: Record test results, screenshots, error messages, and data storage validation for each case.
+
+Feature 1: User Registration and Login
+  Test Cases
+    Successful Registration and Data Storage
+      Description: Verify that a user can register successfully with valid information, and the data is stored.
+      Test Data: Valid name, email, and password that meet registration criteria.
+      Expected Result: User is registered, redirected to login, and data is stored in the database.
+    Error Handling for Invalid Registration Data
+      Description: Test that the system provides feedback for incomplete or incorrectly formatted registration data.
+      Test Data: Missing email, invalid email format, password mismatch.
+      Expected Result: Specific error messages indicate issues with the fields needing correction.
+    Login with Correct Credentials
+      Description: Verify that a registered user can log in with valid credentials.
+      Test Data: Valid, registered email and password.
+      Expected Result: User successfully logs in and is directed to the dashboard.
+    Login with Incorrect Credentials
+      Description: Test that login fails with incorrect credentials.
+      Test Data: Registered email with an incorrect password.
+      Expected Result: Error message indicates incorrect credentials.
+  Testers: Irene & Jay
+  Test Environment: Localhost and cloud environments.
+  Acceptance Criteria: Accurate registration, error feedback, login success, and failure handling.
+
+Feature 2: Dynamic Dashboard with CRUD Modals
+Test Cases
+  Create New Entry
+    Description: Verify a user can create a new job/internship entry.
+    Test Data: Valid job details (e.g., position, company name, job status).
+    Expected Result: Entry appears on the dashboard and is stored in the database.
+  Edit Existing Entry
+    Description: Test that a user can edit an existing job/internship entry.
+    Test Data: Modify fields of an existing entry.
+    Expected Result: Updated entry is reflected on the dashboard and saved in the database.
+  Delete Entry
+    Description: Test that a user can delete an entry.
+    Test Data: Select an entry to delete.
+    Expected Result: Entry is removed from the dashboard and database.
+  Optional Fields Handling
+    Description: Verify that a user can submit the form with or without optional fields.
+    Test Data: Submit entries with optional fields either completed or left blank.
+    Expected Result: Both cases are saved accurately, reflecting any optional fields if filled.
+Testers: Andrew & Christo
+Test Environment: Localhost and cloud environments.
+Acceptance Criteria: CRUD operations work as expected, and optional fields are handled correctly.
+
+Feature 3: Dropdown Buttons for Application Stages
+Test Cases
+  Dropdown Selection and Status Update
+    Description: Verify that selecting an option from the dropdown updates the application stage.
+    Test Data: Choose each option in the dropdown (e.g., 'unwritten,' 'written,' 'tailored,' 'AI checked').
+    Expected Result: The dropdown closes after selection, displaying the chosen stage, and the stage updates in the database.
+  Dropdown Status Retrieval on Page Load
+    Description: Test that saved stages load correctly when the user returns to the dashboard.
+    Test Data: Use entries with different stages.
+    Expected Result: Each dropdown displays the correct, previously saved stage.
+Testers: Max & Daria
+Test Environment: Localhost and cloud environments.
+Acceptance Criteria: Dropdown functionality, stage color progression, and accurate data retrieval.
+
+Feature 4: Theme Controller
+Test Cases
+  Switch to Light Mode
+    Description: Verify the user can switch to light mode, and the theme persists.
+    Test Data: Set the theme to "light."
+    Expected Result: UI switches to light mode, and this preference is saved for future visits.
+  Switch to Dark Mode
+    Description: Verify the user can switch to dark mode, and the theme persists.
+    Test Data: Set the theme to "dark."
+    Expected Result: UI switches to dark mode.
+Tester: Jay
+Test Environment: Localhost and cloud environments.
+Acceptance Criteria: Theme settings persist across sessions, with correct UI updates.
+
+---
+
+Risk Analysis:
+Organizational Risks: CI/CD across different commponents & technical gaps for each component
+  Counter Measure: Project lead performs checkin calls every 2 days to confirm component updates & validate need to update task assignments
+Technical Risks: Session activation code, inexperience with MECE test cases, limited time
+  Counter Measure: Pursuing true SDLC process with functional, integration, unit tests, & user tests
+Business Risks: Market size for the product, competitive landscape of the market, need state for this product
+  Counter Measure: Project board components follow the product development lifecycle of brainstorm & ideate, evaluate, develop, test & then deploy. Evaluate phase includes poll & prioritization meeting with relevant stakeholders

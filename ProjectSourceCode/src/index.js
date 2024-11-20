@@ -1,4 +1,3 @@
-// Irene's branch
 const express = require('express');
 const exphbs = require('express-handlebars');  // Note: Do not destructure here
 const path = require('path');
@@ -9,6 +8,10 @@ const dropdownRoutes = require('../src/server/routes/dropdownRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+//middleware to parse JSON
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Set up Handlebars engine
 const hbs = exphbs.create({
@@ -47,7 +50,7 @@ app.use(
     session({
       secret: process.env.SESSION_SECRET,
       saveUninitialized: true,
-      resave: true,
+      resave: true
     })
 );
 app.use(
@@ -55,6 +58,10 @@ app.use(
       extended: true,
     })
   );
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;  // Pass user info to views
+    next();
+});
 
 
 // Routes
@@ -126,10 +133,11 @@ app.post('/login', async (req, res) => {
                 // return res.redirect('/home', + username);
 
 
+                return res.status(200).redirect('/home');
             }
 
             else {
-                return res.status(401).render('pages/login', {
+                return res.status(400).render('pages/login', {
                     error: 'Incorrect username or password.'
                 });
             }
@@ -141,14 +149,21 @@ app.post('/login', async (req, res) => {
     }    
 });
 
-// Authentication middleware. NOTE: Irene will include this once auth testing is finished
-// const auth = (req, res, next) => {
-//     if (!req.session.user) {
-//         return res.redirect('/login');
-//     }
-//         next();
-// };
-// app.use(auth);
+// Authentication middleware
+const auth = (req, res, next) => {
+    console.log('Auth middleware called for path:', req.path);
+
+    if (req.path === '/login' || req.path === '/register' 
+        || req.path === '/welcome' || req.path === '/jobs') {
+        return next();
+    }
+
+    if (!req.session.user) {
+        return res.redirect('/login');
+    }
+    next();
+};
+app.use(auth);
 
 // Register account routes
 app.get('/register', (req, res) => {
@@ -159,13 +174,31 @@ app.post('/register', async (req, res) => {
     try {
         const username = req.body.username;
         const email = req.body.email;
+        const firstName = req.body.firstName;
+        const lastName = req.body.lastName;
+        const linkedIn = req.body.linkedIn;
         const phoneNumber = req.body.phoneNumber;
         const password = req.body.password;
-
+        const retypePassword = req.body['retype password'];
         const checkQuery = 'SELECT username FROM users WHERE username = $1 LIMIT 1';
         const checkValues = [username];
-        
+
+        // regex input validators
+        const checkEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        const checkPhoneNumber = /^\d{10}$|^\d{3}-\d{3}-\d{4}$/;
+        const passwordPattern = /^(?!.*(.)\1)[A-Za-z\d@$!%*?&]{8,}$/;
+        const containsUpperCase = /[A-Z]/.test(password);
+        const containsLowerCase = /[a-z]/.test(password);
+        const containsDigit = /\d/.test(password);
+        const containsSpecial = /[@$!%*?&]/.test(password);
+
         const existingUser = await db.oneOrNone(checkQuery, checkValues);
+
+        if (username == null) {
+            return res.status(407).render('pages/register', {
+                error: 'Username not given'
+            });
+        }
 
         // check if username already exists
         if (existingUser) {
@@ -174,16 +207,50 @@ app.post('/register', async (req, res) => {
             });
         }
 
+        // check if valid email input
+        if (!checkEmail.test(email)) {
+            return res.status(401).render('pages/register', {
+                error: 'Please enter a valid email address.'
+            });
+        }
+
+        // check if valid phone number input
+        if (!checkPhoneNumber.test(phoneNumber)) {
+            return res.status(402).render('pages/register', {
+                error: 'Please enter a valid phone number (e.g., 123-456-7890 or 1234567890).'
+            });
+        }
+
+        // check if password and retyped passwords match
+        if (password !== retypePassword) {
+            return res.status(403).render('pages/register', {
+                error: 'Passwords do not match.'
+            });
+        }
+
+        // check if password meets criteria
+        if (!passwordPattern.test(password) || !containsUpperCase 
+            || !containsLowerCase || !containsDigit || !containsSpecial) {
+            return res.status(404).render('pages/register', {
+                error: 'Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, one special character, and no consecutive repeated characters.'
+            });
+        }
+
         // Insert the new user into the database
-        const insertQuery = 
+        const insertUserQuery = 
             'INSERT INTO users (username, password, email, phoneNumber)VALUES ($1, $2, $3, $4)';
+        
+        const insertPOCQuery =
+            'INSERT INTO pointofcontact (firstName, lastName, email, phoneNumber, linkedIn)VALUES ($1, $2, $3, $4, $5)';
 
-        const insertValues = [username, password, email, phoneNumber];
+        const insertUserValues = [username, password, email, phoneNumber];
+        const insertPOCValues = [firstName, lastName, email, phoneNumber, linkedIn];
 
-        await db.none(insertQuery, insertValues);
+        await db.none(insertUserQuery, insertUserValues);
+        await db.none(insertPOCQuery, insertPOCValues);
 
         // Redirect to login page after successful registration
-        res.redirect('/login');
+        res.status(200).redirect('/login');
 
     } catch (err) {
         console.error('Error inserting user:', err);
@@ -277,11 +344,17 @@ app.post('/home', async (req, res) => {
                     error: 'Job already listed.'
                 });
             }
+        
+        const check_table_empty_query = 'SELECT COUNT(*) FROM jobs';
+        const empty = await db.one(check_table_empty_query);
+        const isTableEmpty = empty.count === '0';
 
-        const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
-        let result = await db.one(generate_job_id_query);
-        let job_id = result.jobid;
-        job_id += 1; 
+        let job_id = 1; // Default job_id
+        if (!isTableEmpty) {
+            const generate_job_id_query = 'SELECT jobID FROM jobs ORDER BY jobID DESC LIMIT 1';
+            const result = await db.one(generate_job_id_query);
+            job_id = result.jobID + 1;
+        }
 
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
@@ -399,17 +472,59 @@ app.post('/editModal', async (req, res) => {
     }
 });
 
-app.delete('/home/:id', (req, res) => {
-    const jobId = parseInt(req.params.id);
-    const jobIndex = jobs.findIndex(job => job.id === jobId);
+// app.use(express.json());
 
-    if(jobIndex !== -1) {
-        jobs.splice(jobIndex, 1);
-        res.status(200).json({ message: 'Job deleted successfully' });
-    } else {
-        res.status(404).json({ message: 'Job not found' });
+
+app.delete('/delete-job', auth, async (req, res) => {
+    console.log('Request Body: ', req.body);
+    console.log('DELETE /delete-JOB route hit');
+    const jobID = req.body.jobID;
+
+
+    console.log('Job ID: ', jobID);
+
+
+    if(!jobID) {
+        return res.status(400).json({ message: "Job ID is required" });
     }
-})
+
+
+    try {
+        const query = `DELETE FROM jobs WHERE jobID = $1 RETURNING *`;
+        const results = await db.result(query, jobID);
+
+
+        if (results.rowCount === 0) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+
+        res.json({ message: 'Job successfully deleted' });
+    } catch (error) {
+        console.error('Error deleting job:', error);
+        res.status(500).json({ message: 'Server error deleting job' })
+    }
+});
+
+// Logout route
+app.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Error destroying session:', err);
+                return res.status(500).json({ message: 'Logout failed.' });
+            }
+            res.status(200).json({ message: 'Logged out successfully.' });
+        });
+    } else {
+        res.status(200).json({ message: 'No active session to log out.' });
+    }
+});
+
+
+
+
+
 
 //route for get jobs 
 app.get('/jobs', async (req, res) => { 
@@ -427,10 +542,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/dropdown', dropdownRoutes);
 
-// Start the server
+//Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = app.listen(3000);
 
 //test for lab 11
 app.get('/welcome', (req, res) => {
