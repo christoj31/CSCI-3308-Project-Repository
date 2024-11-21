@@ -49,5 +49,5 @@ Dashboard - (Contributors: Andrew & Christo)
   Current Functionality: Has deadline calendar & more columns that are final
   Next Steps: finalize the presentaiton of the table. Maybe place the table into a div that makes it scrollable
 Auth, login, etc- Contri bu
-Added functionalities (IRENE): prettier password creation & validation reqs. Updated reg to include POC info and first & last name content
-Added functionalities (Jay): Used current user information to display in several parts of the nav & dashboard display
+  Added functionalities (IRENE): prettier password creation & validation reqs. Updated reg to include POC info and first & last name content
+  Added functionalities (Jay): Used current user information to display in several parts of the nav & dashboard display
