@@ -29,23 +29,23 @@ app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'views'));
 
-// FOR LAB 13
-const dbConfig = {
-    host: 'acae94f1d885f4543297873c90ffcf9b', 
-    port: 5432,
-    database: 'users_db',
-    user: 'db_admin', 
-    password: 'Lead2025@',
-    secret: '3758ec009de5d9fabbaaa8f6e2b140c0'
-  };
-  
+// // FOR LAB 13
 // const dbConfig = {
-//     host: 'db', 
+//     host: 'acae94f1d885f4543297873c90ffcf9b', 
 //     port: 5432,
-//     database: process.env.POSTGRES_DB,
-//     user: process.env.POSTGRES_USER, 
-//     password: process.env.POSTGRES_PASSWORD,
+//     database: 'users_db',
+//     user: 'db_admin', 
+//     password: 'Lead2025@',
+//     secret: '3758ec009de5d9fabbaaa8f6e2b140c0'
 //   };
+  
+const dbConfig = {
+    host: 'db', 
+    port: 5432,
+    database: process.env.POSTGRES_DB,
+    user: process.env.POSTGRES_USER, 
+    password: process.env.POSTGRES_PASSWORD,
+  };
 
   
 const db = pgp(dbConfig);
