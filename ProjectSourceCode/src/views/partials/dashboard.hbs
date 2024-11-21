@@ -12,6 +12,7 @@
                 <th>Meeting Log</th>
                 <th>Target Location</th>
                 <th>Department</th> --}}
+                <th>Point of Contact</th>
                 <th>Status</th>
                 <th>Countdown</th>
                 <th>Edit</th>
@@ -25,6 +26,11 @@
                 <td>{{jobtitle}}</td>
                 <td><a class="link link-secondary link-hover" href="{{jobapplicationlink}}">{{jobapplicationlink}}</a></td>
                 <td>{{due_date_string}}</td>
+                <td><div class="tooltip" data-tip="{{email}} {{email}} {{phonenumber}}">
+                    <button class="btn">{{firstname}} {{lastname}}</button>
+                </div></td>
+                
+
                   
                 <!-- Status Column with Dropdown Button -->
                 <td>
