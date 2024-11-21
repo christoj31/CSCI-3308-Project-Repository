@@ -113,8 +113,9 @@
             <label for="due_date">Due Date:</label>
         </div>
 
+    <div style="margin-bottom: 0px;">
         <div class="form-group">
-            <select class="input input-bordered w-full" id="status" name="status">
+            <select class="input input-bordered w-full" id="status" name="status" style="margin-bottom: 20px;">
                 <option>Select Status...</option>
                 <option value="applied">Applied</option>
                 <option value="not-applied">Not Applied</option>
@@ -122,12 +123,38 @@
                 <option value="denied">Denied</option>
             </select>
         </div>
-        <div class="form-label" style="padding-bottom: 15px;">
-            <label for="status">Status:</label>
+        <div class="form-label">
+            <label for="status" style="margin-bottom: 20px;">Status:</label>
         </div>
+    </div>
+
+            <h1 id="poc_header" class="text-lg font-bold text-center" style="display: none;">POC Info:</h1>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="poc_first_name" name="poc_first_name" style="display: none;" placeholder="Enter the first name...">
+        </div>
+        <div class="form-label">
+            <label id="poc_first_name_label" for="poc_first_name" style="display: none;">First Name:</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="poc_last_name" name="poc_last_name" style="display: none;" placeholder="Enter the last name...">
+        </div>
+        <div class="form-label">
+            <label id="poc_last_name_label" for="poc_last_name" style="display: none;">First Name:</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="poc_email" name="poc_email" style="display: none;" placeholder="Enter the email...">
+        </div>
+        <div class="form-label">
+            <label id="poc_email_label" for="poc_email" style="display: none;">Email:</label>
+        </div>
+
         <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Submit</button>
     </form>
         <div style="padding-top: 20px">
+            <button id="expand_button"class="btn btn-accent" onclick="expand()" style="float: left;">Add POC</button>
             <form method="dialog">
                 <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
             </form>
@@ -138,5 +165,20 @@
 </head>
 
 <body>
+    <script>
+        function expand() {
+            document.getElementById('poc_header').style = 'display: block;';
+            document.getElementById('poc_first_name').style = 'display: block;';
+            document.getElementById('poc_first_name_label').style = 'display: block;';
+            document.getElementById('poc_last_name').style = 'display: block;';
+            document.getElementById('poc_last_name_label').style = 'display: block;';
+            document.getElementById('poc_email').style = 'margin-bottom: 50px; display: block;';
+            document.getElementById('poc_email_label').style = 'margin-bottom: 50px; display: block;';
+            document.getElementById('expand_button').style = 'display: none;';
+
+
+            
+        }
+    </script>
 
 </body>
