@@ -27,20 +27,31 @@
                 <td>{{due_date_string}}</td>
                   
                 <!-- Status Column with Dropdown Button -->
-                                <td>
-                        <div class="relative inline-block">
-                       {{#if (eq applicationstepid 1)}}
-                        <span class="badge badge-success badge-xl text-lg py-3 px-5">Applied</span>
-                        {{else if (eq applicationstepid 2)}}
-                        <span class="badge badge-info badge-xl text-lg py-3 px-5">Not Applied</span>
-                        {{else if (eq applicationstepid 3)}}
-                        <span class="badge badge-primary badge-xl text-lg py-3 px-5">Accepted</span>
-                        {{else if (eq applicationstepid 4)}}
-                        <span class="badge badge-error badge-xl text-lg py-3 px-5">Declined</span>
-                        {{else}}
-                        <span class="badge badge-warning badge-xl text-lg py-3 px-5">Unknown</span>
-                        {{/if}}
+                <td>
+                    <div class="relative inline-block">
+                        <button
+                            class="status-button text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            type="button">
+                            <span class="statusButtonText">Not Applied</span> <!-- Set default to "Not Applied" -->
+                            <svg class="w-2.5 h-2.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                viewBox="0 0 10 6">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="m1 1 4 4 4-4" />
+                            </svg>
+                        </button>
+
+                        <!-- Dropdown Menu -->
+                        <div
+                            class="status-dropdown z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2 absolute">
+                            <ul id="selector" class="py-2 text-sm text-gray-700 dark:text-gray-200">
+                                <li><a id="applied" href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Applied</a></li>
+                                <li><a id="not-applied" href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Not Applied</a></li>
+                                <li><a id="accepted" href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Accepted</a></li>
+                                <li><a id="denied" href="#" class="dropdown-option block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Declined</a></li>
+                            </ul>
+                        </div>
                     </div>
+                    <p id="selectedStatus" style="display: none">Selected Status: None</p>
                 </td>
 
                 <td>
@@ -210,55 +221,36 @@ dropdownOptions.forEach(option => {
   });
 });
 
-   // Update status badge on selection
-    document.querySelectorAll('.dropdown-option').forEach(option => {
-        option.addEventListener('click', async function (event) {
-            event.preventDefault();
+    document.addEventListener("DOMContentLoaded", function () {
+        // Toggle dropdown visibility for each status button
+        document.querySelectorAll('.status-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const dropdown = this.nextElementSibling;
+                dropdown.classList.toggle('hidden');
+            });
+        });
 
-            const button = this.closest('.relative').querySelector('.status-button');
-            const dropdown = this.closest('.status-dropdown');
-            const jobId = button.closest('tr').querySelector('td:first-child').textContent.trim(); // Job ID
-            const newStatus = this.textContent.trim();
+        // Update button text and hide dropdown when selecting an option
+        document.querySelectorAll('.dropdown-option').forEach(option => {
+            option.addEventListener('click', function (event) {
+                event.preventDefault();
 
-            // Update badge
-            const badge = button.closest('td').querySelector('.badge');
-            if (badge) {
-                if (newStatus === "Applied") {
-                    badge.className = "badge badge-success badge-lg";
-                    badge.textContent = "Applied";
-                } else if (newStatus === "Not Applied") {
-                    badge.className = "badge badge-info badge-lg";
-                    badge.textContent = "Not Applied";
-                } else if (newStatus === "Accepted") {
-                    badge.className = "badge badge-primary badge-lg";
-                    badge.textContent = "Accepted";
-                } else if (newStatus === "Declined") {
-                    badge.className = "badge badge-error badge-lg";
-                    badge.textContent = "Declined";
-                }
-            }
+                const button = this.closest('.relative').querySelector('.status-button');
+                const dropdown = this.closest('.status-dropdown');
 
-            // Hide dropdown
-            dropdown.classList.add('hidden');
+                // Update the button text to the selected status
+                console.log('THIS CONTEXT: ', this.textContent);
+                button.querySelector('.statusButtonText').textContent = this.textContent;
+                const status = document.getElementById('selector');
+                const applied = document.getElementById('applied');
+                document.getElementById('applied').textContent = 'TEST';
+                //document.getElementById('selector') = 'applied';
+                console.log('A STATUS: ', applied);
 
-            // Send updated status to the server
-            try {
-                const response = await fetch(`/update-status`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ jobId, status: newStatus }),
-                });
 
-                const result = await response.json();
-                if (!response.ok) {
-                    throw new Error(result.message || 'Failed to update status');
-                }
-
-                console.log(`Status for Job ID ${jobId} updated to ${newStatus}`);
-            } catch (error) {
-                console.error('Error updating status:', error);
-                alert('Failed to update status. Please try again.');
-            }
+                // Hide the dropdown
+                dropdown.classList.add('hidden');
+            });
         });
     });
 
