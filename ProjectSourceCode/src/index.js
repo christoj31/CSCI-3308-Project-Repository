@@ -315,13 +315,9 @@ app.get('/home', async (req, res) => {
 });
 
 function timeDifference(date1, date2) {
-    console.log('DATE1, DATE2: ', date1, date2);
-
     const d1 = new Date(date1);
     const d2 = new Date(date2);
-
     const millisecondDifference = d2 - d1;
-    console.log('D1, D2, DIFF: ', d1, d2, millisecondDifference);
     const daysDifference = millisecondDifference / 1000 / 60 / 60 / 24;
 
     return daysDifference;
@@ -341,8 +337,6 @@ app.post('/home', async (req, res) => {
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
 
-        date_bool = false;
-
         const due_date_new = new Date(due_date);
         let counter = timeDifference(current_date.current_date, due_date_new);
         
@@ -360,7 +354,7 @@ app.post('/home', async (req, res) => {
             case 'accepted': 
                 newstatus = 3;
                 break;
-            case 'declined': 
+            case 'denied': 
                 newstatus = 4;
                 break;
         }
@@ -375,15 +369,12 @@ app.post('/home', async (req, res) => {
     }
 });
 
-
 app.post('/editModal', async (req, res) => {
     try {
-        console.log('Body: ', req.body);
         const jobID = req.body.jobid;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         const due_date = req.body.due_date;
-        console.log('REQ DUE DATE: ', due_date);
         const status = req.body.status;
 
         let newjob_name = job_name;
@@ -391,16 +382,9 @@ app.post('/editModal', async (req, res) => {
         let newdue_date = due_date;
         let newstatus = status;
 
-        console.log('NEW FIRST: ', newjob_name, newjob_link, newdue_date);
-
         const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
         const results = await db.one(match_query, jobID);
-        console.log('Results: ', results);
-
-        console.log('Name', results.jobtitle);
-        console.log('DUE DATE: ', due_date);
-        const due_date_new = new Date(due_date);
-        const getDate = due_date_new.getDate();
+        //console.log('Results: ', results);
 
         if (job_name != results.jobtitle) {
             newjob_name = job_name;
@@ -409,7 +393,6 @@ app.post('/editModal', async (req, res) => {
             newjob_link = job_link;
         }
         console.log('Status & New Status: ', status, newstatus, results.status);
-
         if (status != results.status) {
             console.log('Status & New Status: ', status, newstatus, results.status);
             switch(status) {
@@ -431,16 +414,13 @@ app.post('/editModal', async (req, res) => {
             }
             console.log('FINAL STATUS: ', newstatus);
         }
-
         if (due_date != results.due_date) {
             newdue_date = due_date;
         }
 
         const now = new Date();
         const duedater = new Date(newdue_date);
-        console.log('DATE: ', now, duedater);
         const counter = timeDifference(now, duedater);
-        console.log('COUNTER: ', counter);
 
         const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3, due_date_string = $4, countdown = $5, applicationStepID = $6 WHERE jobID = $7';
         const insert_values = [newjob_name, newjob_link, newdue_date, newdue_date, counter, newstatus, jobID];
@@ -452,9 +432,6 @@ app.post('/editModal', async (req, res) => {
         console.log('Error updating event.', err);
     }
 });
-
-// app.use(express.json());
-
 
 app.delete('/delete-job', auth, async (req, res) => {
     console.log('Request Body: ', req.body);
