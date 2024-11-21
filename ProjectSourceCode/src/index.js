@@ -18,8 +18,12 @@ const hbs = exphbs.create({
     layoutsDir: path.join(__dirname, 'views/layouts'),
     defaultLayout: 'main',
     extname: '.hbs',
-    partialsDir: path.join(__dirname, 'views/partials')
+    partialsDir: path.join(__dirname, 'views/partials'),
+    helpers: {
+        eq: (a, b) => a === b, // Helper for equality checks
+    },
 });
+
 
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
