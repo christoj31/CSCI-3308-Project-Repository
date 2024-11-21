@@ -263,16 +263,16 @@ app.post('/register', async (req, res) => {
 
 const url = require('url'); 
 app.get('/home', async (req, res) => {
-    
     const results_query = 'SELECT * FROM jobs;';
-    let results = await db.any(results_query);
-    console.log('REVIEW RESULTS: ', results);
+    const new_select = 'SELECT * FROM pointofcontact poc JOIN jobs j ON poc.pocid = j.pocid';
+    //let results = await db.any(results_query);
+    let results = await db.any(new_select);
+    console.log('NEW SELECT: ', results);
+
 
     date_bool = false;
-
     if(!date_bool) {
         const now = new Date();
-        console.log('NEW DATE: ', now);
         const year = now.getFullYear();
         const month = now.getMonth() + 1;
         const day = now.getDate();
@@ -282,8 +282,6 @@ app.get('/home', async (req, res) => {
         const insert_date_today_query = 'INSERT INTO time (date_today, date_today_string, date_today_month, date_today_day) VALUES ($1, $2, $3, $4)';
         const insert_values = [date_today, date_today, month, day];
         await db.none(insert_date_today_query, insert_values);
-        
-        console.log('Todays date: ', date_today);
         date_bool = true;
     }
     
@@ -293,7 +291,6 @@ app.get('/home', async (req, res) => {
     const final_time = select_time.date_today_string;
 
     if(req.query.value) {
-        console.log('req.query.value', req.query.value);
         const username = req.query.value;
         const avatar_char = username.substring(0,1);
 
@@ -334,6 +331,20 @@ app.post('/home', async (req, res) => {
         let due_date = req.body.due_date;
         const status = req.body.status;
 
+        const poc_first_name = req.body.poc_first_name;
+        const poc_last_name = req.body.poc_last_name;
+        const poc_email = req.body.poc_email;
+        console.log('POC INFO: ', poc_first_name, poc_last_name, poc_email);
+
+        const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email) VALUES ($1, $2, $3) RETURNING pocid';
+        const poc_values = [poc_first_name, poc_last_name, poc_email];
+        const poc_return = await db.one(poc_insert_query, poc_values);
+        console.log('POC RETUNR: ', poc_return.pocid);
+
+        const poc_query = 'SELECT pocid FROM pointofcontact';
+        const poc_results = await db.any(poc_query);
+        console.log('POC RESULT: ', poc_results);
+
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
 
@@ -358,9 +369,13 @@ app.post('/home', async (req, res) => {
                 newstatus = 4;
                 break;
         }
-        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID) VALUES ($1, $2, $3, $4, $5, $6)';
-        const insertValues = [job_name, job_link, due_date, due_date, counter, newstatus];
+        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID, pocid) VALUES ($1, $2, $3, $4, $5, $6, $7)';
+        const insertValues = [job_name, job_link, due_date, due_date, counter, newstatus, poc_return.pocid];
         await db.none(insert_query, insertValues);
+
+        const job_query = 'SELECT * FROM jobs';
+        const job_results = await db.any(job_query);
+        console.log('J RESULT: ', job_results);
 
         return res.redirect('/home');
 

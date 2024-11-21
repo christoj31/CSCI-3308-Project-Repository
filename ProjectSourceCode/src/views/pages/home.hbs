@@ -168,16 +168,20 @@
     <script>
         function expand() {
             document.getElementById('poc_header').style = 'display: block;';
+            
+            document.getElementById("poc_first_name").required = true;
             document.getElementById('poc_first_name').style = 'display: block;';
             document.getElementById('poc_first_name_label').style = 'display: block;';
+
+            document.getElementById("poc_last_name").required = true;
             document.getElementById('poc_last_name').style = 'display: block;';
             document.getElementById('poc_last_name_label').style = 'display: block;';
+
+            document.getElementById("poc_email").required = true;
             document.getElementById('poc_email').style = 'margin-bottom: 50px; display: block;';
             document.getElementById('poc_email_label').style = 'margin-bottom: 50px; display: block;';
-            document.getElementById('expand_button').style = 'display: none;';
-
-
             
+            document.getElementById('expand_button').style = 'display: none;';
         }
     </script>
 
