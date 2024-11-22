@@ -1,4 +1,9 @@
 <div class="container mt-5">
+    <div class="mb-4 text-left">
+        <button id="sortButton" class="btn btn-primary">
+            Sort A-Z
+        </button>
+    </div>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -20,6 +25,7 @@
             </tr>
         </thead>
         <tbody>
+            <tbody id="jobTableBody">
             {{#each results}}
             <tr>
                 <td>{{jobid}}</td>
@@ -167,6 +173,27 @@
 
 <script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+        const sortButton = document.getElementById("sortButton");
+        const tableBody = document.getElementById("jobTableBody");
+
+        sortButton.addEventListener("click", function () {
+            const rows = Array.from(tableBody.querySelectorAll("tr"));
+
+            // Sort rows alphabetically by job name (second column)
+            rows.sort((a, b) => {
+                const jobNameA = a.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+                const jobNameB = b.querySelector("td:nth-child(2)").textContent.trim().toLowerCase();
+
+                return jobNameA.localeCompare(jobNameB);
+            });
+
+            // Clear the table body and append sorted rows
+            tableBody.innerHTML = "";
+            rows.forEach(row => tableBody.appendChild(row));
+        });
+    });
+
     // Function for opening the edit modal
     function editModal(button) {
         console.log('EDITMODAL FUNCTION ENTERED');
@@ -237,6 +264,7 @@ dropdownOptions.forEach(option => {
                 dropdown.classList.toggle('hidden');
             });
         });
+
 
         // Update button text and hide dropdown when selecting an option
         document.querySelectorAll('.dropdown-option').forEach(option => {
