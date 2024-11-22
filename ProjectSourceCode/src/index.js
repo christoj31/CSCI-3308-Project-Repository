@@ -338,16 +338,13 @@ app.post('/home', async (req, res) => {
         const poc_first_name = req.body.poc_first_name;
         const poc_last_name = req.body.poc_last_name;
         const poc_email = req.body.poc_email;
-        console.log('POC INFO: ', poc_first_name, poc_last_name, poc_email);
 
         const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email) VALUES ($1, $2, $3) RETURNING pocid';
         const poc_values = [poc_first_name, poc_last_name, poc_email];
         const poc_return = await db.one(poc_insert_query, poc_values);
-        console.log('POC RETUNR: ', poc_return.pocid);
 
         const poc_query = 'SELECT pocid FROM pointofcontact';
         const poc_results = await db.any(poc_query);
-        console.log('POC RESULT: ', poc_results);
 
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
