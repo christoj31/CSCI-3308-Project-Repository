@@ -24,7 +24,7 @@ Database:
   Database: Postgres
 ApplicationServer:
   Language: Nodejs
-Middleware: REST APIs (google calendar API)
+Middleware: None
 Cloud Provider: Render
 
 Prerequisites:
@@ -80,17 +80,25 @@ Instructions on how to run the application locally:
 ## Running the Application Locally
 ------
 To run the application on your local machine, follow these steps:
+To run the application from the CSCI-3308-Project-Repository, please follow these steps:
 
+1. git clone https://github.com/christoj31/CSCI-3308-Project-Repository.git
+2. cd CSCI-3308-Project-Repository
+3. npm install
+4. npm run migrate
+5. npm start
 
 7. How to run the tests
+{IRENE & JAY}
 
 8. Link to the deployed application
-
-9. You should be updating the ReadMe.md file as you progress through the project. Remember to add/revise sections as you add new features to the application.
-
-10. Read this freeCodeCamp article for guidance on writing a quality ReadMe.md.
+{IRENE & JAY}
 
 
-If ur docker thing still doesn't work, try this order of CLI commands:
+********
 
-Commands: docker compose down, rm -rf node_modules, npm install, docker compose up --build, docker exec -it projectsourcecode-web-1 sh -c "rm -rf node_modules && npm install", docker compose up
+If ur docker still doesn't work, try this order of CLI commands:
+
+Commands: docker compose down, rm -rf node_modules, npm install, docker compose up --build
+  if that still doesn't work, continue by executing this:
+    docker exec -it projectsourcecode-web-1 sh -c "rm -rf node_modules && npm install", docker compose up
