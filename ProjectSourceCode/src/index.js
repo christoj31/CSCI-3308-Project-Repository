@@ -267,12 +267,8 @@ app.post('/register', async (req, res) => {
 
 const url = require('url'); 
 app.get('/home', async (req, res) => {
-    const results_query = 'SELECT * FROM jobs;';
     const new_select = 'SELECT * FROM pointofcontact poc JOIN jobs j ON poc.pocid = j.pocid';
-    //let results = await db.any(results_query);
     let results = await db.any(new_select);
-    console.log('NEW SELECT: ', results);
-
 
     date_bool = false;
     if(!date_bool) {
@@ -338,9 +334,11 @@ app.post('/home', async (req, res) => {
         const poc_first_name = req.body.poc_first_name;
         const poc_last_name = req.body.poc_last_name;
         const poc_email = req.body.poc_email;
+        const poc_phone_number = req.body.poc_phone_number;
+        //CLIP BOARD API 
 
-        const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email) VALUES ($1, $2, $3) RETURNING pocid';
-        const poc_values = [poc_first_name, poc_last_name, poc_email];
+        const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email, phonenumber) VALUES ($1, $2, $3, $4) RETURNING pocid';
+        const poc_values = [poc_first_name, poc_last_name, poc_email, poc_phone_number];
         const poc_return = await db.one(poc_insert_query, poc_values);
 
         const poc_query = 'SELECT pocid FROM pointofcontact';
