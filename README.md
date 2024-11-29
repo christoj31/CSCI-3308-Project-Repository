@@ -87,11 +87,11 @@ To run the application from the CSCI-3308-Project-Repository, please follow thes
 3. npm install
 4. npm run migrate
 5. npm start
-
-7. How to run the tests
+------
+How to run the tests
 {IRENE & JAY}
-
-8. Link to the deployed application
+------
+Link to the deployed application
 {IRENE & JAY}
 
 
