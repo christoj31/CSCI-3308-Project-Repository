@@ -112,21 +112,6 @@ app.post('/login', async (req, res) => {
                 };
     
                 req.session.save();
-                // For testing user sessions, KEEP FOR NOW
-                // console.log("Session UserID:", req.session.user.userID);
-                // console.log("Session Username:", req.session.user.username);
-                // console.log("Session Email:", req.session.user.email);
-                // console.log("Session Phone Number:", req.session.user.phoneNumber);
-                
-                //res.render('pages/home');
-                //return res.redirect('/home');
-                console.log('TEST');
-                const results_query = 'SELECT * FROM jobs;';
-                let results = await db.any(results_query);
-                console.log('results: ', results);
-                //return res.render('pages/home', {results: results, username});
-
-                
                 return res.redirect(url.format({
                     pathname:"/home",
                     query: {value}
@@ -151,8 +136,6 @@ app.post('/login', async (req, res) => {
 
 // Authentication middleware
 const auth = (req, res, next) => {
-    console.log('Auth middleware called for path:', req.path);
-
     if (req.path === '/login' || req.path === '/register' 
         || req.path === '/welcome' || req.path === '/jobs') {
         return next();
@@ -398,7 +381,6 @@ app.post('/editModal', async (req, res) => {
 
         const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
         const results = await db.one(match_query, jobID);
-        //console.log('Results: ', results);
 
         if (job_name != results.jobtitle) {
             newjob_name = job_name;
