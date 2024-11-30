@@ -88,16 +88,20 @@ To run the application from the CSCI-3308-Project-Repository, please follow thes
 4. npm run migrate
 5. npm start
 ------
-How to run the tests
-{IRENE & JAY}
-------
-Link to the deployed application
-{IRENE & JAY}
+How to run the tests:
+To run the tests, please follow these steps:
+1. cd CSCI-3308-Project-Repository
+2. cd ProjectSourceCode
+3. docker compose up
 
+The tests will run automatically, you will see them at the bottom of your terminal.
+------
+Link to the deployed application:
+https://node-jra9.onrender.com/login
 
 ********
 
-If ur docker still doesn't work, try this order of CLI commands:
+If your docker still doesn't work, try this order of CLI commands:
 
 Commands: docker compose down, rm -rf node_modules, npm install, docker compose up --build
   if that still doesn't work, continue by executing this:
