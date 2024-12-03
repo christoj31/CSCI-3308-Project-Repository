@@ -32,12 +32,12 @@
                 <td>{{jobtitle}}</td>
                 <td><a class="link link-secondary link-hover" href="{{jobapplicationlink}}">{{jobapplicationlink}}</a></td>
                 <td>{{due_date_string}}</td>
-                <td><div class="tooltip" data-tip="{{email}} {{phonenumber}}">
+                <td>
+                    <div class="tooltip" data-tip='email: {{email}} phone number: {{phonenumber}}'>
                     <button class="btn">{{firstname}} {{lastname}}</button>
-                </div></td>
+                    </div>
+                </td>
                 
-
-                  
                  <td>
                    <div class="relative inline-block">
                       {{#if (eq applicationstepid 1)}}
@@ -47,13 +47,11 @@
                        {{else if (eq applicationstepid 3)}}
                        <span class="badge badge-primary badge-xl text-lg py-3 px-5">Accepted</span>
                        {{else if (eq applicationstepid 4)}}
-                       <span class="badge badge-error badge-xl text-lg py-3 px-5">Declined</span>
+                       <span class="badge badge-error badge-xl text-lg py-3 px-5">Denied</span>
                        {{else}}
                        <span class="badge badge-warning badge-xl text-lg py-3 px-5">Unknown</span>
                        {{/if}}
                    </div>
-
-
                        <!-- Dropdown Menu -->
                        <div
                            class="status-dropdown z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 mt-2 absolute">
@@ -86,7 +84,11 @@
                                 data-jobtitle="{{jobtitle}}"
                                 data-joblink="{{jobapplicationlink}}"
                                 data-due_date="{{due_date}}"
-                                data-status="{{applicationstepid}}">
+                                data-status="{{applicationstepid}}"
+                                data-email="{{email}}"
+                                data-phone_number="{{phonenumber}}"
+                                data-poc_first_name="{{firstname}}"
+                                data-poc_last_name="{{lastname}}">
                                 Edit
                             </button>        
                     </div>        
@@ -159,43 +161,38 @@
         <div class="form-label" style="padding-bottom: 15px;">
             <label for="status">Status:</label>
         </div>
-        {{#if email}}
-            <div>
-                <h1 id="poc_header" class="text-lg font-bold text-center" style="display: none;">POC Info:</h1>
-                    <div class="form-group">
-                        <input type="text" class="input input-bordered w-full" id="poc_first_name" name="poc_first_name" style="display: none;" placeholder="Enter the first name...">
-                    </div>
-                    <div class="form-label">
-                        <label id="poc_first_name_label" for="poc_first_name" style="display: none;">First Name:</label>
-                    </div>
 
-                    <div class="form-group">
-                        <input type="text" class="input input-bordered w-full" id="poc_last_name" name="poc_last_name" style="display: none;" placeholder="Enter the last name...">
-                    </div>
-                    <div class="form-label">
-                        <label id="poc_last_name_label" for="poc_last_name" style="display: none;">Last Name:</label>
-                    </div>
+        <h1 id="p_header" class="text-lg font-bold text-center" style="display: none;">POC Info:</h1>
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="p_first_name" name="p_first_name" style="display: none;" placeholder="Enter the first name...">
+        </div>
+        <div class="form-label">
+            <label id="p_first_name_label" for="p_first_name" style="display: none;">First Name:</label>
+        </div>
 
-                    <div class="form-group">
-                        <input type="text" class="input input-bordered w-full" id="poc_phone_number" name="poc_phone_number" style="display: none;" placeholder="Enter the phone number...">
-                    </div>
-                    <div class="form-label">
-                        <label id="poc_phone_number_label" for="poc_phone_number" style="display: none;">Phone:</label>
-                    </div>
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="p_last_name" name="p_last_name" style="display: none;" placeholder="Enter the last name...">
+        </div>
+        <div class="form-label">
+            <label id="p_last_name_label" for="p_last_name" style="display: none;">Last Name:</label>
+        </div>
 
-                    <div class="form-group">
-                        <input type="text" class="input input-bordered w-full" id="poc_email" name="poc_email" style="display: none;" placeholder="Enter the email...">
-                    </div>
-                    <div class="form-label">
-                        <label id="poc_email_label" for="poc_email" style="display: none;">Email:</label>
-                    </div>
-            </div>
-        {{/if}}
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="p_phone_number" name="p_phone_number" style="display: none;" placeholder="Enter the phone number...">
+        </div>
+        <div class="form-label">
+            <label id="p_phone_number_label" for="p_phone_number" style="display: none;">Phone:</label>
+        </div>
 
-        
-    
-        <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="p_email" name="p_email" style="display: none;" placeholder="Enter the email...">
+        </div>
+        <div class="form-label">
+            <label id="p_email_label" for="p_email" style="display: none;">Email:</label>
+        </div>
+    <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
     </form>
+
         <div style="padding-top: 20px">
             <form method="dialog">
                 <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
@@ -229,13 +226,19 @@
 
     // Function for opening the edit modal
     function editModal(button) {
-        console.log('EDITMODAL FUNCTION ENTERED');
         const jobId = button.getAttribute('data-jobid');
         const jobTitle = button.getAttribute('data-jobtitle');
         const jobLink = button.getAttribute('data-joblink');
+        const due_date = button.getAttribute('data-due_date');
         const status = button.getAttribute('data-status');
+        const email = button.getAttribute('data-email');
+        const poc_phone_number = button.getAttribute('data-phone_number');
+        const poc_first_name = button.getAttribute('data-poc_first_name');
+        const poc_last_name = button.getAttribute('data-poc_last_name');
+
+        console.log('BUTTON DATE', due_date);
+
         let newstatus = 0;
-        console.log('EARLY STATUS: ', status);
         switch(status) {
             case 0: 
                 newstatus = 'none';
@@ -258,11 +261,38 @@
         document.getElementById('jobid_holder').value = jobId;
         document.getElementById('edit_job_name').value = jobTitle;
         document.getElementById('edit_job_link').value = jobLink;
-        document.getElementById('edit_status').value = newstatus;
+        document.getElementById('edit_due_date').value = due_date;
 
+        document.getElementById('edit_status').value = newstatus;
         document.getElementById('selectedStatus').value = newstatus;
 
+        document.getElementById('p_first_name').value = poc_first_name;
+        document.getElementById('p_last_name').value = poc_last_name;
+        document.getElementById('p_email').value = email;
+        document.getElementById('p_phone_number').value = poc_phone_number;
+
+        if(email != "") {
+            console.log('EMAIL EXISTS!');
+            document.getElementById('p_header').style = 'display: block;';
+            
+            document.getElementById("p_first_name").required = true;
+            document.getElementById('p_first_name').style = 'display: block;';
+            document.getElementById('p_first_name_label').style = 'display: block;';
+
+            document.getElementById("p_last_name").required = true;
+            document.getElementById('p_last_name').style = 'display: block;';
+            document.getElementById('p_last_name_label').style = 'display: block;';
+
+            document.getElementById("p_phone_number").required = true;
+            document.getElementById('p_phone_number').style = 'display: block;';
+            document.getElementById('p_phone_number_label').style = 'display: block;';
+        
+            document.getElementById("p_email").required = true;
+            document.getElementById('p_email').style = 'margin-bottom: 50px; display: block;';
+            document.getElementById('p_email_label').style = 'margin-bottom: 50px; display: block;';
+            }
         document.getElementById('edit_modal').showModal();
+        console.log('SHOING MODAL');
     }
 
 // Select all dropdown options

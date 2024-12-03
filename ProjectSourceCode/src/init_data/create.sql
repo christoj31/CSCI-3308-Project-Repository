@@ -51,8 +51,8 @@
     pocID SERIAL PRIMARY KEY,
     firstName VARCHAR(45) NOT NULL,
     lastName VARCHAR(45) NOT NULL,
-    email VARCHAR(45) UNIQUE,
-    phoneNumber VARCHAR(45) UNIQUE,
+    email VARCHAR(45) NOT NULL,
+    phoneNumber VARCHAR(45) NOT NULL,
     linkedIn VARCHAR(100)
   );
 

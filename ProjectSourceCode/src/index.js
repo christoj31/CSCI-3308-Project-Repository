@@ -229,7 +229,7 @@ app.post('/register', async (req, res) => {
             'INSERT INTO users (username, password, email, phoneNumber)VALUES ($1, $2, $3, $4)';
         
         const insertPOCQuery =
-            'INSERT INTO pointofcontact (firstName, lastName, email, phoneNumber, linkedIn)VALUES ($1, $2, $3, $4, $5)';
+            'INSERT INTO pointofcontact (firstName, lastName, email, phoneNumber, linkedIn) VALUES ($1, $2, $3, $4, $5)';
 
         const insertUserValues = [username, password, email, phoneNumber];
         const insertPOCValues = [firstName, lastName, email, phoneNumber, linkedIn];
@@ -357,7 +357,6 @@ app.post('/home', async (req, res) => {
 
         const job_query = 'SELECT * FROM jobs';
         const job_results = await db.any(job_query);
-        console.log('J RESULT: ', job_results);
 
         return res.redirect('/home');
 
@@ -368,19 +367,36 @@ app.post('/home', async (req, res) => {
 
 app.post('/editModal', async (req, res) => {
     try {
+        console.log('EDIT MODAL IS FUNCTION ENTERED');
+
         const jobID = req.body.jobid;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
         const due_date = req.body.due_date;
         const status = req.body.status;
 
+        const p_first_name = req.body.p_first_name;
+        const p_last_name = req.body.p_last_name;
+        const p_email = req.body.p_email;
+        const p_phone_number = req.body.p_phone_number;
+
+        console.log('START POC: ', p_first_name, p_last_name, p_email, p_phone_number);
+
         let newjob_name = job_name;
         let newjob_link = job_link;
         let newdue_date = due_date;
         let newstatus = status;
 
+        let newpoc_first_name = p_first_name;
+        let newpoc_last_name = p_last_name;
+        let newpoc_email = p_email;
+        let newpoc_phone_number = p_phone_number;
+
         const match_query = 'SELECT * FROM jobs WHERE jobid = $1 LIMIT 1';
         const results = await db.one(match_query, jobID);
+
+        const poc_query = 'SELECT * FROM pointofcontact WHERE pocid = $1 LIMIT 1';
+        const poc_results = await db.one(poc_query, jobID);
 
         if (job_name != results.jobtitle) {
             newjob_name = job_name;
@@ -388,9 +404,7 @@ app.post('/editModal', async (req, res) => {
         if (job_link != results.jobapplicationlink) {
             newjob_link = job_link;
         }
-        console.log('Status & New Status: ', status, newstatus, results.status);
         if (status != results.status) {
-            console.log('Status & New Status: ', status, newstatus, results.status);
             switch(status) {
                 case 'none': 
                     newstatus = 0;
@@ -408,11 +422,24 @@ app.post('/editModal', async (req, res) => {
                     newstatus = 4;
                     break;
             }
-            console.log('FINAL STATUS: ', newstatus);
         }
         if (due_date != results.due_date) {
             newdue_date = due_date;
         }
+        console.log('PRE POC UPDATES!');
+        if(p_first_name != poc_results.firstName) {
+            newpoc_first_name = p_first_name;
+        }
+        if(p_last_name != poc_results.lastName) {
+            newpoc_last_name = p_last_name;
+        }
+        if(p_email != poc_results.email) {
+            newpoc_email = p_email;
+        }
+        if(p_phone_number != poc_results.phoneNumber) {
+            newpoc_first_name = p_first_name;
+        }
+        console.log('UPDATE POC VALS: ', newpoc_email, newpoc_first_name, newpoc_last_name, newpoc_phone_number);
 
         const now = new Date();
         const duedater = new Date(newdue_date);
@@ -421,6 +448,12 @@ app.post('/editModal', async (req, res) => {
         const insert_query = 'UPDATE jobs SET jobTitle = $1, jobApplicationLink = $2, due_date = $3, due_date_string = $4, countdown = $5, applicationStepID = $6 WHERE jobID = $7';
         const insert_values = [newjob_name, newjob_link, newdue_date, newdue_date, counter, newstatus, jobID];
         await db.none(insert_query, insert_values);
+
+        if(p_first_name) {
+            const poc_insert = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
+            const poc_values = [newpoc_first_name, newpoc_last_name, newpoc_email, newpoc_phone_number, jobID];
+            await db.none(poc_insert, poc_values);
+        }
 
         return res.redirect('/home');
     }
