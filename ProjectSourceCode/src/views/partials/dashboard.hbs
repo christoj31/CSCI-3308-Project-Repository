@@ -159,6 +159,40 @@
         <div class="form-label" style="padding-bottom: 15px;">
             <label for="status">Status:</label>
         </div>
+        {{#if email}}
+            <div>
+                <h1 id="poc_header" class="text-lg font-bold text-center" style="display: none;">POC Info:</h1>
+                    <div class="form-group">
+                        <input type="text" class="input input-bordered w-full" id="poc_first_name" name="poc_first_name" style="display: none;" placeholder="Enter the first name...">
+                    </div>
+                    <div class="form-label">
+                        <label id="poc_first_name_label" for="poc_first_name" style="display: none;">First Name:</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="input input-bordered w-full" id="poc_last_name" name="poc_last_name" style="display: none;" placeholder="Enter the last name...">
+                    </div>
+                    <div class="form-label">
+                        <label id="poc_last_name_label" for="poc_last_name" style="display: none;">Last Name:</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="input input-bordered w-full" id="poc_phone_number" name="poc_phone_number" style="display: none;" placeholder="Enter the phone number...">
+                    </div>
+                    <div class="form-label">
+                        <label id="poc_phone_number_label" for="poc_phone_number" style="display: none;">Phone:</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="input input-bordered w-full" id="poc_email" name="poc_email" style="display: none;" placeholder="Enter the email...">
+                    </div>
+                    <div class="form-label">
+                        <label id="poc_email_label" for="poc_email" style="display: none;">Email:</label>
+                    </div>
+            </div>
+        {{/if}}
+
+        
     
         <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
     </form>
