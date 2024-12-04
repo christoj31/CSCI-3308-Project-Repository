@@ -324,8 +324,9 @@ app.post('/home', async (req, res) => {
         const poc_values = [poc_first_name, poc_last_name, poc_email, poc_phone_number];
         const poc_return = await db.one(poc_insert_query, poc_values);
 
-        const poc_query = 'SELECT pocid FROM pointofcontact';
+        const poc_query = 'SELECT * FROM pointofcontact';
         const poc_results = await db.any(poc_query);
+        console.log('RENDER HOME POC TABLE RESULTS:', poc_results);
 
         let current_date_query = 'SELECT CURRENT_DATE';
         let current_date = await db.one(current_date_query);
@@ -351,8 +352,8 @@ app.post('/home', async (req, res) => {
                 newstatus = 4;
                 break;
         }
-        const insert_query = 'INSERT INTO jobs (jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID, pocid) VALUES ($1, $2, $3, $4, $5, $6, $7)';
-        const insertValues = [job_name, job_link, due_date, due_date, counter, newstatus, poc_return.pocid];
+        const insert_query = 'INSERT INTO jobs (jobID, jobTitle, jobApplicationLink, due_date, due_date_string, countdown, applicationStepID, pocid) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)';
+        const insertValues = [poc_return.pocid, job_name, job_link, due_date, due_date, counter, newstatus, poc_return.pocid];
         await db.none(insert_query, insertValues);
 
         const job_query = 'SELECT * FROM jobs';
@@ -458,7 +459,7 @@ app.post('/editModal', async (req, res) => {
 
 app.post('/view_poc', async (req, res) => {
     try {
-        const job_id = req.body.vjobid;
+        let job_id = req.body.vjobid;
         const p_first_name = req.body.vp_first_name;
         const p_last_name = req.body.vp_last_name;
         const p_email = req.body.vp_email;
@@ -469,11 +470,11 @@ app.post('/view_poc', async (req, res) => {
         let newpoc_email = p_email;
         let newpoc_phone_number = p_phone_number;
 
-        console.log('POC JOB ID : ', job_id);
-
         const poc_query = 'SELECT * FROM pointofcontact WHERE pocid = $1 LIMIT 1';
         const poc_results = await db.one(poc_query, job_id);
 
+        console.log('POC RESULTS: ', job_id, p_first_name, p_last_name, poc_results);
+        
         if(p_first_name != poc_results.firstName) {
             newpoc_first_name = p_first_name;
         }
@@ -486,15 +487,26 @@ app.post('/view_poc', async (req, res) => {
         if(p_phone_number != poc_results.phoneNumber) {
             newpoc_first_name = p_first_name;
         }
-        if(p_first_name) {
-            const poc_insert = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
-            const poc_values = [newpoc_first_name, newpoc_last_name, newpoc_email, newpoc_phone_number, job_id];
-            await db.none(poc_insert, poc_values);
+        console.log('UPDATE POC TABLE JOBID: ', job_id);
+        const poc_insert = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
+        const poc_values = [newpoc_first_name, newpoc_last_name, newpoc_email, newpoc_phone_number, job_id];
+        await db.none(poc_insert, poc_values);
+        const poc_result = await db.one(poc_query, job_id);
+        console.log('POC RESULT SINGLE!: ', job_id, poc_result);
+
+
+        if((p_first_name == 'test') || (p_first_name == '')) {
+            console.log('P FIRST NAME DOES NOT EXIST!');
+            const poc_insert_query = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
+            const poc_values = [p_first_name, p_last_name, p_email, p_phone_number, job_id];
+            const poc_result = await db.one(poc_insert_query, poc_values);
+            console.log('POC # RESULTS', poc_result);
+            if(poc_result) {
+                console.log('POC RESULT RETURNED');
+            }
         }
         else {
-            const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email, phonenumber) VALUES ($1, $2, $3, $4)';
-            const poc_values = [p_first_name, p_last_name, p_email, p_phone_number];
-            await db.one(poc_insert_query, poc_values);
+            console.log('P FIRST NAME != TEST');
         }
         return res.redirect('/home');
     }
