@@ -33,11 +33,37 @@
                 <td><a class="link link-secondary link-hover" href="{{jobapplicationlink}}">{{jobapplicationlink}}</a></td>
                 <td>{{due_date_string}}</td>
                 <td>
-                    <div class="tooltip" data-tip='email: {{email}} phone number: {{phonenumber}}'>
-                    <button class="btn">{{firstname}} {{lastname}}</button>
-                    </div>
+                    {{#if (eq email "")}}
+                            <button id="t_tip_button" class="btn btn-neutral" style="display: block;"
+                                onclick="view_poc(this)"
+                                data-jobid="{{jobid}}"
+                                data-jobtitle="{{jobtitle}}"
+                                data-joblink="{{jobapplicationlink}}"
+                                data-due_date="{{due_date_string}}"
+                                data-status="{{applicationstepid}}"
+                                data-email="{{email}}"
+                                data-phone_number="{{phonenumber}}"
+                                data-poc_first_name="{{firstname}}"
+                                data-poc_last_name="{{lastname}}">
+                                Add POC
+                            </button>
+                    {{else}}
+                        <div id="t_tip" class="tooltip" style="display: block;" data-tip='email: {{email}} phone number: {{phonenumber}}'>
+                            <button id="t_tip_button" class="btn btn-secondary" style="display: block;"
+                                onclick="view_poc(this)"
+                                data-jobid="{{jobid}}"
+                                data-jobtitle="{{jobtitle}}"
+                                data-joblink="{{jobapplicationlink}}"
+                                data-due_date="{{due_date_string}}"
+                                data-status="{{applicationstepid}}"
+                                data-email="{{email}}"
+                                data-phone_number="{{phonenumber}}"
+                                data-poc_first_name="{{firstname}}"
+                                data-poc_last_name="{{lastname}}">
+                                {{firstname}} {{lastname}}</button>
+                        </div>
+                    {{/if}}
                 </td>
-                
                  <td>
                    <div class="relative inline-block">
                       {{#if (eq applicationstepid 1)}}
@@ -116,7 +142,7 @@
     <form method="dialog">
     <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
     </form>
-    <h3 class="text-lg font-bold text-center">Edit Event:</h3>
+    <h3 id="edit_event_header" class="text-lg font-bold text-center">Edit Event:</h3>
     <form action="/editModal" method="POST">
     <div class="form-group">
             <input ctype="text" class="input input-bordered w-full" id="jobid" name="jobid" style="display: none;">
@@ -134,19 +160,19 @@
             <input ctype="text" class="input input-bordered w-full" id="edit_job_name" name="job_name" placeholder="enter the job name...">
         </div>
         <div class="form-label">
-            <label for="job_name">Job Name:</label>
+            <label id="edit_job_name_label" for="job_name">Job Name:</label>
         </div>
         <div class="form-group">
             <input type="link" class="input input-bordered w-full" id="edit_job_link" name="job_link" placeholder="enter the job link...">
         </div>
         <div class="form-label">
-            <label for="job link">Job Link:</label>
+            <label id="edit_job_link_label" for="job link">Job Link:</label>
         </div>
         <div class="form-group">
             <input type="date" class="input input-bordered w-full" id="edit_due_date" name="due_date" placeholder="2024-11-14" required>
         </div>
         <div class="form-label">
-            <label for="due_date">Due Date:</label>
+            <label id="edit_due_date_label" for="due_date">Due Date:</label>
         </div>
 
         <div class="form-group">
@@ -159,7 +185,7 @@
             </select>
         </div>
         <div class="form-label" style="padding-bottom: 15px;">
-            <label for="status">Status:</label>
+            <label id="edit_status_label" for="status">Status:</label>
         </div>
 
         <h1 id="p_header" class="text-lg font-bold text-center" style="display: none;">POC Info:</h1>
@@ -191,6 +217,63 @@
             <label id="p_email_label" for="p_email" style="display: none;">Email:</label>
         </div>
     <button type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
+    </form>
+
+        <div style="padding-top: 20px">
+            <form method="dialog">
+                <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
+            </form>
+        </div>
+    </div>
+</dialog>
+
+<dialog id="view_poc" class="modal">
+    <div class="modal-box">
+    <form method="dialog">
+    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+    <form action="/view_poc" method="POST">
+    <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="vjobid" name="vjobid" style="display: none;">
+        </div>
+        <div class="form-label" style="display: none;">
+            <label for="vjobid">jobid:</label>
+        </div>
+        <div class="form-group">
+            <input ctype="text" class="input input-bordered w-full" id="vjobid_holder" name="vjobid_holder" disabled>
+        </div>
+        <div class="form-label">
+            <label for="vjobid_holder">Job ID:</label>
+        </div>
+        <h1 id="vp_header" class="text-lg font-bold text-center" style="display: block;">POC Info:</h1>
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="vp_first_name" name="vp_first_name" style="display: block;" placeholder="Enter the first name...">
+        </div>
+        <div class="form-label">
+            <label id="vp_first_name_label" for="vp_first_name" style="display: block;">First Name:</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="vp_last_name" name="vp_last_name" style="display: block;" placeholder="Enter the last name...">
+        </div>
+        <div class="form-label">
+            <label id="vp_last_name_label" for="vp_last_name" style="display: block;">Last Name:</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="vp_phone_number" name="vp_phone_number" style="display: block;" placeholder="Enter the phone number...">
+        </div>
+        <div class="form-label">
+            <label id="vp_phone_number_label" for="vp_phone_number" style="display: block;">Phone:</label>
+        </div>
+
+        <div class="form-group">
+            <input type="text" class="input input-bordered w-full" id="vp_email" name="vp_email" style="display: block;" placeholder="Enter the email...">
+        </div>
+        <div class="form-label">
+            <label id="vp_email_label" for="vp_email" style="display: block;">Email:</label>
+        </div>
+    <button id="view_poc_submit" type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
     </form>
 
         <div style="padding-top: 20px">
@@ -236,8 +319,6 @@
         const poc_first_name = button.getAttribute('data-poc_first_name');
         const poc_last_name = button.getAttribute('data-poc_last_name');
 
-        console.log('BUTTON DATE', due_date);
-
         let newstatus = 0;
         switch(status) {
             case 0: 
@@ -272,9 +353,9 @@
         document.getElementById('p_phone_number').value = poc_phone_number;
 
         if(email != "") {
-            console.log('EMAIL EXISTS!');
             document.getElementById('p_header').style = 'display: block;';
-            
+            document.getElementById('jobid').value = jobId;
+            document.getElementById('jobid_holder').value = jobId;
             document.getElementById("p_first_name").required = true;
             document.getElementById('p_first_name').style = 'display: block;';
             document.getElementById('p_first_name_label').style = 'display: block;';
@@ -290,9 +371,49 @@
             document.getElementById("p_email").required = true;
             document.getElementById('p_email').style = 'margin-bottom: 50px; display: block;';
             document.getElementById('p_email_label').style = 'margin-bottom: 50px; display: block;';
-            }
+
+            document.getElementById('t_tip').style = 'display: block;';
+            document.getElementById('t_tip_button').style = 'display: block;';
+        }
+        else {
+            document.getElementById('t_tip').style = 'display: none;';
+            document.getElementById('t_tip_button').style = 'display: none;';
+        }
         document.getElementById('edit_modal').showModal();
-        console.log('SHOING MODAL');
+    }
+
+    function view_poc(button) {
+        const jobId = button.getAttribute('data-jobid');
+        const email = button.getAttribute('data-email');
+        const poc_phone_number = button.getAttribute('data-phone_number');
+        const poc_first_name = button.getAttribute('data-poc_first_name');
+        const poc_last_name = button.getAttribute('data-poc_last_name');
+
+        document.getElementById('vjobid').value = jobId;
+        document.getElementById('vjobid_holder').value = jobId;
+        document.getElementById("vp_first_name").required = false;
+
+        document.getElementById('vp_last_name').style = 'display: block;';
+        document.getElementById('vp_last_name_label').style = 'display: block;';
+
+        document.getElementById('vp_phone_number').style = 'display: block;';
+        document.getElementById('vp_phone_number_label').style = 'display: block;';
+    
+        document.getElementById('vp_email').style = 'margin-bottom: 50px; display: block;';
+        document.getElementById('vp_email_label').style = 'margin-bottom: 50px; display: block;';
+
+        document.getElementById('vp_first_name').value = poc_first_name;
+        document.getElementById('vp_last_name').value = poc_last_name;
+        document.getElementById('vp_email').value = email;
+        document.getElementById('vp_phone_number').value = poc_phone_number;
+
+        if (!email) {
+            document.getElementById('view_poc_submit').textContent = "Submit";
+        }
+        else {
+            document.getElementById('view_poc_submit').textContent = "Update";
+        }
+        document.getElementById('view_poc').showModal();
     }
 
 // Select all dropdown options

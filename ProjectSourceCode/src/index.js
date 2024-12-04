@@ -367,8 +367,6 @@ app.post('/home', async (req, res) => {
 
 app.post('/editModal', async (req, res) => {
     try {
-        console.log('EDIT MODAL IS FUNCTION ENTERED');
-
         const jobID = req.body.jobid;
         const job_name = req.body.job_name;
         const job_link = req.body.job_link;
@@ -379,8 +377,6 @@ app.post('/editModal', async (req, res) => {
         const p_last_name = req.body.p_last_name;
         const p_email = req.body.p_email;
         const p_phone_number = req.body.p_phone_number;
-
-        console.log('START POC: ', p_first_name, p_last_name, p_email, p_phone_number);
 
         let newjob_name = job_name;
         let newjob_link = job_link;
@@ -426,7 +422,6 @@ app.post('/editModal', async (req, res) => {
         if (due_date != results.due_date) {
             newdue_date = due_date;
         }
-        console.log('PRE POC UPDATES!');
         if(p_first_name != poc_results.firstName) {
             newpoc_first_name = p_first_name;
         }
@@ -439,7 +434,6 @@ app.post('/editModal', async (req, res) => {
         if(p_phone_number != poc_results.phoneNumber) {
             newpoc_first_name = p_first_name;
         }
-        console.log('UPDATE POC VALS: ', newpoc_email, newpoc_first_name, newpoc_last_name, newpoc_phone_number);
 
         const now = new Date();
         const duedater = new Date(newdue_date);
@@ -455,6 +449,53 @@ app.post('/editModal', async (req, res) => {
             await db.none(poc_insert, poc_values);
         }
 
+        return res.redirect('/home');
+    }
+    catch (err) {
+        console.log('Error updating event.', err);
+    }
+});
+
+app.post('/view_poc', async (req, res) => {
+    try {
+        const job_id = req.body.vjobid;
+        const p_first_name = req.body.vp_first_name;
+        const p_last_name = req.body.vp_last_name;
+        const p_email = req.body.vp_email;
+        const p_phone_number = req.body.vp_phone_number;
+
+        let newpoc_first_name = p_first_name;
+        let newpoc_last_name = p_last_name;
+        let newpoc_email = p_email;
+        let newpoc_phone_number = p_phone_number;
+
+        console.log('POC JOB ID : ', job_id);
+
+        const poc_query = 'SELECT * FROM pointofcontact WHERE pocid = $1 LIMIT 1';
+        const poc_results = await db.one(poc_query, job_id);
+
+        if(p_first_name != poc_results.firstName) {
+            newpoc_first_name = p_first_name;
+        }
+        if(p_last_name != poc_results.lastName) {
+            newpoc_last_name = p_last_name;
+        }
+        if(p_email != poc_results.email) {
+            newpoc_email = p_email;
+        }
+        if(p_phone_number != poc_results.phoneNumber) {
+            newpoc_first_name = p_first_name;
+        }
+        if(p_first_name) {
+            const poc_insert = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
+            const poc_values = [newpoc_first_name, newpoc_last_name, newpoc_email, newpoc_phone_number, job_id];
+            await db.none(poc_insert, poc_values);
+        }
+        else {
+            const poc_insert_query = 'INSERT INTO pointofcontact (firstname, lastname, email, phonenumber) VALUES ($1, $2, $3, $4)';
+            const poc_values = [p_first_name, p_last_name, p_email, p_phone_number];
+            await db.one(poc_insert_query, poc_values);
+        }
         return res.redirect('/home');
     }
     catch (err) {
