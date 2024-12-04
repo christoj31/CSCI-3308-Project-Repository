@@ -1,22 +1,37 @@
+<!--
+<style>
+    .input-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .input-wrapper input {
+        padding-right: 0px;
+    }
+
+    .input-wrapper button {
+        position: ;
+        top: 0;
+        right: 0;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+    }
+</style>
+-->
 <div class="container mt-5">
     <div class="mb-4 text-left">
-        <button id="sortButton" class="btn btn-primary">
+        <button id="sortButton" style="float: left; margin-top: 0px; margin-bottom: 0px; margin-left: 5px;" class="btn btn-secondary">
             Sort A-Z
         </button>
     </div>
-    <table class="table table-bordered">
+    <table class="table table-xl table-bordered">
         <thead>
             <tr>
                 <th>Job ID</th>
                 <th>Job Name</th>
-                {{!-- <th>Company</th> --}}
                 <th>Job Link</th>
                 <th>Due Date</th>
-                {{!-- <th>Point of Contact</th> <!--TODO: add point of contact tooltip (Christo)-->
-                <th>Contact Log</th>
-                <th>Meeting Log</th>
-                <th>Target Location</th>
-                <th>Department</th> --}}
                 <th>Point of Contact</th>
                 <th>Status</th>
                 <th>Countdown</th>
@@ -27,7 +42,7 @@
         <tbody>
             <tbody id="jobTableBody">
             {{#each results}}
-            <tr>
+            <tr class="hover">
                 <td>{{jobid}}</td>
                 <td>{{jobtitle}}</td>
                 <td><a class="link link-secondary link-hover" href="{{jobapplicationlink}}">{{jobapplicationlink}}</a></td>
@@ -49,7 +64,7 @@
                             </button>
                     {{else}}
                         <div id="t_tip" class="tooltip" style="display: block;" data-tip='email: {{email}} phone number: {{phonenumber}}'>
-                            <button id="t_tip_button" class="btn btn-secondary" style="display: block;"
+                            <button id="t_tip_button" class="btn btn-outline btn-success" style="display: block;"
                                 onclick="view_poc(this)"
                                 data-jobid="{{jobid}}"
                                 data-jobtitle="{{jobtitle}}"
@@ -246,37 +261,58 @@
             <label for="vjobid_holder">Job ID:</label>
         </div>
         <h1 id="vp_header" class="text-lg font-bold text-center" style="display: block;">POC Info:</h1>
-        <div class="form-group">
-            <input type="text" class="input input-bordered w-full" id="vp_first_name" name="vp_first_name" style="display: block;" placeholder="Enter the first name...">
-        </div>
-        <div class="form-label">
-            <label id="vp_first_name_label" for="vp_first_name" style="display: block;">First Name:</label>
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="input input-bordered w-full" id="vp_last_name" name="vp_last_name" style="display: block;" placeholder="Enter the last name...">
-        </div>
-        <div class="form-label">
-            <label id="vp_last_name_label" for="vp_last_name" style="display: block;">Last Name:</label>
-        </div>
-
-        <div class="form-group">
-            <input type="text" class="input input-bordered w-full" id="vp_phone_number" name="vp_phone_number" style="display: block;" placeholder="Enter the phone number...">
-        </div>
-        <div class="form-label">
-            <label id="vp_phone_number_label" for="vp_phone_number" style="display: block;">Phone:</label>
+        
+        <label class="input flex items-center" for="vp_first_name" style="width: 75%; margin: 1%; float: right;">
+            <input type="text" class="input input-bordered" id="vp_first_name" name="vp_first_name" style="display: block;" placeholder="Enter the first name...">
+                <div class="tooltip" data-tip='Copy to clipboard'>
+                    <button class="btn btn-square btn-sm btn-neutral" onclick="copy_fn(this)">
+                        <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 16 3 C 14.742188 3 13.847656 3.890625 13.40625 5 L 6 5 L 6 28 L 26 28 L 26 5 L 18.59375 5 C 18.152344 3.890625 17.257813 3 16 3 Z M 16 5 C 16.554688 5 17 5.445313 17 6 L 17 7 L 20 7 L 20 9 L 12 9 L 12 7 L 15 7 L 15 6 C 15 5.445313 15.445313 5 16 5 Z M 8 7 L 10 7 L 10 11 L 22 11 L 22 7 L 24 7 L 24 26 L 8 26 Z"></path></svg>
+                    </button>
+                </div>
+        </label>
+        <div>
+            <label id="vp_first_name_label" for="vp_first_name" style="display: block; float: left; margin: 1%;">First Name:</label>
         </div>
 
-        <div class="form-group">
-            <input type="text" class="input input-bordered w-full" id="vp_email" name="vp_email" style="display: block;" placeholder="Enter the email...">
+        <label class="input flex items-center" for="vp_last_name" style="width: 75%; margin: 1%; float: right;">
+            <input type="text" class="input input-bordered" id="vp_last_name" name="vp_last_name" style="display: block;" placeholder="Enter the last name...">
+                <div class="tooltip" data-tip='Copy to clipboard'>
+                    <button class="btn btn-square btn-sm btn-neutral" onclick="copy_ln(this)">
+                        <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 16 3 C 14.742188 3 13.847656 3.890625 13.40625 5 L 6 5 L 6 28 L 26 28 L 26 5 L 18.59375 5 C 18.152344 3.890625 17.257813 3 16 3 Z M 16 5 C 16.554688 5 17 5.445313 17 6 L 17 7 L 20 7 L 20 9 L 12 9 L 12 7 L 15 7 L 15 6 C 15 5.445313 15.445313 5 16 5 Z M 8 7 L 10 7 L 10 11 L 22 11 L 22 7 L 24 7 L 24 26 L 8 26 Z"></path></svg>
+                    </button>
+                </div>
+        </label>
+        <div>
+            <label id="vp_last_name_label" for="vp_last_name" style="display: block; float: left; margin: 1%;">Last Name:</label>
         </div>
-        <div class="form-label">
-            <label id="vp_email_label" for="vp_email" style="display: block;">Email:</label>
+
+        <label class="input flex items-center" for="vp_phone_number" style="width: 75%; margin: 1%; float: right;">
+            <input type="text" class="input input-bordered" id="vp_phone_number" name="vp_phone_number" style="display: block;" placeholder="Enter the phone number...">
+                <div class="tooltip" data-tip='Copy to clipboard'>
+                    <button class="btn btn-square btn-sm btn-neutral" onclick="copy_p(this)">
+                        <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 16 3 C 14.742188 3 13.847656 3.890625 13.40625 5 L 6 5 L 6 28 L 26 28 L 26 5 L 18.59375 5 C 18.152344 3.890625 17.257813 3 16 3 Z M 16 5 C 16.554688 5 17 5.445313 17 6 L 17 7 L 20 7 L 20 9 L 12 9 L 12 7 L 15 7 L 15 6 C 15 5.445313 15.445313 5 16 5 Z M 8 7 L 10 7 L 10 11 L 22 11 L 22 7 L 24 7 L 24 26 L 8 26 Z"></path></svg>
+                    </button>
+                </div>
+        </label>
+        <div>
+            <label id="vp_phone_number_label" for="vp_phone_number" style="display: block; float: left; margin: 1%;">Phone #:</label>
         </div>
+
+        <label class="input flex items-center" for="vp_email" style="width: 75%; margin: 1%; float: right; margin-bottom: 15px;">
+            <input type="text" class="input input-bordered" id="vp_email" name="vp_email" style="display: block;" placeholder="Enter the email...">
+                <div class="tooltip" data-tip='Copy to clipboard'>
+                    <button class="btn btn-square btn-sm btn-neutral" onclick="copy_e(this)">
+                        <svg class="h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M 16 3 C 14.742188 3 13.847656 3.890625 13.40625 5 L 6 5 L 6 28 L 26 28 L 26 5 L 18.59375 5 C 18.152344 3.890625 17.257813 3 16 3 Z M 16 5 C 16.554688 5 17 5.445313 17 6 L 17 7 L 20 7 L 20 9 L 12 9 L 12 7 L 15 7 L 15 6 C 15 5.445313 15.445313 5 16 5 Z M 8 7 L 10 7 L 10 11 L 22 11 L 22 7 L 24 7 L 24 26 L 8 26 Z"></path></svg>
+                    </button>
+                </div>
+        </label>
+        <div>
+            <label id="vp_email_label" for="vp_email" style="display: block; float: left; margin: 1%;">Email:</label>
+        </div>
+
     <button id="view_poc_submit" type="submit" class="btn btn-primary" style="float: right; padding: 15px 32px;">Update</button>
     </form>
-
-        <div style="padding-top: 20px">
+        <div style="padding-top: 0px">
             <form method="dialog">
                 <button class="btn btn-secondary" style="float: right; margin-right: 5px;">Close</button>
             </form>
@@ -382,6 +418,32 @@
         document.getElementById('edit_modal').showModal();
     }
 
+    function copy_fn() {
+        var copyText = document.getElementById('vp_first_name');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+    }
+    function copy_ln(button) {
+        var copyText = document.getElementById('vp_last_name');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+    }
+    function copy_p(button) {
+        var copyText = document.getElementById('vp_phone_number');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+    }
+    function copy_e(button) {
+        var copyText = document.getElementById('vp_email');
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyText.value);
+        
+    }
+
     function view_poc(button) {
         const jobId = button.getAttribute('data-jobid');
         const email = button.getAttribute('data-email');
@@ -392,15 +454,6 @@
         document.getElementById('vjobid').value = jobId;
         document.getElementById('vjobid_holder').value = jobId;
         document.getElementById("vp_first_name").required = false;
-
-        document.getElementById('vp_last_name').style = 'display: block;';
-        document.getElementById('vp_last_name_label').style = 'display: block;';
-
-        document.getElementById('vp_phone_number').style = 'display: block;';
-        document.getElementById('vp_phone_number_label').style = 'display: block;';
-    
-        document.getElementById('vp_email').style = 'margin-bottom: 50px; display: block;';
-        document.getElementById('vp_email_label').style = 'margin-bottom: 50px; display: block;';
 
         document.getElementById('vp_first_name').value = poc_first_name;
         document.getElementById('vp_last_name').value = poc_last_name;
@@ -415,69 +468,6 @@
         }
         document.getElementById('view_poc').showModal();
     }
-
-// Select all dropdown options
-const dropdownOptions = document.querySelectorAll('.dropdown-option');
-const statusButtonText = document.querySelector('.statusButtonText');
-const selectedStatusDisplay = document.getElementById('selectedStatus');
-
-// Add click event listeners to each option
-dropdownOptions.forEach(option => {
-  option.addEventListener('click', async (event) => {
-    event.preventDefault();  // Prevents default anchor behavior
-
-    // Get the selected text
-    const selectedStatusDisplay = event.target.textContent;
-    console.log('SELECTED STATUS: ', selectedStatusDisplay);
-
-    const getjobidquery = 'SELECT jobid FROM jobs';
-    // Display the selected status (or handle as needed)
-    //document.getElementById('selectedStatus').textContent = `Selected Status: ${selectedStatus}`;
-    //console.log('NEW STATUS: ', `Selected Status: ${selectedStatus}`)
-    
-    // Optionally, you could also hide the dropdown here if needed
-    //document.querySelector('.status-dropdown').classList.add('hidden');
-  });
-});
- document.addEventListener("DOMContentLoaded", function () {
-       // Toggle dropdown visibility for each status button
-       document.querySelectorAll('.status-button').forEach(button => {
-           button.addEventListener('click', function () {
-               const dropdown = this.nextElementSibling;
-               dropdown.classList.toggle('hidden');
-           });
-       });
-
-
-
-
-       // Update button text and hide dropdown when selecting an option
-       document.querySelectorAll('.dropdown-option').forEach(option => {
-           option.addEventListener('click', function (event) {
-               event.preventDefault();
-
-
-               const button = this.closest('.relative').querySelector('.status-button');
-               const dropdown = this.closest('.status-dropdown');
-
-
-               // Update the button text to the selected status
-               console.log('THIS CONTEXT: ', this.textContent);
-               button.querySelector('.statusButtonText').textContent = this.textContent;
-               const status = document.getElementById('selector');
-               const applied = document.getElementById('applied');
-               document.getElementById('applied').textContent = 'TEST';
-               //document.getElementById('selector') = 'applied';
-               console.log('A STATUS: ', applied);
-
-
-
-
-               // Hide the dropdown
-               dropdown.classList.add('hidden');
-           });
-       });
-   });
 
 function deleteModal(button){
     console.log("deleteModal passed");

@@ -74,18 +74,21 @@
     </div>
 {{/if}}
 
-<div style="margin-bottom: 20px;">
-    <h1 style="float: left; margin-bottom: 50px;"> {{final_time}}</h1>
-    <div class="avatar placeholder" style="float: right;">
-            <div class="bg-neutral text-neutral-content w-16 rounded-full" style="background-color:;">
+<div style="margin-bottom: 0px;">
+    <div class="avatar placeholder" style="float: right; margin-right: 5px;">
+            <div class="bg-neutral text-neutral-content w-16 rounded-full">
                 <strong><span class="text-3xl">{{avatar_char}}</span></strong>
             </div>
+    </div>
+    <div>
+        <h1 style="float: right; margin-bottom: 0px; margin-right: 20px;"> {{final_time}}</h1>
     </div>
 </div>
 
 <div>
-<button class="btn btn-primary rounded-full" style="float: right; margin-top: 60px;" onclick="my_modal.showModal()">Add Event</button>
+<button class="btn btn-primary rounded-full" style="float: left; margin-top: 20px; margin-bottom: 0px;" onclick="my_modal.showModal()">Add Event</button>
 </div>
+
 <dialog id="my_modal" class="modal">
     <div class="modal-box">
     <form method="dialog">
