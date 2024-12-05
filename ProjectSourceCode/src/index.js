@@ -495,7 +495,7 @@ app.post('/view_poc', async (req, res) => {
         console.log('POC RESULT SINGLE!: ', job_id, poc_result);
 
 
-        if((p_first_name == 'test') || (p_first_name == '')) {
+        if(p_first_name == '') {
             console.log('P FIRST NAME DOES NOT EXIST!');
             const poc_insert_query = 'UPDATE pointofcontact SET firstName = $1, lastName = $2, email = $3, phoneNumber = $4 WHERE pocID = $5';
             const poc_values = [p_first_name, p_last_name, p_email, p_phone_number, job_id];
