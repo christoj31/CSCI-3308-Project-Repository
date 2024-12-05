@@ -17,7 +17,9 @@ services:
     environment:
       - NODE_ENV=development
     depends_on:
-      - db_aoc9 # old: db
+      - db
+      # TO RUN LOCALLY: change to db
+      # TO RUN LIVE ON RENDER: change to db_aoc9
     ports:
       - '3000:3000'
     volumes:
