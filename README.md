@@ -27,7 +27,7 @@ ApplicationServer:
 Middleware: None
 Cloud Provider: Render
 
-*****DIRECTORY STRUCTURE*****
+### DIRECTORY STRUCTURE
 All application code can be found within the project source code. Within this folder are several configuration files and a src folder which houses all of our primary code base for the entire application. Routes can be found directly within index.js. Other relevant fodlers would include milestone submissions which houses relevant design documents and meeting notes from our meetings with the TA. Team meeting logs also house relevant meetings that occured outside of our time with the TA.
 
 Prerequisites:
