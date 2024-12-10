@@ -109,3 +109,6 @@ If your docker still doesn't work, try this order of CLI commands:
 Commands: docker compose down, rm -rf node_modules, npm install, docker compose up --build
   if that still doesn't work, continue by executing this:
     docker exec -it projectsourcecode-web-1 sh -c "rm -rf node_modules && npm install", docker compose up
+
+Project Demo Video Link:
+https://youtu.be/qvky-7eydQk
